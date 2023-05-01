@@ -47,13 +47,6 @@ public class ResponseResult {
             .developerMessage("실패하였습니다.")
             .timestamp(LocalDateTime.now()).build();
 
-    public static final ResponseResult LockResponse =
-            ResponseResult.builder()
-            .statusCode(HttpStatus.LOCKED.value())
-            .messages("잠금 :(")
-            .developerMessage("잠금 계정입니다.")
-            .timestamp(LocalDateTime.now()).build();
-
     public static final ResponseResult exceptionResponse(ExceptionCode e){
         return ResponseResult.builder()
                 .statusCode(e.getErrorCode())

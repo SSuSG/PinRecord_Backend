@@ -17,9 +17,9 @@ public class FollowRequestDto {
 
 	@NotBlank
 	@ApiModelProperty(value = "팔로우 건 사람")
-    private String from;
+    private int userIdFrom;
 
     @NotBlank
     @ApiModelProperty(value = "팔로우 받는 사람")
-    private String to;
+    private int userIdTo;
 }

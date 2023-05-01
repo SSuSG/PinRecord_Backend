@@ -12,13 +12,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "(FolloweeResponseDto) 팔로우 반환 DTO" , description = "특정유저가 팔로잉한 사람들의 이름과 USERID(PK)를 반환")
-public class FollowToResponseDto {
+@ApiModel(value = "(FollowingResponseDto) 팔로잉 반환 DTO" , description = "특정유저가 팔로잉한 사람들의 닉네임과 USERID(PK)를 반환")
+public class FollowingResponseDto {
 	@NotBlank
 	@ApiModelProperty(value = "특정 유저가 팔로우한 유저ID(PK)")
-    private String to_user_id;
+    private String followingUserId;
 
     @NotBlank
-    @ApiModelProperty(value = "특정 유저가 팔로우한 유저의 이름")
-    private String name;
+    @ApiModelProperty(value = "특정 유저가 팔로우한 유저의 닉네임")
+    private String nickname;
 }

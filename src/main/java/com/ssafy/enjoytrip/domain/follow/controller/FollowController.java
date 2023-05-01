@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.enjoytrip.domain.follow.dto.response.FollowListResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.reuqest.FollowRequestDto;
 import com.ssafy.enjoytrip.domain.follow.service.FollowService;
 import com.ssafy.enjoytrip.domain.user.controller.AccountController;
@@ -37,15 +38,14 @@ public class FollowController {
             @ApiResponse(code = 200, message = "조회 성공"),
             @ApiResponse(code = 400, message = "조회 실패"),
     })
-	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataType = "string")
+	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataType = "String")
     @GetMapping("/follows/{userId}")
     public ResponseResult findFollowListByUserId(@PathVariable String userId) {
         log.info("FollowController_findFollowListByUserId -> 특정 유저의 팔로워,팔로잉 리스트 조회");
-        
-        return ResponseResult.successResponse;
+        return new SingleResponseResult<FollowListResponseDto>(followService.findUserFollowListByUserId(userId));
     }
 	
-	@ApiOperation(value = "팔로우 하기" , notes = "followee_id유저가 follower_id 유저를 팔로우한다.")
+	@ApiOperation(value = "팔로우 하기" , notes = "followee_id유저가 follower_id 유저를 팔로우한다. 팔로우가 되어있는 상태이면 팔로우를 취소한다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "팔로우 성공"),
             @ApiResponse(code = 400, message = "팔로우 실패"),
@@ -53,7 +53,7 @@ public class FollowController {
     @PostMapping("/follows")
     public ResponseResult follow(@RequestBody FollowRequestDto followRequestDto) {
         log.info("AccountController_follow -> 팔로우 하기");
-        
+        followService.follow(followRequestDto);
     	return ResponseResult.successResponse;
     }
 	

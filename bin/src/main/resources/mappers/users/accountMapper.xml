@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.enjoytrip.domain.user.repository.AccountRepository">
+	<select id="existsByEmail">
+		SELECT 
+			IF(COUNT(*) = 1, 1, 0)
+		FROM 
+			USER
+		WHERE 
+			user_email = #{email}
+	</select>
+	
+	<select id="existsByLoginId">
+		SELECT 
+			IF(COUNT(*) = 1, 1, 0)
+		FROM 
+			USER
+		WHERE 
+			user_login_id = #{loginId}
+	</select>
+	
+	<insert id="createUserAccount">
+		INSERT 
+		INTO USER(
+				user_login_id,
+				user_password,
+				user_name,
+				user_email,
+				user_salt,
+				user_is_auth,
+				user_mismatch_cnt,
+				user_nickname,
+				user_auth_key,
+				user_is_lock
+				)
+		VALUES (
+				#{loginId},
+				#{password},
+				#{name},
+				#{email},
+				#{salt},
+				#{isAuth},
+				#{mismatchCnt},
+				#{nickname},
+				#{authKey},
+				#{isLock}
+				)
+	</insert>
+
+	<select id="findUserByEmail" resultType="User">
+		SELECT 
+				user_id 		  as userId,
+				user_login_id 	  as loginId,
+				user_password 	  as password,
+				user_name		  as name,
+				user_email		  as email,
+				user_salt		  as salt,
+				user_nickname	  as nickname,
+				user_mismatch_cnt as mismatchCnt,
+				user_is_auth	  as isAuth,
+				user_auth_key	  as authKey,
+				user_is_lock	  as isLock,
+				user_lock_key	  as lockKey
+		FROM 
+			USER
+		WHERE 
+			user_email = #{email}
+	</select>
+	
+	<select id="findUserByLoginId" resultType="com.ssafy.enjoytrip.domain.user.entity.User">
+		SELECT 
+				user_id 		  as userId,
+				user_login_id 	  as loginId,
+				user_password 	  as password,
+				user_name		  as name,
+				user_email		  as email,
+				user_salt		  as salt,
+				user_nickname	  as nickname,
+				user_mismatch_cnt as mismatchCnt,
+				user_is_auth	  as isAuth,
+				user_auth_key	  as authKey,
+				user_is_lock	  as isLock,
+				user_lock_key	  as lockKey
+		FROM 
+			USER
+		WHERE 
+			user_login_id = #{loginId}
+	</select>
+	
+	<update id="addMismatchCnt">
+		UPDATE USER
+		SET
+			user_mismatch_cnt = user_mismatch_cnt + 1
+		WHERE
+			user_login_id = #{loginId}
+	</update>
+	
+	<update id="initMismatchCnt">
+		UPDATE 
+			USER
+		SET
+			user_mismatch_cnt = 0
+		WHERE
+			user_login_id = #{loginId}
+	</update>
+	
+	<update id="unlockAccount">
+		UPDATE 
+			USER
+		SET
+			user_mismatch_cnt = 0,
+			user_is_lock = 0,
+			user_salt = #{salt},
+			user_password = #{password}
+		WHERE
+			user_login_id = #{loginId}
+	</update>
+
+	<update id="updateAuthStatus">
+		UPDATE USER
+		SET
+			user_is_auth = 1
+		WHERE
+			user_email = #{email}
+	</update>
+	
+	<update id="updatePassword">
+		UPDATE USER
+		SET
+			user_salt = #{salt},
+			user_password = #{password}
+		WHERE
+			user_login_id = #{loginId}
+	</update>
+	
+	<update id="updateLockStatus">
+		UPDATE USER
+		SET	
+			user_lock_key = #{lockKey},
+			user_is_lock = 1
+		WHERE
+			user_login_id = #{loginId}
+	</update>
+
+
+</mapper>
