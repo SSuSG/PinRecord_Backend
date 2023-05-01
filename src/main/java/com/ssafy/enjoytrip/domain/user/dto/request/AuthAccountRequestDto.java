@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "계정인증 요청 DTO" , description = "계정이메일과 인증번호를 가졌음")
+@ApiModel(value = "(AuthAccountRequestDto) 계정인증 요청 DTO" , description = "계정이메일과 인증번호를 가졌음")
 public class AuthAccountRequestDto {
 
 	@NotBlank

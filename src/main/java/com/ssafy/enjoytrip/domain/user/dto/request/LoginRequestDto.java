@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel(value = "로그인 요청 DTO" , description = "아이디 , 패스워드를 가졌음")
+@ApiModel(value = "(LoginRequestDto) 로그인 요청 DTO" , description = "아이디 , 패스워드를 가졌음")
 public class LoginRequestDto {
 	
 	@NotBlank

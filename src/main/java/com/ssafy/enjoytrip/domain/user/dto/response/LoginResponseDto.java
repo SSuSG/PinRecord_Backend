@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "로그인 요청 후 반환 DTO" , description = "로그인 성공한 유저의 아이디,닉네임 지님")
+@ApiModel(value = "(LoginResponseDto) 로그인 요청 후 반환 DTO" , description = "로그인 성공한 유저의 아이디,닉네임 지님")
 public class LoginResponseDto {
 	@ApiModelProperty(value = "로그인유저 PK")
 	private int userId;

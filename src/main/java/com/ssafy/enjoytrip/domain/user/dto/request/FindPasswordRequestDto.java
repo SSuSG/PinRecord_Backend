@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel(value = "비밀번호 찾기 요청 DTO" , description = "아이디 , 이메일을 가졌음")
+@ApiModel(value = "(FindPasswordRequestDto) 비밀번호 찾기 요청 DTO" , description = "아이디 , 이메일을 가졌음")
 public class FindPasswordRequestDto {
 
 	@NotBlank

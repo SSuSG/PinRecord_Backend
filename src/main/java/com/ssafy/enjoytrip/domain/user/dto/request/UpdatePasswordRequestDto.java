@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel(value = "비밀번호 변경 요청 DTO" , description = "로그인ID와 변경하고싶은 비밀번호를 지님")
+@ApiModel(value = "(UpdatePasswordRequestDto) 비밀번호 변경 요청 DTO" , description = "로그인ID와 변경하고싶은 비밀번호를 지님")
 public class UpdatePasswordRequestDto {
 
 	@NotBlank

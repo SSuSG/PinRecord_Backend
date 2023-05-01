@@ -30,6 +30,8 @@ import com.ssafy.enjoytrip.global.response.ResponseResult;
 import com.ssafy.enjoytrip.global.response.SingleResponseResult;
 import com.ssafy.enjoytrip.global.util.CheckForm;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -48,6 +50,7 @@ public class AccountController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "로그인 성공"),
             @ApiResponse(code = 413, message = "일치하지않는 PW"),
+            @ApiResponse(code = 418, message = "인증되지않은 계정. 인증해주세요!"),
             @ApiResponse(code = 423, message = "잠금된 계정"),
     })
     @PostMapping("/accounts/login")
@@ -100,6 +103,7 @@ public class AccountController {
             @ApiResponse(code = 200, message = "이메일이 중복되지 않음"),
             @ApiResponse(code = 400, message = "이메일이 중복"),
     })
+	@ApiImplicitParam(name = "email" , value = "이메일", required = true , paramType = "path" ,dataType = "string")
     @GetMapping("/accounts/duplication-email/{email}")
     public ResponseResult isEmailDuplicate(@PathVariable String email) {
         log.info("AccountController_isEmailDuplicate -> 이메일이 중복 확인");
@@ -113,6 +117,7 @@ public class AccountController {
             @ApiResponse(code = 200, message = "로그인ID가 중복되지 않음"),
             @ApiResponse(code = 400, message = "로그인ID가 중복"),
     })
+	@ApiImplicitParam(name = "loginId" , value = "로그인ID", required = true , paramType = "path" ,dataType = "string")
     @GetMapping("/accounts/duplication-loginId/{loginId}")
     public ResponseResult isLoginDuplicate(@PathVariable String loginId) {
         log.info("AccountController_isLoginDuplicate -> 로그인ID가 중복되는지 확인");
@@ -126,6 +131,7 @@ public class AccountController {
             @ApiResponse(code = 200, message = "아이디 찾기 성공"),
             @ApiResponse(code = 400, message = "입력받은 이메일로 등록된 계정이 존재하지 않음"),
     })
+	@ApiImplicitParam(name = "email" , value = "이메일", required = true , paramType = "path" ,dataType = "string")
     @GetMapping("/accounts/loginId/{email}")
     public ResponseResult findLoginIdByEmail(@PathVariable String email) {
         log.info("AccountController_findLoginIdByEmail -> 로그인ID 찾기");

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "회원가입 요청 DTO" , description = "아이디 , 패스워드 , 이메일 , 이름 , 닉네임을 가졌음")
+@ApiModel(value = "(CreateUserAccountRequestDto) 회원가입 요청 DTO" , description = "아이디 , 패스워드 , 이메일 , 이름 , 닉네임을 가졌음")
 public class CreateUserAccountRequestDto {
 	
 	@NotBlank

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel(value = "계정잠금해제 요청 DTO" , description = "계정이메일과 인증번호를 가졌음")
+@ApiModel(value = "(UnlockAccountRequestDto) 계정잠금해제 요청 DTO" , description = "계정이메일과 인증번호를 가졌음")
 public class UnlockAccountRequestDto {
 	@NotBlank
 	@ApiModelProperty(value = "사용자 이메일")
