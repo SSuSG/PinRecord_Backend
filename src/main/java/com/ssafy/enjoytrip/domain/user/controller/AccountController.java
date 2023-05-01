@@ -152,7 +152,6 @@ public class AccountController {
     	return ResponseResult.failResponse;
     }
 	
-	// TODO -> 비밀번호 변경!!
 	@ApiOperation(value = "비밀번호 변경" , notes = "로그인ID와  임시 비밀번호 발급")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "비밀번호 찾기 성공(임시 비밀번호 발송 성공)"),
@@ -167,8 +166,6 @@ public class AccountController {
     	return ResponseResult.failResponse;
     }
 	
-	
-	// TODO -> 계정 잠금 해제 이메일!!
 	@ApiOperation(value = "계정잠금해제 인증번호 인증" , notes = "사용자의 계정잠금 해제를 위한 인증번호 인증")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "인증 성공"),
