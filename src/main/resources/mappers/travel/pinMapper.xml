@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.travel.repository.PinRepository">
+	<insert id="insertPin" useGeneratedKeys="true" keyProperty="pinId">
+		INSERT
+		INTO PIN(
+				travel_id,
+				pin_place_name,
+				pin_place_url,
+				pin_category_name,
+				pin_address_name,
+				pin_road_address_name,
+				pin_category_group_code,
+				pin_category_group_name,
+				pin_x,
+				pin_y,
+				pin_content
+				)
+		VALUES (
+				#{travelId},
+				#{placeName},
+				#{placeUrl},
+				#{categoryName},
+				#{addressName},
+				#{roadAddressName},
+				#{categoryGroupCode},
+				#{categoryGroupName},
+				#{x},
+				#{y},
+				#{content}
+				)
+	</insert>
+</mapper>

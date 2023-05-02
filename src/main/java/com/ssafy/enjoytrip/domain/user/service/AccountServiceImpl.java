@@ -49,6 +49,7 @@ public class AccountServiceImpl implements AccountService{
 	private final MailService mailService;
 	
 	@Override
+	@Transactional
 	public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request,
 			HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
 		log.info("AccountServiceImpl_login");
@@ -194,6 +195,7 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
+	@Transactional
 	public int updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) throws NoSuchAlgorithmException {
 		log.info("AccountServiceImpl_updatePassword");
 		User loginUser = findUserByLoginIdOrEmail(updatePasswordRequestDto.getLoginid(), true);
@@ -207,6 +209,7 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
+	@Transactional
 	public int unlockAccount(UnlockAccountRequestDto unlockAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
 		log.info("AccountServiceImpl_unlockAccount");
 		User lockedUser = findUserByLoginIdOrEmail(unlockAccountRequestDto.getEmail(), false);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.travel.repository.TravelRepository">
+	<insert id="writeTravel" useGeneratedKeys="true" keyProperty="travelId" >
+		INSERT
+		INTO TRAVEL(
+				user_id,
+				travel_content,
+				travel_start_date,
+				travel_end_date,
+				travel_cost,
+				travel_created_date,
+				travel_title,
+				travel_state,
+				travel_city
+				)
+		VALUES (
+				#{userId},
+				#{content},
+				#{startDate},
+				#{endDate},
+				#{cost},
+				#{createdDate},
+				#{title},
+				#{state},
+				#{city}
+				)
+	</insert>
+</mapper>

@@ -3,6 +3,7 @@ package com.ssafy.enjoytrip.domain.follow.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowListResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowerResponseDto;
@@ -31,6 +32,7 @@ public class FollowServiceImpl implements FollowService{
 	}
 
 	@Override
+	@Transactional
 	public int follow(FollowRequestDto followRequestDto) {
 		log.info("FollowServiceImpl_follow");
 		

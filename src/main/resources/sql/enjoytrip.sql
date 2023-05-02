@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`user` (
   `user_is_lock` TINYINT NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -47,11 +48,11 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `enjoy_trip`.`travel` (
   `travel_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NULL DEFAULT NULL,
-  `travel_content` BLOB NOT NULL,
-  `travel_start_date` TIMESTAMP NOT NULL,
-  `travel_end_date` TIMESTAMP NOT NULL,
+  `travel_content` VARCHAR(1000) NOT NULL,
+  `travel_start_date` DATETIME NOT NULL,
+  `travel_end_date` DATETIME NOT NULL,
   `travel_cost` INT NOT NULL,
-  `travel_created_date` TIMESTAMP NOT NULL,
+  `travel_created_date` DATETIME NOT NULL,
   `travel_title` VARCHAR(45) NOT NULL,
   `travel_state` VARCHAR(100) NOT NULL,
   `travel_city` VARCHAR(100) NOT NULL,
@@ -61,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`travel` (
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 28
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -71,7 +73,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `enjoy_trip`.`comment` (
   `comment_id` INT NOT NULL AUTO_INCREMENT,
   `travel_id` INT NULL DEFAULT NULL,
-  `comment_order` INT NOT NULL,
+  `comment_created_date` DATETIME NOT NULL,
   `comment_content` VARCHAR(200) NOT NULL,
   `user_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`comment_id`),
@@ -84,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`comment` (
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -95,16 +98,17 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`follow` (
   `follow_id` INT NOT NULL AUTO_INCREMENT,
   `user_id_to` INT NULL DEFAULT NULL,
   `user_id_from` INT NULL DEFAULT NULL,
-  `follow_is_follow` TINYINT NULL,
   PRIMARY KEY (`follow_id`),
   INDEX `fk_to_to_user_user_id_idx` (`user_id_to` ASC) VISIBLE,
-  CONSTRAINT `fk_to_to_user_user_id`
-    FOREIGN KEY (`user_id_to`)
-    REFERENCES `enjoy_trip`.`user` (`user_id`),
+  INDEX `fk_from_to_user_user_id` (`user_id_from` ASC) VISIBLE,
   CONSTRAINT `fk_from_to_user_user_id`
     FOREIGN KEY (`user_id_from`)
+    REFERENCES `enjoy_trip`.`user` (`user_id`),
+  CONSTRAINT `fk_to_to_user_user_id`
+    FOREIGN KEY (`user_id_to`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -132,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`pin` (
     FOREIGN KEY (`travel_id`)
     REFERENCES `enjoy_trip`.`travel` (`travel_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 25
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -142,15 +147,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `enjoy_trip`.`image` (
   `image_id` INT NOT NULL AUTO_INCREMENT,
   `pin_id` INT NULL DEFAULT NULL,
-  `image_upload_name` VARCHAR(150) NOT NULL,
-  `image_store_name` VARCHAR(150) NOT NULL,
-  `image_is_thumbnail` TINYINT NOT NULL,
+  `image_encoded_base64` BLOB NOT NULL,
   PRIMARY KEY (`image_id`),
   INDEX `fk_image_to_pin_pin_id_idx` (`pin_id` ASC) VISIBLE,
   CONSTRAINT `fk_image_to_pin_pin_id`
     FOREIGN KEY (`pin_id`)
     REFERENCES `enjoy_trip`.`pin` (`pin_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -162,8 +166,9 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`plan` (
   `plan_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NULL DEFAULT NULL,
   `plan_title` VARCHAR(45) NOT NULL,
-  `plan_start_date` TIMESTAMP NOT NULL,
-  `plan_end_date` TIMESTAMP NOT NULL,
+  `plan_start_date` DATETIME NOT NULL,
+  `plan_end_date` DATETIME NOT NULL,
+  `plan_created_date` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`plan_id`),
   INDEX `fk_plan_to_user_user_id_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_plan_to_user_user_id`
@@ -208,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`zzim` (
   `zzim_id` INT NOT NULL AUTO_INCREMENT,
   `travel_id` INT NULL DEFAULT NULL,
   `user_id` INT NULL DEFAULT NULL,
-  `zzim_is_zzim` TINYINT NULL,
+  `zzim_is_zzim` TINYINT NULL DEFAULT NULL,
   PRIMARY KEY (`zzim_id`),
   INDEX `fk_zzim_to_record_record_id_idx` (`travel_id` ASC) VISIBLE,
   INDEX `fk_zzim_to_user_user_id_idx` (`user_id` ASC) VISIBLE,
