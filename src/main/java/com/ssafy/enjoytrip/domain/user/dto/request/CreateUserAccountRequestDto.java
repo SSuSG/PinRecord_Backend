@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.dto.request;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import com.ssafy.enjoytrip.domain.user.entity.User;
@@ -25,7 +26,7 @@ public class CreateUserAccountRequestDto {
     @ApiModelProperty(value = "사용자 비밀번호")
     private String password;
     
-    @NotBlank
+    @Email
     @ApiModelProperty(value = "사용자 이메일")
     private String email;
     

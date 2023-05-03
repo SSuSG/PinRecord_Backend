@@ -48,7 +48,7 @@ public class AccountController {
 	
 	@ApiOperation(value = "로그인 시도" , notes = "사용자가 로그인을 시도합니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "로그인 성공"),
+            @ApiResponse(code = 200, message = "로그인 성공" , response = LoginResponseDto.class),
             @ApiResponse(code = 413, message = "일치하지않는 PW"),
             @ApiResponse(code = 418, message = "인증되지않은 계정. 인증해주세요!"),
             @ApiResponse(code = 423, message = "잠금된 계정"),

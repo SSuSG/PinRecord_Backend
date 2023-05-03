@@ -1,4 +1,4 @@
-package com.ssafy.enjoytrip.domain.follow.entity;
+package com.ssafy.enjoytrip.domain.zzim.entity;
 
 import com.ssafy.enjoytrip.domain.user.entity.User;
 
@@ -13,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Follow {
-	private int followId;
-	private int userIdFrom;
-	private int userIdTo;
+public class Zzim {
+	private int zzimId;
+	private int userId;
+	private int travelId;
 }

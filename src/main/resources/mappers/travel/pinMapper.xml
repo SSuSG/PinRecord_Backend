@@ -30,4 +30,45 @@
 				#{content}
 				)
 	</insert>
+	
+	<resultMap type="com.ssafy.enjoytrip.domain.travel.dto.response.TravelPinResponseDto" id="travelPin" autoMapping="true">
+		<id property="pinId" column="pin_id"/>
+		<result property="placeName" column="pin_place_name"/>
+		<result property="placeUrl" column="pin_place_url"/>
+		<result property="categoryName" column="pin_category_name"/>
+		<result property="addressName" column="pin_address_name"/>
+		<result property="roadAddressName" column="pin_road_address_name"/>
+		<result property="phone" column="pin_phone"/>
+		<result property="categoryGroupCode" column="pin_category_group_code"/>
+		<result property="categoryGroupName" column="pin_category_group_name"/>
+		<result property="content" column="pin_content"/>
+		<result property="x" column="pin_x"/>
+		<result property="y" column="pin_y"/>
+		<collection property="imageList" column="pin_id" select="com.ssafy.enjoytrip.domain.travel.repository.ImageRepository.findIamgeByPinId" />
+	</resultMap>
+	
+	<select id="findPinByTravelId" resultMap="travelPin">
+		SELECT
+			p.travel_id as travel_id,
+			p.pin_id as pin_id,
+		    p.pin_place_name as pin_place_name,
+		    p.pin_place_url as pin_place_url,
+		    p.pin_category_name as pin_category_name,
+		    p.pin_address_name as pin_address_name,
+		    p.pin_road_address_name as in_road_address_name,
+		    p.pin_phone as pin_phone,
+		    p.pin_category_group_code as pin_category_group_code,
+		    p.pin_category_group_name as pin_category_group_name,
+		    p.pin_content as pin_content,
+		    p.pin_x as pin_x,
+		    p.pin_y as pin_y,
+		    i.image_id as image_id,
+		    i.image_encoded_base64 as image_encoded_base64
+		FROM
+			PIN p,
+			IMAGE i
+		WHERE
+			p.pin_id = i.pin_id AND
+			p.travel_id = #{travelId}
+	</select>
 </mapper>

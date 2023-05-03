@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.ssafy.enjoytrip.domain.travel.entity.Pin;
 
@@ -55,11 +56,13 @@ public class WriteTravelPinRequestDto {
 	@ApiModelProperty(value = "장소에 대한 코멘트")
     private String content;
 	
+	@NotNull
 	@ApiModelProperty(value = "장소 x")
-    private float x;
+    private Float x;
 	
+	@NotNull
 	@ApiModelProperty(value = "장소 y")
-    private float y;
+    private Float y;
 	
 	@ApiModelProperty(value = "장소에 대한 이미지들")
     private List<WriteTravelImageRequestDto> imageList;

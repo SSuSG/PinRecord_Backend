@@ -43,10 +43,10 @@
 					user_id_from,
 					user_id_to
 				   )
-		VALUES  (
-				#{userIdFrom},
-				#{userIdTo}
-				)
+		VALUES     (
+					#{userIdFrom},
+					#{userIdTo}
+				   )
 	</insert>
 	
 	<delete id="cancelFollow">

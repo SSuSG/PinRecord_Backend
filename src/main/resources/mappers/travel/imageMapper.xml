@@ -12,4 +12,21 @@
 				#{encodedBase64}
 				)
 	</insert>
+	
+	<resultMap type="com.ssafy.enjoytrip.domain.travel.dto.response.TravelImageResponseDto" id="pinIamge">
+		<id property="imageId" column="image_id"/>
+		<result property="pinId" column="pin_id"/>
+		<result property="encodedBase64" column="image_encoded_base64"/>
+	</resultMap>
+	
+	<select id="findIamgeByPinId" resultMap="pinIamge">
+		SELECT
+			pin_id,
+			image_id,
+		    image_encoded_base64
+		FROM
+			IMAGE
+		WHERE
+			pin_id = #{pinId}
+	</select>
 </mapper>

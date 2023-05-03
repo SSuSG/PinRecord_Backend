@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.dto.request;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModel;
@@ -13,7 +14,8 @@ import lombok.Setter;
 @Builder
 @ApiModel(value = "(UnlockAccountRequestDto) 계정잠금해제 요청 DTO" , description = "계정이메일과 인증번호를 가졌음")
 public class UnlockAccountRequestDto {
-	@NotBlank
+
+	@Email
 	@ApiModelProperty(value = "사용자 이메일")
     private String email;
 

@@ -4,6 +4,7 @@ package com.ssafy.enjoytrip.domain.comment.dto.request;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.ssafy.enjoytrip.domain.comment.entity.Comment;
 
@@ -19,11 +20,13 @@ import lombok.Setter;
 @ApiModel(value = "(CommentRequestDto) 댓글 작성 DTO" , description = "여행후기에 대한 댓글 작성")
 public class WriteCommentRequestDto {
 
+	@NotNull
 	@ApiModelProperty(value = "작성자 Id")
-    private int userId;
+    private Integer userId;
 	
+	@NotNull
 	@ApiModelProperty(value = "작성자 여행Id")
-    private int travelId;
+    private Integer travelId;
 	
 	@NotBlank
 	@ApiModelProperty(value = "댓글 내용")

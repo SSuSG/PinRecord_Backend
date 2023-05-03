@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.dto.request;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import io.swagger.annotations.ApiModel;
@@ -16,7 +17,7 @@ public class FindPasswordRequestDto {
 	@ApiModelProperty(value = "사용자 로그인 ID")
     private String loginid;
 
-    @NotBlank
+    @Email
     @ApiModelProperty(value = "사용자 이메일")
     private String email;
     

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.ssafy.enjoytrip.domain.travel.entity.Travel;
 
@@ -32,8 +33,9 @@ public class WriteTravelRequestDto {
 	@ApiModelProperty(value = "여행후기에 대한 간략 글")
     private String content;
 	
+	@NotNull
 	@ApiModelProperty(value = "여행 비용")
-    private int cost;
+    private Integer cost;
 	
 	@NotBlank
 	@ApiModelProperty(value = "여행한 특별시/도")

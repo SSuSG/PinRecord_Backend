@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.zzim.repository.ZzimRepository">
+	<insert id="doZzim">
+		INSERT
+		INTO ZZIM(
+				 user_id,
+				 travel_id,
+				 zzim_is_zzim
+				 )
+		VALUES	 (
+			  	 #{userId},
+			  	 #{travelId},
+			  	 1
+			  	 )
+	</insert>
+	
+	<select id="isExistsZzim">
+		SELECT 
+			IF(COUNT(*) = 1, 1, 0)
+		FROM 
+			ZZIM
+		WHERE 
+			user_id = #{userId} AND
+			travel_id = #{travelId}
+	</select>
+	
+	<delete id="cancelZzim">
+		DELETE
+		FROM ZZIM
+		WHERE
+			user_id = #{userId} AND
+			travel_id = #{travelId}
+	</delete>
+	
+	<select id="getZzimCntByTravelId">
+		SELECT
+			COUNT(*),
+		FROM
+			ZZIM
+		WHERE
+			travel_id = #{travelId} AND
+			zzim_is_zzim = 1
+	</select>
+	
+</mapper>

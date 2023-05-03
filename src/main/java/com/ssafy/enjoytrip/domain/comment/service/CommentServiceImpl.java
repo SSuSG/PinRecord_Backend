@@ -21,4 +21,12 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepository.writeComment(writeCommentRequestDto.toCommentEntity());
 	}
 
+	@Override
+	public int deleteComment(int commentId) {
+		log.info("CommentServiceImpl_deleteComment");
+		
+		// TODO : 시큐리티 사용하면 토큰에서 유저ID 검출해서 로그인 유저가 작성자가 맞는지 확인!
+		return commentRepository.deleteComment(commentId, 1);
+	}
+
 }

@@ -17,4 +17,36 @@
 				#{createdDate}
 				)
 	</insert>
+	
+	<delete id="deleteComment">
+		DELETE
+		FROM COMMENT
+		WHERE
+			comment_id = #{commentId} AND
+			user_id = #{userId}
+	</delete>
+
+	<resultMap type="com.ssafy.enjoytrip.domain.comment.dto.response.TravelCommentResponseDto" id="travelComment">
+		<id property="commentId" column="comment_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="travelId" column="travel_id"/>
+		<result property="content" column="comment_content"/>
+		<result property="createdDate" column="comment_created_date"/>
+	</resultMap>	
+	
+	<select id="findCommentByTravelId" resultMap="travelComment">
+		SELECT
+			user_id,
+			travel_id,
+			comment_id,
+			comment_content,
+		    comment_created_date
+		FROM
+			COMMENT
+		WHERE
+			travel_id = #{travelId}
+		ORDER BY
+			comment_created_date
+			
+	</select>
 </mapper>

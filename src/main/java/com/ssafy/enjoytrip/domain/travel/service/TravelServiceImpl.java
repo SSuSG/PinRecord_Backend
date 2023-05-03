@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelImageRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelPinRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelRequestDto;
+import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
 import com.ssafy.enjoytrip.domain.travel.entity.Image;
 import com.ssafy.enjoytrip.domain.travel.entity.Pin;
 import com.ssafy.enjoytrip.domain.travel.entity.Travel;
@@ -43,6 +44,12 @@ public class TravelServiceImpl implements TravelService{
 				imageRepository.insertImage(image);
 			}
 		}
+	}
+
+	@Override
+	public TravelResponseDto getTravel(int travelId) {
+		log.info("TravelServiceImpl_getTravel");
+		return travelRepository.getTravel(travelId);
 	}
 
 

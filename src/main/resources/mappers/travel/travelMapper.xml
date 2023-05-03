@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoytrip.domain.travel.repository.TravelRepository">
+
+	<resultMap id="travelDetail" autoMapping="true" type="com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto">
+		<id property="travelId" column="travel_id"/>
+		<result property="userId" column="user_id"/>
+		<result property="writer" column="user_nickname"/>
+		<result property="title" column="travel_title"/>
+		<result property="content" column="travel_content"/>
+		<result property="cost" column="travel_cost"/>
+		<result property="state" column="travel_state"/>
+		<result property="city" column="travel_city"/>
+		<result property="startDate" column="travel_start_date"/>
+		<result property="endDate" column="travel_end_date"/>
+		<collection property="pinList" column="travel_id" autoMapping="true"  select="com.ssafy.enjoytrip.domain.travel.repository.PinRepository.findPinByTravelId" />
+		<collection property="commentList" column="travel_id" autoMapping="true" select="com.ssafy.enjoytrip.domain.comment.repository.CommentRepository.findCommentByTravelId"/>
+	</resultMap>
+	
 	<insert id="writeTravel" useGeneratedKeys="true" keyProperty="travelId" >
 		INSERT
 		INTO TRAVEL(
@@ -26,4 +42,23 @@
 				#{city}
 				)
 	</insert>
+	
+	<select id="getTravel"  resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = 1) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = #{travelId} and zzim_is_zzim = 1) as zzimCnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL 
+		WHERE
+		    travel_id = #{travelId}
+	</select>
 </mapper>
