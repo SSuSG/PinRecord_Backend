@@ -9,15 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.mail.MailException;
 
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
+import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.FindPasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.LoginRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UnlockAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
+import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
 
-public interface AccountService {
+public interface UserService {
 	LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletRequest request , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException;
 	Boolean isLock(User loginUser) throws NoSuchAlgorithmException;
 	void setSession(LoginResponseDto loginResponseDto  ,HttpServletRequest request , HttpServletResponse response);
@@ -31,4 +33,6 @@ public interface AccountService {
 	User findUserByLoginIdOrEmail(String input , boolean isLoginId);
 	int updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) throws NoSuchAlgorithmException;
 	int unlockAccount(UnlockAccountRequestDto unlockAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException;
+	int updateProfileImage(UpdateProfileImageRequestDto changeProfileImageRequestDto);
+	UserResponseDto getUserByUserId(int userId);
 }

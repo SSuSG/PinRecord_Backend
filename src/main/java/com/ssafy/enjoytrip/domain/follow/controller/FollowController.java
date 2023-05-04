@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowListResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.reuqest.FollowRequestDto;
 import com.ssafy.enjoytrip.domain.follow.service.FollowService;
-import com.ssafy.enjoytrip.domain.user.controller.AccountController;
+import com.ssafy.enjoytrip.domain.user.controller.UserController;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
-import com.ssafy.enjoytrip.domain.user.service.AccountService;
+import com.ssafy.enjoytrip.domain.user.service.UserService;
 import com.ssafy.enjoytrip.global.response.ResponseResult;
 import com.ssafy.enjoytrip.global.response.SingleResponseResult;
 

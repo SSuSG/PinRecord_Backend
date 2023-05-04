@@ -1,5 +1,7 @@
 package com.ssafy.enjoytrip.domain.travel.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelImageRequestDto;
@@ -47,9 +49,40 @@ public class TravelServiceImpl implements TravelService{
 	}
 
 	@Override
-	public TravelResponseDto getTravel(int travelId) {
-		log.info("TravelServiceImpl_getTravel");
-		return travelRepository.getTravel(travelId);
+	public TravelResponseDto getTravelByTravelId(int travelId) {
+		log.info("TravelServiceImpl_getTravelListByTravelId");
+		return travelRepository.getTravelByTravelId(travelId);
+	}
+
+	@Override
+	public List<TravelResponseDto> getTravelListByUserId(int userId) {
+		log.info("TravelServiceImpl_getTravelListByUserId");
+		return travelRepository.getTravelListByUserId(userId);
+	}
+
+	@Override
+	public List<TravelResponseDto> getZzimTravelListByUserId(int userId) {
+		log.info("TravelServiceImpl_getZzimTravelListByUserId");
+		return travelRepository.getZzimTravelListByUserId(userId);
+	}
+
+	@Override
+	public List<TravelResponseDto> getTravelListForHomeView() {
+		log.info("TravelServiceImpl_getTravelListForHomeView");
+		return travelRepository.getTravelListForHomeView();
+	}
+
+	@Override
+	public List<TravelResponseDto> searchTravel(String state, String city) {
+		log.info("TravelServiceImpl_searchTravel");
+		return travelRepository.searchTravel(state, city);
+	}
+
+	@Override
+	public int deleteTravel(int travelId) {
+		log.info("TravelServiceImpl_deleteTravel");
+		// TODO : 로그인유저가 여행의 작성자인지 확인
+		return travelRepository.deleteTravel(travelId);
 	}
 
 

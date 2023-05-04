@@ -7,6 +7,7 @@
 		<result property="userId" column="user_id"/>
 		<result property="writer" column="user_nickname"/>
 		<result property="title" column="travel_title"/>
+		<result property="zzimCnt" column="zzim_cnt"/>
 		<result property="content" column="travel_content"/>
 		<result property="cost" column="travel_cost"/>
 		<result property="state" column="travel_state"/>
@@ -43,12 +44,31 @@
 				)
 	</insert>
 	
-	<select id="getTravel"  resultMap="travelDetail">
+	<select id="getTravelByTravelId"  resultMap="travelDetail">
 		SELECT
 			travel_id,
 		    user_id,
-		    (select user_nickname from user where user_id = 1) as user_nickname,
-		    (select COUNT(*) from zzim where travel_id = #{travelId} and zzim_is_zzim = 1) as zzimCnt,
+		    (select user_nickname from user where user_id = travel.user_id) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = #{travelId} and zzim_is_zzim = 1) as zzim_cnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL  
+		WHERE
+		    travel_id = #{travelId}
+	</select>
+	
+	<select id="getTravelListByUserId" resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = #{userId}) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) as zzim_cnt,
 		    travel_title,
 		    travel_content,
 		    travel_cost,
@@ -59,6 +79,80 @@
 		FROM 
 			TRAVEL 
 		WHERE
-		    travel_id = #{travelId}
+		    user_id = #{userId}
 	</select>
+	
+	<select id="getZzimTravelListByUserId" resultMap="travelDetail">
+		SELECT
+			t.travel_id as travel_id,
+		    t.user_id as user_id,
+		    (select user_nickname from user where user_id = #{userId}) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = t.travel_id and zzim_is_zzim = 1) as zzim_cnt,
+		    t.travel_title as travel_title,
+		    t.travel_content as travel_content,
+		    t.travel_cost as travel_cost,
+		    t.travel_state as travel_state,
+		    t.travel_city as travel_city,
+		    t.travel_start_date as travel_start_date,
+		    t.travel_end_date as travel_end_date
+		FROM 
+			TRAVEL t,
+			ZZIM z
+		WHERE
+			z.user_id = #{userId} AND
+		    t.user_id = #{userId} 
+	</select>
+	
+	<select id="getTravelListForHomeView" resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = travel.user_id) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) as zzim_cnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL 
+		ORDER BY
+			travel_created_date
+		LIMIT 8	
+	</select>
+	
+	<select id="searchTravel" resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = travel.user_id) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) as zzim_cnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL
+		WHERE
+			travel_state = #{state} 
+			<if test='city != null and city != "" '>
+				AND travel_city = #{city}  
+			</if>
+		ORDER BY
+			travel_created_date
+		LIMIT 8	
+	</select>
+	
+	<delete id="deleteTravel">
+		DELETE
+		FROM TRAVEL
+		WHERE
+			travel_id = #{travelId}
+	</delete>
+	
 </mapper>

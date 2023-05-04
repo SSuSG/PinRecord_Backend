@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
-<mapper namespace="com.ssafy.enjoytrip.domain.user.repository.AccountRepository">
+<mapper namespace="com.ssafy.enjoytrip.domain.user.repository.UserRepository">
 	<select id="existsByEmail">
 		SELECT 
 			IF(COUNT(*) = 1, 1, 0)
@@ -143,6 +143,25 @@
 		WHERE
 			user_login_id = #{loginId}
 	</update>
-
-
+	
+	<update id="updateProfileImage">
+		UPDATE USER
+		SET	
+			user_profile_image = #{profileImage}
+		WHERE
+			user_id = #{userId}
+	</update>
+	
+	<select id="getUserByUserId" resultType="com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto">
+		SELECT
+			user_id 			as userId,
+			user_name 			as name,
+			user_email 			as email,
+			user_nickname 		as nickname,
+			user_profile_image 	as profileImage
+		FROM
+			USER
+		WHERE
+			user_id = #{userId}
+	</select>
 </mapper>

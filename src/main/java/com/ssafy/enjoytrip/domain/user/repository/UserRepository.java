@@ -2,10 +2,12 @@ package com.ssafy.enjoytrip.domain.user.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
+import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
 
 @Mapper
-public interface AccountRepository {
+public interface UserRepository {
 	boolean existsByEmail(String email);
 	boolean existsByLoginId(String loginId);
 	int createUserAccount(User user);
@@ -17,4 +19,6 @@ public interface AccountRepository {
 	int updateAuthStatus(String email);
 	int updatePassword(User user);
 	int updateLockStatus(String loginId , String lockKey);
+	int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto);
+	UserResponseDto getUserByUserId(int userId);
 }

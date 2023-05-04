@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
+import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.FindPasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.LoginRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UnlockAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
+import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
-import com.ssafy.enjoytrip.domain.user.repository.AccountRepository;
+import com.ssafy.enjoytrip.domain.user.repository.UserRepository;
 import com.ssafy.enjoytrip.global.exception.ExceptionCode;
 import com.ssafy.enjoytrip.global.exception.ExistEmailException;
 import com.ssafy.enjoytrip.global.exception.ExistLoginIdException;
@@ -41,9 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements AccountService{
+public class UserServiceImpl implements UserService{
 
-	private final AccountRepository accountRepository;
+	private final UserRepository userRepository;
 	private final PasswordHash passwordHash;
 	private final CheckForm CheckForm;
 	private final MailService mailService;
@@ -52,7 +54,7 @@ public class AccountServiceImpl implements AccountService{
 	@Transactional
 	public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request,
 			HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
-		log.info("AccountServiceImpl_login");
+		log.info("UserServiceImpl_login");
 		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginid(), true);
 		if(loginUser == null) throw new NotExistAccountException();
 		LoginResponseDto loginResponseDto = loginUser.toLoginResponseDto();
@@ -62,7 +64,7 @@ public class AccountServiceImpl implements AccountService{
 		if(isLock(loginUser)) {
 			log.info("비밀번호 5회 오입력으로 인하여 계정이 잠금되었습니다. 이메일로 발송된 인증번호로 잠금을 해제해주세요.");
 			String lockKey = mailService.sendSimpleMessageForAuth(loginUser.getEmail());
-			accountRepository.updateLockStatus(loginUser.getLoginId() , lockKey);
+			userRepository.updateLockStatus(loginUser.getLoginId() , lockKey);
 			throw new LockAccountException();
 		}
 		
@@ -70,13 +72,13 @@ public class AccountServiceImpl implements AccountService{
 			throw new NoAuthException();
 		
 		if(!passwordHash.checkPassword(loginRequestDto.getPassword(), loginUser.getPassword(), loginUser.getSalt()) ) {
-			accountRepository.addMismatchCnt(loginUser.getLoginId());
+			userRepository.addMismatchCnt(loginUser.getLoginId());
 			log.info("로그인 실패 , 비밀번호 틀린 횟수 : {}" , loginUser.getMismatchCnt());
 			throw new FailLoginException();
 		}
 		
 		setSession(loginResponseDto,request, response);
-		accountRepository.initMismatchCnt(loginUser.getLoginId());
+		userRepository.initMismatchCnt(loginUser.getLoginId());
 		return loginResponseDto;
 	}
 
@@ -107,7 +109,7 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	@Transactional
 	public int createUserAccount(CreateUserAccountRequestDto createUserAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
-		log.info("AccountServiceImpl_createUserAccount -> 새로운 사용자 회원가입");
+		log.info("UserServiceImpl_createUserAccount -> 새로운 사용자 회원가입");
 		User newUserAccount = createUserAccountRequestDto.toUserEntity();
 		
 		if(isEmailDuplicate(newUserAccount.getEmail()))
@@ -125,13 +127,13 @@ public class AccountServiceImpl implements AccountService{
         log.info("계정 성공 생성시 이메일로 인증번호 발송");
         String authKey = mailService.sendSimpleMessageForAuth(newUserAccount.getEmail());
         newUserAccount.initialAuthKeyAndHashingPw(authKey , passwordHash.hashPassword(createUserAccountRequestDto.getPassword(), newUserAccount));
-        return accountRepository.createUserAccount(newUserAccount);
+        return userRepository.createUserAccount(newUserAccount);
 	}
 
 	@Override
 	public boolean isEmailDuplicate(String email) {
 		log.info("계정생성시 이메일 중복 체크");
-        if(accountRepository.existsByEmail(email))
+        if(userRepository.existsByEmail(email))
             return true;
         return false;
 	}
@@ -139,7 +141,7 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	public boolean isLoginIdDuplicate(String loginId) {
 		log.info("계정생성시 로그인 아이디 중복 체크");
-        if(accountRepository.existsByLoginId(loginId))
+        if(userRepository.existsByLoginId(loginId))
             return true;
         return false;
 	}
@@ -147,18 +149,18 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	@Transactional
 	public int authAccount(AuthAccountRequestDto authAccountRequestDto) {
-		log.info("AccountServiceImpl_authAccount -> 회원가입후 첫 로그인시 계정인증");
+		log.info("UserServiceImpl_authAccount -> 회원가입후 첫 로그인시 계정인증");
 		User authUser = findUserByLoginIdOrEmail(authAccountRequestDto.getEmail(), false);
 		if(authUser == null) throw new NotExistAccountException();
 		
 		if(authAccountRequestDto.getAuthKey().equals(authUser.getAuthKey()))
-			return accountRepository.updateAuthStatus(authAccountRequestDto.getEmail());
+			return userRepository.updateAuthStatus(authAccountRequestDto.getEmail());
 		return -1;
 	}
 
 	@Override
 	public String findLoginIdByEmail(String email) {
-		log.info("AccountServiceImpl_findLoginIdByEmail");
+		log.info("UserServiceImpl_findLoginIdByEmail");
 		User findUser = findUserByLoginIdOrEmail(email, false);
 		if(findUser == null) throw new NotExistAccountException();
 		
@@ -167,7 +169,7 @@ public class AccountServiceImpl implements AccountService{
 
 	@Override
 	public int findPasswordByLoginIdAndEmail(FindPasswordRequestDto findPasswordRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
-		log.info("AccountServiceImpl_findPasswordByLoginIdAndEmail");
+		log.info("UserServiceImpl_findPasswordByLoginIdAndEmail");
 		User user = findUserByLoginIdOrEmail(findPasswordRequestDto.getEmail(), false);
 		
 		if(user == null || !user.getLoginId().equals(findPasswordRequestDto.getLoginid()))
@@ -177,7 +179,7 @@ public class AccountServiceImpl implements AccountService{
 		mailService.sendSimpleMessageForTempPw(user.getEmail(), tempPw);
 		user.updatePassword(passwordHash.hashPassword(tempPw, user));
 		
-		return accountRepository.updatePassword(user);
+		return userRepository.updatePassword(user);
 	}
 
 	@Override
@@ -185,9 +187,9 @@ public class AccountServiceImpl implements AccountService{
 		log.info("로그인ID 또는 이메일로 유저 계정 찾기");
 		try {
 			if(isLoginId)
-				return accountRepository.findUserByLoginId(input);
+				return userRepository.findUserByLoginId(input);
 			else
-				return accountRepository.findUserByEmail(input);
+				return userRepository.findUserByEmail(input);
 			
 		} catch (Exception e) {
 			throw new NotExistAccountException();
@@ -197,7 +199,7 @@ public class AccountServiceImpl implements AccountService{
 	@Override
 	@Transactional
 	public int updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) throws NoSuchAlgorithmException {
-		log.info("AccountServiceImpl_updatePassword");
+		log.info("UserServiceImpl_updatePassword");
 		User loginUser = findUserByLoginIdOrEmail(updatePasswordRequestDto.getLoginid(), true);
 		if(loginUser == null) throw new NotExistAccountException();
 		if(!CheckForm.checkPassword(updatePasswordRequestDto.getNewPassword()))
@@ -205,13 +207,13 @@ public class AccountServiceImpl implements AccountService{
 		
 		loginUser.updatePassword(passwordHash.hashPassword(updatePasswordRequestDto.getNewPassword(), loginUser));
 		
-		return accountRepository.updatePassword(loginUser);
+		return userRepository.updatePassword(loginUser);
 	}
 
 	@Override
 	@Transactional
 	public int unlockAccount(UnlockAccountRequestDto unlockAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
-		log.info("AccountServiceImpl_unlockAccount");
+		log.info("UserServiceImpl_unlockAccount");
 		User lockedUser = findUserByLoginIdOrEmail(unlockAccountRequestDto.getEmail(), false);
 		if(lockedUser == null) throw new NotExistAccountException();
 		
@@ -223,8 +225,18 @@ public class AccountServiceImpl implements AccountService{
 		mailService.sendSimpleMessageForTempPw(lockedUser.getEmail(), tempPw);
 		lockedUser.updatePassword(passwordHash.hashPassword(tempPw, lockedUser));
 		
-		return accountRepository.unlockAccount(lockedUser);
+		return userRepository.unlockAccount(lockedUser);
 	}
 
-	
+	@Override
+	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+		log.info("UserServiceImpl_updateProfileImage");
+		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+	}
+
+	@Override
+	public UserResponseDto getUserByUserId(int userId) {
+		log.info("UserServiceImpl_getUserByUserId");
+		return userRepository.getUserByUserId(userId);
+	}
 }
