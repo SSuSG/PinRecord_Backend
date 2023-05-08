@@ -54,6 +54,9 @@ public class WriteTravelRequestDto {
 	@ApiModelProperty(value = "여행에서 방문한 장소들 정보")
     private List<WriteTravelPinRequestDto> pinList;
 	
+	@ApiModelProperty(value = "여행후기글에 멘션된 사용자 목록(user_id)")
+    private List<Integer> mentionList;
+	
 	public Travel toTravelEntity() {
 		return Travel.builder()
 				.userId(userId)

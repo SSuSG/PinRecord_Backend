@@ -38,9 +38,9 @@ public class FollowController {
             @ApiResponse(code = 200, message = "조회 성공"),
             @ApiResponse(code = 400, message = "조회 실패"),
     })
-	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataType = "String")
+	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataTypeClass = Integer.class)
     @GetMapping("/follows/{userId}")
-    public ResponseResult findFollowListByUserId(@PathVariable String userId) {
+    public ResponseResult findFollowListByUserId(@PathVariable int userId) {
         log.info("FollowController_findFollowListByUserId -> 특정 유저의 팔로워,팔로잉 리스트 조회");
         return new SingleResponseResult<FollowListResponseDto>(followService.findUserFollowListByUserId(userId));
     }

@@ -10,8 +10,8 @@ import com.ssafy.enjoytrip.domain.follow.dto.reuqest.FollowRequestDto;
 
 @Mapper
 public interface FollowRepository {
-	List<FollowingResponseDto> findFollowingByUserId(String userId);
-	List<FollowerResponseDto> findFollowerByUserId(String userId);
+	List<FollowingResponseDto> findFollowingByUserId(int userId);
+	List<FollowerResponseDto> findFollowerByUserId(int userId);
 	boolean isExistsFollow(FollowRequestDto followRequestDto);
 	int follow(FollowRequestDto followRequestDto);
 	int cancelFollow(FollowRequestDto followRequestDto);

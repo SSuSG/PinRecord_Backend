@@ -16,6 +16,6 @@ public interface TravelRepository {
 	List<TravelResponseDto> getTravelListByUserId(int userId);
 	List<TravelResponseDto> getZzimTravelListByUserId(int userId);
 	List<TravelResponseDto> getTravelListForHomeView();
-	List<TravelResponseDto> searchTravel(String state , String city);
+	List<TravelResponseDto> searchTravelByLocation(String state , String city);
 	int deleteTravel(int travelId);
 }

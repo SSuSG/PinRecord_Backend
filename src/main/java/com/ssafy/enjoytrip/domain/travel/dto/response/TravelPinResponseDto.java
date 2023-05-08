@@ -24,8 +24,8 @@ public class TravelPinResponseDto {
 	@ApiModelProperty(value = "핀 ID")
 	private int pinId;
 	
-//	@ApiModelProperty(value = "여행 ID")
-//	private int travelId;
+	@ApiModelProperty(value = "여행 ID")
+	private int travelId;
 	
 	@ApiModelProperty(value = "장소 이름")
 	private String placeName;
@@ -62,4 +62,7 @@ public class TravelPinResponseDto {
 	
 	@ApiModelProperty(value = "핀에 해당하는 이미지들")
 	private List<TravelImageResponseDto> imageList;
+	
+	@ApiModelProperty(value = "장소에 대한 태그들")
+    private List<String> tagList;
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.enjoytrip.domain.travel.repository.MentionRepository">
+	<insert id="insertMention">
+		INSERT
+		INTO MENTION(
+					
+					)
+		VALUES		(
+					
+					)
+	</insert>
+	
+	<select id="findMentionByUserId" resultType="com.ssafy.enjoytrip.domain.travel.entity.Mention">
+		
+	</select>
+	
+</mapper>

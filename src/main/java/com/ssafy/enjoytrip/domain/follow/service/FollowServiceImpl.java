@@ -22,7 +22,7 @@ public class FollowServiceImpl implements FollowService{
 	private final FollowRepository followRepository;
 
 	@Override
-	public FollowListResponseDto findUserFollowListByUserId(String userId) {
+	public FollowListResponseDto findUserFollowListByUserId(int userId) {
 		log.info("FollowServiceImpl_findUserFollowListByUserId");
 		
 		List<FollowerResponseDto> followerList = followRepository.findFollowerByUserId(userId);

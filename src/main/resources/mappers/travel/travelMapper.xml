@@ -29,7 +29,8 @@
 				travel_created_date,
 				travel_title,
 				travel_state,
-				travel_city
+				travel_city,
+				travel_is_deleted
 				)
 		VALUES (
 				#{userId},
@@ -40,7 +41,8 @@
 				#{createdDate},
 				#{title},
 				#{state},
-				#{city}
+				#{city},
+				0
 				)
 	</insert>
 	
@@ -60,7 +62,8 @@
 		FROM 
 			TRAVEL  
 		WHERE
-		    travel_id = #{travelId}
+		    travel_id = #{travelId} AND
+		    travel_is_deleted = 0
 	</select>
 	
 	<select id="getTravelListByUserId" resultMap="travelDetail">
@@ -79,7 +82,8 @@
 		FROM 
 			TRAVEL 
 		WHERE
-		    user_id = #{userId}
+		    user_id = #{userId} AND
+		    travel_is_deleted = 0
 	</select>
 	
 	<select id="getZzimTravelListByUserId" resultMap="travelDetail">
@@ -100,7 +104,8 @@
 			ZZIM z
 		WHERE
 			z.user_id = #{userId} AND
-		    t.user_id = #{userId} 
+		    t.user_id = #{userId} AND
+		    travel_is_deleted = 0
 	</select>
 	
 	<select id="getTravelListForHomeView" resultMap="travelDetail">
@@ -117,13 +122,15 @@
 		    travel_start_date,
 		    travel_end_date
 		FROM 
-			TRAVEL 
+			TRAVEL
+		WHERE
+		    travel_is_deleted = 0
 		ORDER BY
-			travel_created_date
+			travel_created_date 
 		LIMIT 8	
 	</select>
 	
-	<select id="searchTravel" resultMap="travelDetail">
+	<select id="searchTravelByLocation" resultMap="travelDetail">
 		SELECT
 			travel_id,
 		    user_id,
@@ -139,7 +146,8 @@
 		FROM 
 			TRAVEL
 		WHERE
-			travel_state = #{state} 
+			travel_state = #{state}  AND
+		    travel_is_deleted = 0
 			<if test='city != null and city != "" '>
 				AND travel_city = #{city}  
 			</if>
@@ -148,11 +156,13 @@
 		LIMIT 8	
 	</select>
 	
-	<delete id="deleteTravel">
-		DELETE
-		FROM TRAVEL
+	<update id="deleteTravel">
+		UPDATE
+			TRAVEL
+		SET
+			travel_is_deleted = 1
 		WHERE
 			travel_id = #{travelId}
-	</delete>
+	</update>
 	
 </mapper>

@@ -67,6 +67,9 @@ public class WriteTravelPinRequestDto {
 	@ApiModelProperty(value = "장소에 대한 이미지들")
     private List<WriteTravelImageRequestDto> imageList;
 	
+	@ApiModelProperty(value = "장소에 대한 태그들")
+    private List<String> tagList;
+	
 	public Pin toPinEntity(int travelId) {
 		return Pin.builder()
 				.travelId(travelId)

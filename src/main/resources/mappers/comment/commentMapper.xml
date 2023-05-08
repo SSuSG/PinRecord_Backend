@@ -47,6 +47,5 @@
 			travel_id = #{travelId}
 		ORDER BY
 			comment_created_date
-			
 	</select>
 </mapper>

@@ -53,7 +53,7 @@ public class TravelController {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@ApiImplicitParam(name = "travelId" , value = "여행후기ID(PK)", required = true , paramType = "path" ,dataType = "Integer")
+	@ApiImplicitParam(name = "travelId" , value = "여행후기ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
 	@GetMapping("/travels/{travelId}")
     public ResponseResult getTravelListByTravelId(@PathVariable int travelId)  {
         log.info("TravelController_getTravel -> 여행후기 상세조회");
@@ -65,7 +65,7 @@ public class TravelController {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataType = "Integer")
+	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
     @GetMapping("/travels/users/{userId}")
     public ResponseResult getTravelListByUserId(@PathVariable int userId)  {
         log.info("TravelController_getTravelListByUserId -> 유저의 여행후기 목록 조회");
@@ -77,7 +77,7 @@ public class TravelController {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataType = "Integer")
+	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
 	@GetMapping("/travels/{userId}/zzims")
     public ResponseResult getZzimTravelListByUserId(@PathVariable int userId)  {
         log.info("TravelController_getZzimTravelListByUserId -> 유저의 여행후기 목록 조회");
@@ -101,21 +101,35 @@ public class TravelController {
             @ApiResponse(code = 400, message = "여행후기 검색 실패"),
     })
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "state" , value = "특별시/도", required = true , paramType = "query" ,dataType = "String"),
-		@ApiImplicitParam(name = "city" , value = "시/군", required = false , paramType = "query" ,dataType = "String")
+		@ApiImplicitParam(name = "state" , value = "특별시/도", required = true , paramType = "query" ,dataTypeClass = String.class),
+		@ApiImplicitParam(name = "city" , value = "시/군", required = false , paramType = "query" ,dataTypeClass = String.class)
 	})
 	@GetMapping("/travels/location")
-    public ResponseResult searchTravel(@RequestParam String state , @RequestParam(required = false , defaultValue = "") String city)  {
-        log.info("TravelController_searchTravel -> 여행 후기 장소 기반 검색");
-        return new ListResponseResult<>(travelService.searchTravel(state,city));
+    public ResponseResult searchTravelByLocation(@RequestParam String state , @RequestParam(required = false , defaultValue = "") String city)  {
+        log.info("TravelController_searchTravelByLocation -> 여행 후기 장소 기반 검색");
+        return new ListResponseResult<>(travelService.searchTravelByLocation(state,city));
     }
+	
+	
+	@ApiOperation(value = "여행 후기 태그 기반 검색" , notes = "여행후기를 태그 기반으로 검색")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "여행후기 검색 성공" , response = TravelResponseDto.class),
+            @ApiResponse(code = 400, message = "여행후기 검색 실패"),
+    })
+	@ApiImplicitParam(name = "tagList" , value = "태그", required = true , paramType = "query" ,dataType = "List<String>")
+	@GetMapping("/travels/tags")
+    public ResponseResult searchTravelByTag(@RequestParam List<String> tagList)  {
+        log.info("TravelController_searchTravelByTag -> 여행 후기 장소 기반 검색");
+        return new ListResponseResult<>(travelService.searchTravelByTag(tagList));
+    }
+    
 	
 	@ApiOperation(value = "여행 후기 삭제" , notes = "여행 후기를 삭제합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "여행후기 삭제 성공"),
             @ApiResponse(code = 400, message = "여행후기 삭제 실패"),
     })
-	@ApiImplicitParam(name = "travelId" , value = "여행ID)", required = true , paramType = "path" ,dataType = "Integer")
+	@ApiImplicitParam(name = "travelId" , value = "여행ID)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
 	@DeleteMapping("/travels/{travelId}")
     public ResponseResult deleteTravel(@PathVariable int travelId)  {
         log.info("TravelController_deleteTravel -> 여행 후기 삭제");
