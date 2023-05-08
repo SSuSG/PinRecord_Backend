@@ -84,7 +84,6 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>2.1.0</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>

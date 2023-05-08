@@ -23,7 +23,7 @@ public interface UserService {
 	LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletRequest request , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException;
 	Boolean isLock(User loginUser) throws NoSuchAlgorithmException;
 	void setSession(LoginResponseDto loginResponseDto  ,HttpServletRequest request , HttpServletResponse response);
-	void logout(HttpServletRequest request);
+	void logout(HttpServletRequest request , HttpServletResponse response);
 	int createUserAccount(CreateUserAccountRequestDto createUserAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException;
 	boolean isEmailDuplicate(String email);
 	boolean isLoginIdDuplicate(String loginId);
