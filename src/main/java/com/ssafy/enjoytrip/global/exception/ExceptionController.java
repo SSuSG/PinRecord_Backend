@@ -73,12 +73,20 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.NO_LOGIN_EXCEPTION);
     }
 
-    @ExceptionHandler({MailException.class , MessagingException.class ,IllegalArgumentException.class })
+    @ExceptionHandler({MailException.class , MessagingException.class })
     public ResponseResult MailException(Exception e) {
 
         log.info("Error : {}",e.getClass());
         log.info("Error Message : {}",e.getMessage());
         return ResponseResult.exceptionResponse(ExceptionCode.FAIL_SEND_EMAIL_EXCEPTION);
+    }
+    
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseResult IllegalArgumentException(Exception e) {
+
+        log.info("Error : {}",e.getClass());
+        log.info("Error Message : {}",e.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.SERVER_EXCEPTION);
     }
     
     @ExceptionHandler({NoSuchAlgorithmException.class })

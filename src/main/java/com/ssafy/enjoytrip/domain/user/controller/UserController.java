@@ -127,6 +127,7 @@ public class UserController {
     	return ResponseResult.failResponse;
     }
 	
+	
 	@ApiOperation(value = "아이디 찾기" , notes = "이메일을 이용한 아이디 찾기")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "아이디 찾기 성공"),

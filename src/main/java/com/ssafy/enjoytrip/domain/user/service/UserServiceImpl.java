@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService{
 	public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request,
 			HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
 		log.info("UserServiceImpl_login");
-		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginid(), true);
+		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginId(), true);
 		if(loginUser == null) throw new NotExistAccountException();
 		LoginResponseDto loginResponseDto = loginUser.toLoginResponseDto();
 		if(loginUser.isLock())
@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService{
         session.setAttribute("loginUser", loginResponseDto);
         Cookie cookie = new Cookie("JSESSIONID",session.getId());
         cookie.setMaxAge(60 * 30);
+        cookie.setPath("/");
         response.addCookie(cookie);
 	}
 

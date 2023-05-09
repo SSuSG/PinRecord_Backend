@@ -86,7 +86,7 @@ public class MailService {
         String authenticationKey = createKey();
 
         MimeMessage message = createMessageForAuth(to,authenticationKey);
-        emailSender.send(message);
+        //emailSender.send(message);
         return authenticationKey;
     }
 

@@ -16,7 +16,7 @@ public class LoginRequestDto {
 	
 	@NotBlank
 	@ApiModelProperty(value = "사용자 로그인 ID")
-    private String loginid;
+    private String loginId;
 
     @NotBlank
     @ApiModelProperty(value = "사용자 로그인 PASSWORD")
