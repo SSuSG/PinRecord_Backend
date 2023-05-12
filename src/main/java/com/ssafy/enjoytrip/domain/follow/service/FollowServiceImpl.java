@@ -40,4 +40,16 @@ public class FollowServiceImpl implements FollowService{
 			return followRepository.cancelFollow(followRequestDto);
 		return followRepository.follow(followRequestDto);
 	}
+
+	@Override
+	public List<FollowerResponseDto> findFollowerByUserId(int userId) {
+		log.info("FollowServiceImpl_findFollowerByUserId");
+		return followRepository.findFollowerByUserId(userId);
+	}
+
+	@Override
+	public List<FollowingResponseDto> findFollowingByUserId(int userId) {
+		log.info("FollowServiceImpl_findFollowingByUserId");
+		return followRepository.findFollowingByUserId(userId);
+	}
 }

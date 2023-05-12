@@ -27,8 +27,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`user` (
   `user_name` VARCHAR(45) NOT NULL,
   `user_email` VARCHAR(45) NOT NULL,
   `user_salt` VARCHAR(45) NOT NULL,
-  `user_upload_img_name` VARCHAR(150) NULL DEFAULT NULL,
-  `user_store_img_name` VARCHAR(150) NULL DEFAULT NULL,
+  `user_profile_image` LONGBLOB NULL DEFAULT NULL,
   `user_is_auth` TINYINT NOT NULL,
   `user_lock_key` VARCHAR(45) NULL DEFAULT NULL,
   `user_mismatch_cnt` INT NULL DEFAULT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`user` (
   `user_is_lock` TINYINT NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -56,13 +55,14 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`travel` (
   `travel_title` VARCHAR(45) NOT NULL,
   `travel_state` VARCHAR(100) NOT NULL,
   `travel_city` VARCHAR(100) NOT NULL,
+  `travel_is_deleted` TINYINT NOT NULL,
   PRIMARY KEY (`travel_id`),
   INDEX `fk_travel_to_user_user_id_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_travel_to_user_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 28
+AUTO_INCREMENT = 29
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`comment` (
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`pin` (
     FOREIGN KEY (`travel_id`)
     REFERENCES `enjoy_trip`.`travel` (`travel_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 25
+AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -154,7 +154,30 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`image` (
     FOREIGN KEY (`pin_id`)
     REFERENCES `enjoy_trip`.`pin` (`pin_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `enjoy_trip`.`mention`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoy_trip`.`mention` (
+  `mention_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NULL DEFAULT NULL,
+  `travel_id` INT NULL DEFAULT NULL,
+  `mention_created_date` DATETIME NOT NULL,
+  `metnion_is_read` TINYINT NOT NULL,
+  PRIMARY KEY (`mention_id`),
+  INDEX `fk_mention_to_user_user_id_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_mention_to_travel_travel_id_idx` (`travel_id` ASC) VISIBLE,
+  CONSTRAINT `fk_mention_to_travel_travel_id`
+    FOREIGN KEY (`travel_id`)
+    REFERENCES `enjoy_trip`.`travel` (`travel_id`),
+  CONSTRAINT `fk_mention_to_user_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `enjoy_trip`.`user` (`user_id`))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -207,6 +230,24 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
+-- Table `enjoy_trip`.`tag`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `enjoy_trip`.`tag` (
+  `tag_id` INT NOT NULL AUTO_INCREMENT,
+  `tag_name` VARCHAR(45) NOT NULL,
+  `pin_id` INT NULL DEFAULT NULL,
+  `tagcol` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`tag_id`),
+  INDEX `fk_tag_to_pin_pin_id_idx` (`pin_id` ASC) VISIBLE,
+  CONSTRAINT `fk_tag_to_pin_pin_id`
+    FOREIGN KEY (`pin_id`)
+    REFERENCES `enjoy_trip`.`pin` (`pin_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
 -- Table `enjoy_trip`.`zzim`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `enjoy_trip`.`zzim` (
@@ -224,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`zzim` (
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

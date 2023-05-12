@@ -106,9 +106,9 @@ public class UserServiceImpl implements UserService{
 	public void logout(HttpServletRequest request , HttpServletResponse response) {
 		request.getSession().invalidate();
 		
-		Cookie cookie = new Cookie("JSESSIONID", null);
-	    cookie.setMaxAge(0);
-		response.addCookie(cookie);
+		//Cookie cookie = new Cookie("JSESSIONID", null);
+	    //cookie.setMaxAge(0);
+		//response.addCookie(cookie);
 	}
 
 	@Override

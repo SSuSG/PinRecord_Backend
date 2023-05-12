@@ -21,4 +21,8 @@ public class FollowerResponseDto {
     @NotBlank
     @ApiModelProperty(value = "특정 유저를 팔로우한 유저의 닉네임")
     private String nickname;
+    
+    @NotBlank
+    @ApiModelProperty(value = "특정 유저를 팔로우한 유저의 이름")
+    private String name;
 }

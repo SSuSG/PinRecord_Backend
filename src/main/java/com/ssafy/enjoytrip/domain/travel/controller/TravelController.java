@@ -81,7 +81,7 @@ public class TravelController {
 	@GetMapping("/travels/{userId}/zzims")
     public ResponseResult getZzimTravelListByUserId(@PathVariable int userId)  {
         log.info("TravelController_getZzimTravelListByUserId -> 유저의 여행후기 목록 조회");
-        return new ListResponseResult<>(travelService.getTravelListByUserId(userId));
+        return new ListResponseResult<>(travelService.getZzimTravelListByUserId(userId));
     }
 	
 	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트" , notes = "홈 화면에 보여줄 여행후기 목록 정보들")

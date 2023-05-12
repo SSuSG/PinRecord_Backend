@@ -26,4 +26,10 @@ public class UserResponseDto {
 	
 	@ApiModelProperty(value = "유저 프로필 이미지")
 	private String profileImage;
+	
+	@ApiModelProperty(value = "유저의 팔로워 수")
+	private String followerCnt;
+	
+	@ApiModelProperty(value = "유저의 팔로잉 수")
+	private String followingCnt;
 }

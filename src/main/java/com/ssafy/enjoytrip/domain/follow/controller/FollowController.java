@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowListResponseDto;
+import com.ssafy.enjoytrip.domain.follow.dto.response.FollowerResponseDto;
+import com.ssafy.enjoytrip.domain.follow.dto.response.FollowingResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.reuqest.FollowRequestDto;
 import com.ssafy.enjoytrip.domain.follow.service.FollowService;
+import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
 import com.ssafy.enjoytrip.domain.user.controller.UserController;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.service.UserService;
+import com.ssafy.enjoytrip.global.response.ListResponseResult;
 import com.ssafy.enjoytrip.global.response.ResponseResult;
 import com.ssafy.enjoytrip.global.response.SingleResponseResult;
 
@@ -24,6 +28,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,16 +38,28 @@ public class FollowController {
 	
 	private final FollowService followService;
 
-	@ApiOperation(value = "팔로워,팔로잉 리스트 조회" , notes = "특정 유저의 팔로워,팔로잉 리스트 조회")
+	@ApiOperation(value = "팔로잉 조회" , notes = "특정 유저의 팔로잉 조회")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "조회 성공"),
             @ApiResponse(code = 400, message = "조회 실패"),
     })
 	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataTypeClass = Integer.class)
-    @GetMapping("/follows/{userId}")
-    public ResponseResult findFollowListByUserId(@PathVariable int userId) {
-        log.info("FollowController_findFollowListByUserId -> 특정 유저의 팔로워,팔로잉 리스트 조회");
-        return new SingleResponseResult<FollowListResponseDto>(followService.findUserFollowListByUserId(userId));
+    @GetMapping("/follows/following/{userId}")
+    public ResponseResult findFollowingByUserId(@PathVariable int userId) {
+        log.info("FollowController_findFollowingByUserId -> 특정 유저의 팔로잉 조회");
+        return new ListResponseResult<FollowingResponseDto>(followService.findFollowingByUserId(userId));
+    }
+	
+	@ApiOperation(value = "팔로워 조회" , notes = "특정 유저의 팔로워 조회")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "조회 성공"),
+            @ApiResponse(code = 400, message = "조회 실패"),
+    })
+	@ApiImplicitParam(name = "userId" , value = "유저ID", required = true , paramType = "path" ,dataTypeClass = Integer.class)
+    @GetMapping("/follows/follower/{userId}")
+    public ResponseResult findFollowerByUserId(@PathVariable int userId) {
+        log.info("FollowController_findFollowerByUserId -> 특정 유저의 팔로워 조회");
+        return new ListResponseResult<FollowerResponseDto>(followService.findFollowerByUserId(userId));
     }
 	
 	@ApiOperation(value = "팔로우 하기" , notes = "followee_id유저가 follower_id 유저를 팔로우한다. 팔로우가 되어있는 상태이면 팔로우를 취소한다.")

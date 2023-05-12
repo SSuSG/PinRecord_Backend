@@ -3,8 +3,9 @@
 <mapper namespace="com.ssafy.enjoytrip.domain.follow.repository.FollowRepository">
 	<select id="findFollowerByUserId" resultType="com.ssafy.enjoytrip.domain.follow.dto.response.FollowerResponseDto">
 		SELECT 
-			user_id_from as followerUserId, 
-			user_nickname as nickname
+			user_id_from 	as followerUserId, 
+			user_nickname 	as nickname,
+			user_name		as name
 		FROM 
 			follow 
 		JOIN
@@ -16,8 +17,9 @@
 	
 	<select id="findFollowingByUserId" resultType="com.ssafy.enjoytrip.domain.follow.dto.response.FollowingResponseDto">
 		SELECT 
-			user_id_to as followingUserId, 
-			user_nickname as nickname
+			user_id_to 		as followingUserId, 
+			user_nickname 	as nickname,
+			user_name		as name
 		FROM 
 			follow 
 		JOIN
