@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.mail.MessagingException;
@@ -11,11 +12,14 @@ import javax.validation.Valid;
 
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
@@ -186,13 +190,26 @@ public class UserController {
             @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
             @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
     })
-    @PostMapping("/users/images")
-    public ResponseResult updateProfileImage(@RequestBody UpdateProfileImageRequestDto updateProfileImageRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
-        log.info("UserController_updateProfileImage -> 사용자의 계정 잠금해제");
-        if(userService.updateProfileImage(updateProfileImageRequestDto) == 1)
+    @PostMapping("/users/images/{userId}")
+    public ResponseResult updateProfileImage(@RequestParam MultipartFile profileImage , @PathVariable int userId) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException, IOException {
+        log.info("UserController_updateProfileImage -> 사용자의 이미지 변경");
+        if(userService.updateProfileImage(profileImage,userId) == 1)
         	return ResponseResult.successResponse;
     	return ResponseResult.failResponse;
     }
+	
+//	@ApiOperation(value = "유저 프로필 이미지 변경" , notes = "유저의 프로필 이미지 변경")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
+//            @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
+//    })
+//    @PostMapping("/users/images")
+//    public ResponseResult updateProfileImage(@RequestBody UpdateProfileImageRequestDto updateProfileImageRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
+//        log.info("UserController_updateProfileImage -> 사용자의 계정 잠금해제");
+//        if(userService.updateProfileImage(updateProfileImageRequestDto) == 1)
+//        	return ResponseResult.successResponse;
+//    	return ResponseResult.failResponse;
+//    }
 	
 	@ApiOperation(value = "유저페이지의 유저 정보" , notes = "유저의 다양한 정보들 반환")
     @ApiResponses(value = {

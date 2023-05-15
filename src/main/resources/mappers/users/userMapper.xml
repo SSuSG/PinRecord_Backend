@@ -147,7 +147,7 @@
 	<update id="updateProfileImage">
 		UPDATE USER
 		SET	
-			user_profile_image = #{profileImage}
+			user_profile_image = #{fullPath}
 		WHERE
 			user_id = #{userId}
 	</update>

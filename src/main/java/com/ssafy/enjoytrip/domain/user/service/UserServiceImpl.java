@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.service;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.mail.MessagingException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
@@ -22,6 +24,7 @@ import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
+import com.ssafy.enjoytrip.domain.user.entity.UserProfileImage;
 import com.ssafy.enjoytrip.domain.user.repository.UserRepository;
 import com.ssafy.enjoytrip.global.exception.ExceptionCode;
 import com.ssafy.enjoytrip.global.exception.ExistEmailException;
@@ -33,6 +36,7 @@ import com.ssafy.enjoytrip.global.exception.LockAccountException;
 import com.ssafy.enjoytrip.global.exception.NoAuthException;
 import com.ssafy.enjoytrip.global.exception.NotExistAccountException;
 import com.ssafy.enjoytrip.global.util.CheckForm;
+import com.ssafy.enjoytrip.global.util.ImageService;
 import com.ssafy.enjoytrip.global.util.MailService;
 import com.ssafy.enjoytrip.global.util.PasswordHash;
 
@@ -49,6 +53,7 @@ public class UserServiceImpl implements UserService{
 	private final PasswordHash passwordHash;
 	private final CheckForm CheckForm;
 	private final MailService mailService;
+	private final ImageService imageService;
 	
 	@Override
 	@Transactional
@@ -234,10 +239,21 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+	@Transactional
+	public int updateProfileImage(MultipartFile profileImage, int userId) throws IOException {
 		log.info("UserServiceImpl_updateProfileImage");
-		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+		//프로필 이미지를 로컬에 저장후 
+		//저장경로를 db에 저장해준다.
+		String fullPath = imageService.storeFile(profileImage);
+		
+		return userRepository.updateProfileImage(new UserProfileImage(userId,fullPath));
 	}
+	
+//	@Override
+//	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+//		log.info("UserServiceImpl_updateProfileImage");
+//		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+//	}
 
 	@Override
 	public UserResponseDto getUserByUserId(int userId) {

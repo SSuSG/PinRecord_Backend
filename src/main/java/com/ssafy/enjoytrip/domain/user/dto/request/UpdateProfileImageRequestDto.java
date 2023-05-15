@@ -3,10 +3,14 @@ package com.ssafy.enjoytrip.domain.user.dto.request;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -17,7 +21,10 @@ public class UpdateProfileImageRequestDto {
 	@ApiModelProperty(value = "사용자 ID")
     private int userId;
 
-    @NotBlank
-    @ApiModelProperty(value = "BASE64로 인코딩된 이미지 문자열")
-    private String profileImage;
+//    @NotBlank
+//    @ApiModelProperty(value = "BASE64로 인코딩된 이미지 문자열")
+//    private String profileImage;
+    
+    @ApiModelProperty(value = "사용자의 프로필 이미지 파일")
+    private MultipartFile profileImage;
 }
