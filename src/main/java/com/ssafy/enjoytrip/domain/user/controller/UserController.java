@@ -154,9 +154,9 @@ public class UserController {
     	return ResponseResult.failResponse;
     }
 	
-	@ApiOperation(value = "비밀번호 변경" , notes = "로그인ID와  임시 비밀번호 발급")
+	@ApiOperation(value = "비밀번호 변경" , notes = "비밀번호 변경")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "비밀번호 찾기 성공(임시 비밀번호 발송 성공)"),
+            @ApiResponse(code = 200, message = "비밀번호 변경 성공"),
             @ApiResponse(code = 400, message = "로그인ID와 이메일이 일치하는 계정이 존재하지 않음"),
             @ApiResponse(code = 415, message = "이메일 전송 실패"),
     })
