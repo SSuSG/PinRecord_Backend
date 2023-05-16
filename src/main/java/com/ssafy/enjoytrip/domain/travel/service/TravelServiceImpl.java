@@ -45,6 +45,7 @@ public class TravelServiceImpl implements TravelService{
 		
 		for(WriteTravelPinRequestDto writeTravelPinRequestDto : writeTravelRequestDto.getPinList()) {
 			Pin pin = writeTravelPinRequestDto.toPinEntity(travelId);
+			
 			pinRepository.insertPin(pin);
 			int pinId = pin.getPinId();
 
@@ -59,8 +60,8 @@ public class TravelServiceImpl implements TravelService{
 			}
 		}
 		// TODO : 멘션리스트 저장하기!!
-		for (int userId : writeTravelRequestDto.getMentionList())
-			mentionRepository.insertMention(Mention.builder().userId(userId).travelId(travelId).createdDate(LocalDateTime.now()).build());
+//		for (int userId : writeTravelRequestDto.getMentionList())
+//			mentionRepository.insertMention(Mention.builder().userId(userId).travelId(travelId).createdDate(LocalDateTime.now()).build());
 		
 		// TODO : 멘션리스트 저장후 알림정보 생성해서 웹 소켓을통해 메시지를 전송한다. (SimpMessagingTemplate 사용) 이를 vue에서 받고 ui를 업데이트 시킨다!!
 		

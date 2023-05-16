@@ -21,10 +21,8 @@ public class UpdateProfileImageRequestDto {
 	@ApiModelProperty(value = "사용자 ID")
     private int userId;
 
-//    @NotBlank
-//    @ApiModelProperty(value = "BASE64로 인코딩된 이미지 문자열")
-//    private String profileImage;
+    @NotBlank
+    @ApiModelProperty(value = "BASE64로 인코딩된 이미지 문자열")
+    private String profileImage;
     
-    @ApiModelProperty(value = "사용자의 프로필 이미지 파일")
-    private MultipartFile profileImage;
 }

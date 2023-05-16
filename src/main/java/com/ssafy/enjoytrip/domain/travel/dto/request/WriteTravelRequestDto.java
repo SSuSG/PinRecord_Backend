@@ -41,7 +41,6 @@ public class WriteTravelRequestDto {
 	@ApiModelProperty(value = "여행한 특별시/도")
     private String state;
 	
-	@NotBlank
 	@ApiModelProperty(value = "여행한 시/군")
     private String city;
 	

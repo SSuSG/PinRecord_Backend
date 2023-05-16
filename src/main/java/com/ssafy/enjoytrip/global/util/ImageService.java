@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ImageService {
 	// 루트 경로 불러오기
-    private final String rootPath = System.getProperty("user.dir");
+	private final String rootPath = System.getProperty("user.dir");
     // 프로젝트 루트 경로에 있는 files 디렉토리
-    private final String fileDir = rootPath + "/files/";
+    private final String fileDir = rootPath + "/src/main/resources/static/profileImage/";
     
     public String getFullPath(String filename) { return fileDir + filename; }
 
@@ -24,7 +24,9 @@ public class ImageService {
         if(multipartFile.isEmpty()) {
             return null;
         }
-
+        File folder = new File(fileDir);
+        if (!folder.exists()) 
+            folder.mkdirs();
         String originalFilename = multipartFile.getOriginalFilename();
         // 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
         // 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로
@@ -38,10 +40,10 @@ public class ImageService {
         
         multipartFile.transferTo(new File(fullPath));
 
-        return fullPath;
+        return storeFilename;
     }
     
- // 확장자 추출
+    // 확장자 추출
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);

@@ -23,4 +23,5 @@ public interface UserRepository {
 	int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto);
 	int updateProfileImage(UserProfileImage userProfileImage);
 	UserResponseDto getUserByUserId(int userId);
+	String getUserProfileImage(int userId);
 }

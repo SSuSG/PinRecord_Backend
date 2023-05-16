@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.user.service;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -238,26 +239,35 @@ public class UserServiceImpl implements UserService{
 		return userRepository.unlockAccount(lockedUser);
 	}
 
-	@Override
-	@Transactional
-	public int updateProfileImage(MultipartFile profileImage, int userId) throws IOException {
-		log.info("UserServiceImpl_updateProfileImage");
-		//프로필 이미지를 로컬에 저장후 
-		//저장경로를 db에 저장해준다.
-		String fullPath = imageService.storeFile(profileImage);
-		
-		return userRepository.updateProfileImage(new UserProfileImage(userId,fullPath));
-	}
-	
 //	@Override
-//	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+//	@Transactional
+//	public int updateProfileImage(MultipartFile profileImage, int userId) throws IOException {
 //		log.info("UserServiceImpl_updateProfileImage");
-//		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+//		//프로필 이미지를 로컬에 저장후 
+//		//저장경로를 db에 저장해준다.
+//		//String fullPath = imageService.storeFile(profileImage);
+//		
+//		byte[] profileImageBytes = profileImage.getBytes();
+//		String base64Encoded = Base64.getEncoder().encodeToString(profileImageBytes);
+//		
+//		return userRepository.updateProfileImage(new UserProfileImage(userId,"",base64Encoded));
 //	}
+	
+	@Override
+	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+		log.info("UserServiceImpl_updateProfileImage");
+		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+	}
 
 	@Override
 	public UserResponseDto getUserByUserId(int userId) {
 		log.info("UserServiceImpl_getUserByUserId");
 		return userRepository.getUserByUserId(userId);
+	}
+
+	@Override
+	public String getUserProfileImage(int userId) {
+		log.info("UserServiceImpl_getUserProfileImage");
+		return imageService.getFullPath(userRepository.getUserProfileImage(userId));
 	}
 }

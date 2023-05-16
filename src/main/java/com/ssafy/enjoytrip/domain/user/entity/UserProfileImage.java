@@ -14,4 +14,5 @@ import lombok.Setter;
 public class UserProfileImage {
 	private int userId;
 	private String fullPath;
+	private String base64Encoded;
 }
