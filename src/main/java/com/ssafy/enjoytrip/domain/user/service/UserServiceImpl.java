@@ -270,36 +270,36 @@ public class UserServiceImpl implements UserService{
 		return userRepository.unlockAccount(lockedUser);
 	}
 
-//	@Override
-//	@Transactional
-//	public int updateProfileImage(MultipartFile profileImage, int userId) throws IOException {
-//		log.info("UserServiceImpl_updateProfileImage");
-//		//프로필 이미지를 로컬에 저장후 
-//		//저장경로를 db에 저장해준다.
-//		//String fullPath = imageService.storeFile(profileImage);
-//		
+	@Override
+	@Transactional
+	public int updateProfileImage(MultipartFile profileImage, int userId) throws IOException {
+		log.info("UserServiceImpl_updateProfileImage");
+		//프로필 이미지를 로컬에 저장후 
+		//저장경로를 db에 저장해준다.
+		String fullPath = imageService.storeFile(profileImage);
+		
 //		byte[] profileImageBytes = profileImage.getBytes();
 //		String base64Encoded = Base64.getEncoder().encodeToString(profileImageBytes);
-//		
-//		return userRepository.updateProfileImage(new UserProfileImage(userId,"",base64Encoded));
-//	}
-	
-	@Override
-	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
-		log.info("UserServiceImpl_updateProfileImage");
-		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+		
+		return userRepository.updateProfileImage(new UserProfileImage(userId,fullPath));
 	}
+	
+//	@Override
+//	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
+//		log.info("UserServiceImpl_updateProfileImage");
+//		return userRepository.updateProfileImage(updateProfileImageRequestDto);
+//	}
 
 	@Override
-	public UserResponseDto getUserByUserId(int userId) {
+	public UserResponseDto getUserByUserId(int userId) throws IOException {
 		log.info("UserServiceImpl_getUserByUserId");
-		return userRepository.getUserByUserId(userId);
+		return userRepository.getUserByUserId(userId).toUserResponseDto();
 	}
 
 	@Override
 	public String getUserProfileImage(int userId) {
 		log.info("UserServiceImpl_getUserProfileImage");
-		return imageService.getFullPath(userRepository.getUserProfileImage(userId));
+		return "file:" + imageService.getFullPath(userRepository.getUserProfileImage(userId));
 	}
 
 }

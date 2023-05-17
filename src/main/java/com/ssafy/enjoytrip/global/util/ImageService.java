@@ -13,9 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ImageService {
 	// 루트 경로 불러오기
-	private final String rootPath = System.getProperty("user.dir");
+//	private final String rootPath = System.getProperty("user.dir");
+	private final String rootPath = "c:\\SSAFY";
     // 프로젝트 루트 경로에 있는 files 디렉토리
-    private final String fileDir = rootPath + "/src/main/resources/static/profileImage/";
+    private final String fileDir = rootPath + "\\upload\\";
     
     public String getFullPath(String filename) { return fileDir + filename; }
 
@@ -40,7 +41,7 @@ public class ImageService {
         
         multipartFile.transferTo(new File(fullPath));
 
-        return storeFilename;
+        return fullPath;
     }
     
     // 확장자 추출

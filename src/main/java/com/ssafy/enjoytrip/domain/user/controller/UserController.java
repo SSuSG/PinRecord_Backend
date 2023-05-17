@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -220,18 +221,18 @@ public class UserController {
     	return ResponseResult.failResponse;
     }
 	
-//	@ApiOperation(value = "유저 프로필 이미지 변경" , notes = "유저의 프로필 이미지 변경")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
-//            @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
-//    })
-//    @PostMapping("/users/images/{userId}")
-//    public ResponseResult updateProfileImage(@RequestParam MultipartFile profileImage , @PathVariable int userId) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException, IOException {
-//        log.info("UserController_updateProfileImage -> 사용자의 이미지 변경");
-//        if(userService.updateProfileImage(profileImage,userId) == 1)
-//        	return ResponseResult.successResponse;
-//    	return ResponseResult.failResponse;
-//    }
+	@ApiOperation(value = "유저 프로필 이미지 변경" , notes = "유저의 프로필 이미지 변경")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
+            @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
+    })
+    @PostMapping("/users/images/{userId}")
+    public ResponseResult updateProfileImage(@RequestParam MultipartFile profileImage , @PathVariable int userId) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException, IOException {
+        log.info("UserController_updateProfileImage -> 사용자의 이미지 변경");
+        if(userService.updateProfileImage(profileImage,userId) == 1)
+        	return ResponseResult.successResponse;
+    	return ResponseResult.failResponse;
+    }
 	
 	@ApiOperation(value = "유저 프로필 이미지 보기" , notes = "유저의 프로필 이미지 보기")
     @ApiResponses(value = {
@@ -241,21 +242,21 @@ public class UserController {
     @GetMapping("/users/profile-image/{userId}")
     public ResponseResult getUserProfileImage(@PathVariable int userId) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException, IOException {
         log.info("UserController_getUserProfileImage -> 사용자의 이미지 조회");
-        return new SingleResponseResult<String>(userService.getUserProfileImage(userId));
+        return new SingleResponseResult<UrlResource>( new UrlResource(userService.getUserProfileImage(userId)) );
     }
 	
-	@ApiOperation(value = "유저 프로필 이미지 변경" , notes = "유저의 프로필 이미지 변경")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
-            @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
-    })
-    @PostMapping("/users/images")
-    public ResponseResult updateProfileImage(@RequestBody UpdateProfileImageRequestDto updateProfileImageRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
-        log.info("UserController_updateProfileImage -> 사용자의 계정 잠금해제");
-        if(userService.updateProfileImage(updateProfileImageRequestDto) == 1)
-        	return ResponseResult.successResponse;
-    	return ResponseResult.failResponse;
-    }
+//	@ApiOperation(value = "유저 프로필 이미지 변경" , notes = "유저의 프로필 이미지 변경")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "유저 프로필 이미지 변경 성공"),
+//            @ApiResponse(code = 400, message = "유저 프로필 이미지 변경 실패"),
+//    })
+//    @PostMapping("/users/images")
+//    public ResponseResult updateProfileImage(@RequestBody UpdateProfileImageRequestDto updateProfileImageRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
+//        log.info("UserController_updateProfileImage -> 사용자의 계정 잠금해제");
+//        if(userService.updateProfileImage(updateProfileImageRequestDto) == 1)
+//        	return ResponseResult.successResponse;
+//    	return ResponseResult.failResponse;
+//    }
 	
 	@ApiOperation(value = "유저페이지의 유저 정보" , notes = "유저의 다양한 정보들 반환")
     @ApiResponses(value = {
@@ -264,7 +265,7 @@ public class UserController {
     })
 	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
     @GetMapping("/users/{userId}")
-    public ResponseResult getUserByUserId(@PathVariable int userId) {
+    public ResponseResult getUserByUserId(@PathVariable int userId) throws IOException {
         log.info("UserController_getUserByUserId -> 유저 정보 반환");
     	return new SingleResponseResult<>(userService.getUserByUserId(userId));
     }

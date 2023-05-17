@@ -148,7 +148,7 @@
 	<update id="updateProfileImage">
 		UPDATE USER
 		SET	
-			user_profile_image = #{profileImage}
+			user_profile_image = #{fullPath}
 		WHERE
 			user_id = #{userId}
 	</update>
@@ -162,7 +162,7 @@
 			user_id = #{userId}
 	</select>
 	
-	<select id="getUserByUserId" resultType="com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto">
+	<select id="getUserByUserId" resultType="com.ssafy.enjoytrip.domain.user.entity.UserInfo">
 		SELECT
 			user_id 						as userId,
 			user_name 						as name,

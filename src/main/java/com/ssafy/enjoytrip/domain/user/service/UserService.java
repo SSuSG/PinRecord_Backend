@@ -36,9 +36,9 @@ public interface UserService {
 	User findUserByLoginIdOrEmail(String input , boolean isLoginId);
 	int updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) throws NoSuchAlgorithmException;
 	int unlockAccount(UnlockAccountRequestDto unlockAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException;
-//	int updateProfileImage(MultipartFile profileImage , int userId) throws IOException;
-	int updateProfileImage(UpdateProfileImageRequestDto changeProfileImageRequestDto);
-	UserResponseDto getUserByUserId(int userId);
+	int updateProfileImage(MultipartFile profileImage , int userId) throws IOException;
+//	int updateProfileImage(UpdateProfileImageRequestDto changeProfileImageRequestDto);
+	UserResponseDto getUserByUserId(int userId) throws IOException;
 	String getUserProfileImage(int userId);
 	void setToken(User loginUser , HttpServletResponse response);
 	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request);

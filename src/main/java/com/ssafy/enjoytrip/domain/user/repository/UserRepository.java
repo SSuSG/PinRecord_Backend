@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
+import com.ssafy.enjoytrip.domain.user.entity.UserInfo;
 import com.ssafy.enjoytrip.domain.user.entity.UserProfileImage;
 
 @Mapper
@@ -24,7 +25,7 @@ public interface UserRepository {
 	int updateLockStatus(Map<String, String> map);
 	int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto);
 	int updateProfileImage(UserProfileImage userProfileImage);
-	UserResponseDto getUserByUserId(int userId);
+	UserInfo getUserByUserId(int userId);
 	String getUserProfileImage(int userId);
 	int saveRefreshToken(Map<String, String> map);
 	int deleRefreshToken(Map<String, String> map);
