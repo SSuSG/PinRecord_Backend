@@ -211,8 +211,9 @@ public class UserServiceImpl implements UserService{
 	public int findPasswordByLoginIdAndEmail(FindPasswordRequestDto findPasswordRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
 		log.info("UserServiceImpl_findPasswordByLoginIdAndEmail");
 		User user = findUserByLoginIdOrEmail(findPasswordRequestDto.getEmail(), false);
-		
-		if(user == null || !user.getLoginId().equals(findPasswordRequestDto.getLoginid()))
+		System.out.println(user.getLoginId() + " " + user.getName());
+		System.out.println(findPasswordRequestDto.getLoginId() + " " + user.getName().equals(findPasswordRequestDto.getName()));
+		if(user == null || !user.getLoginId().equals(findPasswordRequestDto.getLoginId()) || !user.getName().equals(findPasswordRequestDto.getName()))
 			throw new NotExistAccountException();
 		
 		String tempPw = mailService.createKey();
