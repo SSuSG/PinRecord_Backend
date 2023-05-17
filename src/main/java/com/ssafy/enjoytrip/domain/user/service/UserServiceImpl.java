@@ -62,7 +62,6 @@ public class UserServiceImpl implements UserService{
 	private final JwtService jwtService;
 	
 	@Override
-	@Transactional
 	public LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
 		log.info("UserServiceImpl_login");
 		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginId(), true);
@@ -74,7 +73,10 @@ public class UserServiceImpl implements UserService{
 		if(isLock(loginUser)) {
 			log.info("비밀번호 5회 오입력으로 인하여 계정이 잠금되었습니다. 이메일로 발송된 인증번호로 잠금을 해제해주세요.");
 			String lockKey = mailService.sendSimpleMessageForAuth(loginUser.getEmail());
-			userRepository.updateLockStatus(loginUser.getLoginId() , lockKey);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("loginId", loginUser.getLoginId());
+			map.put("lockKey", lockKey);
+			userRepository.updateLockStatus(map);
 			throw new LockAccountException();
 		}
 		
@@ -260,6 +262,7 @@ public class UserServiceImpl implements UserService{
 		
 		log.info("잠금해제 성공 , 이메일로 임시비밀번호 발송");
 		String tempPw = mailService.createKey();
+		log.info("임시 비밀번호 : {}",tempPw);
 		mailService.sendSimpleMessageForTempPw(lockedUser.getEmail(), tempPw);
 		lockedUser.updatePassword(passwordHash.hashPassword(tempPw, lockedUser));
 		

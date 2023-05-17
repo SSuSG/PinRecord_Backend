@@ -136,7 +136,8 @@
 	</update>
 	
 	<update id="updateLockStatus">
-		UPDATE USER
+		UPDATE 
+			USER
 		SET	
 			user_lock_key = #{lockKey},
 			user_is_lock = 1

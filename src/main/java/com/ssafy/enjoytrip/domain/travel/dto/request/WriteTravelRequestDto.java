@@ -8,6 +8,8 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ssafy.enjoytrip.domain.travel.entity.Travel;
 
 import io.swagger.annotations.ApiModel;

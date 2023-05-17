@@ -21,7 +21,7 @@ public interface UserRepository {
 	int unlockAccount(User user);
 	int updateAuthStatus(String email);
 	int updatePassword(User user);
-	int updateLockStatus(String loginId , String lockKey);
+	int updateLockStatus(Map<String, String> map);
 	int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto);
 	int updateProfileImage(UserProfileImage userProfileImage);
 	UserResponseDto getUserByUserId(int userId);

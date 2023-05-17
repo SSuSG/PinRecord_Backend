@@ -51,7 +51,7 @@ public class MailService {
         log.info("MailService_sendSimpleMessageForTempPw -> 임시 비밀번호 이메일 전송");
 
         MimeMessage message = createMessageForTempPw(to,tempPw);
-        emailSender.send(message);
+        //emailSender.send(message);
         return true;
     }
 
