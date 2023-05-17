@@ -25,6 +25,7 @@ public enum ExceptionCode {
     NO_LOGIN_EXCEPTION(419,"로그인상태가 아닙니다. 로그인 해주세요."),
     N0_CONNECTION_EXCEPTION(420,"연결시간이 초과되었습니다."),
     LOCK_ACCOUNT_EXCEPTION(423,"계정이 비밀번호 오입력 5회로 잠금되어있습니다."),
+    EXPIRED_REFRESH_TOKEN_EXCEPTION(425,"RefreshToken이 만료되었습니다."),
     SERVER_EXCEPTION(500,"서버에서 예측하지 못한 에러가 발생했습니다.");
 
     private int errorCode;

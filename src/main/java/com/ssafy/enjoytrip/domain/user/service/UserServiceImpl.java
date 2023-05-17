@@ -3,6 +3,8 @@ package com.ssafy.enjoytrip.domain.user.service;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.enjoytrip.domain.user.dto.request.AcccssTokenRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
@@ -38,6 +41,7 @@ import com.ssafy.enjoytrip.global.exception.NoAuthException;
 import com.ssafy.enjoytrip.global.exception.NotExistAccountException;
 import com.ssafy.enjoytrip.global.util.CheckForm;
 import com.ssafy.enjoytrip.global.util.ImageService;
+import com.ssafy.enjoytrip.global.util.JwtService;
 import com.ssafy.enjoytrip.global.util.MailService;
 import com.ssafy.enjoytrip.global.util.PasswordHash;
 
@@ -55,11 +59,11 @@ public class UserServiceImpl implements UserService{
 	private final CheckForm CheckForm;
 	private final MailService mailService;
 	private final ImageService imageService;
+	private final JwtService jwtService;
 	
 	@Override
 	@Transactional
-	public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletRequest request,
-			HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
+	public LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
 		log.info("UserServiceImpl_login");
 		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginId(), true);
 		if(loginUser == null) throw new NotExistAccountException();
@@ -83,7 +87,7 @@ public class UserServiceImpl implements UserService{
 			throw new FailLoginException();
 		}
 		
-		setSession(loginResponseDto,request, response);
+		setToken(loginUser,response);
 		userRepository.initMismatchCnt(loginUser.getLoginId());
 		return loginResponseDto;
 	}
@@ -96,26 +100,49 @@ public class UserServiceImpl implements UserService{
         }
         return false;
 	}
-
+	
 	@Override
-	public void setSession(LoginResponseDto loginResponseDto ,HttpServletRequest request, HttpServletResponse response) {
-		log.info("로그인 성공 , 세션과 쿠키 설정");
-		HttpSession session = request.getSession();
-        session.setAttribute("loginUser", loginResponseDto);
-        Cookie cookie = new Cookie("JSESSIONID",session.getId());
-        cookie.setMaxAge(60 * 30);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-	}
-
-	@Override
-	public void logout(HttpServletRequest request , HttpServletResponse response) {
-		request.getSession().invalidate();
+	public void setToken(User loginUser , HttpServletResponse response) {
+		log.info("로그인 성공 , 토큰 저장");
+		String accessToken = jwtService.createAccessToken("loginId", loginUser.getLoginId());// key, data
+		String refreshToken = jwtService.createRefreshToken("loginId", loginUser.getLoginId());// key, data
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("loginId", loginUser.getLoginId());
+		map.put("token", refreshToken);
+		response.setHeader("access-token", accessToken);
+		response.setHeader("refresh-token", refreshToken);
 		
-		//Cookie cookie = new Cookie("JSESSIONID", null);
-	    //cookie.setMaxAge(0);
-		//response.addCookie(cookie);
+		userRepository.saveRefreshToken(map);
 	}
+	
+	@Override
+	public LoginResponseDto isLoginUser(String loginId , HttpServletRequest request) {
+		log.info("UserServiceImpl_isLoginUser");
+		if(jwtService.checkToken(request.getHeader("access-token"))){
+			User loginUser = findUserByLoginIdOrEmail(loginId, true);
+			return loginUser.toLoginResponseDto();
+		}
+		return null;
+	}
+
+	@Override
+	public void logout(String loginId) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("loginId", loginId);
+		map.put("token", "");
+		userRepository.deleRefreshToken(map);
+	}
+	
+
+	@Override
+	public String getNewAcccessToken(String loginId, HttpServletRequest request) {
+		System.out.println(loginId);
+		log.info("UserServiceImpl_getNewAcccessToken");
+		String token = request.getHeader("refresh-token");
+		jwtService.checkToken(token);
+		return jwtService.createAccessToken("loginId", loginId);
+	}
+	
 
 	@Override
 	@Transactional
@@ -225,7 +252,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public int unlockAccount(UnlockAccountRequestDto unlockAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException {
 		log.info("UserServiceImpl_unlockAccount");
-		User lockedUser = findUserByLoginIdOrEmail(unlockAccountRequestDto.getEmail(), false);
+		User lockedUser = findUserByLoginIdOrEmail(unlockAccountRequestDto.getLoginId(), true);
 		if(lockedUser == null) throw new NotExistAccountException();
 		
 		if(!lockedUser.getLockKey().equals(unlockAccountRequestDto.getLockKey()))
@@ -270,4 +297,5 @@ public class UserServiceImpl implements UserService{
 		log.info("UserServiceImpl_getUserProfileImage");
 		return imageService.getFullPath(userRepository.getUserProfileImage(userId));
 	}
+
 }

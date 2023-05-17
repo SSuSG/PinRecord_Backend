@@ -1,5 +1,7 @@
 package com.ssafy.enjoytrip.domain.user.repository;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
@@ -24,4 +26,6 @@ public interface UserRepository {
 	int updateProfileImage(UserProfileImage userProfileImage);
 	UserResponseDto getUserByUserId(int userId);
 	String getUserProfileImage(int userId);
+	int saveRefreshToken(Map<String, String> map);
+	int deleRefreshToken(Map<String, String> map);
 }

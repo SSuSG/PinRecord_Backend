@@ -2,6 +2,8 @@ package com.ssafy.enjoytrip.domain.user.controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.enjoytrip.domain.user.dto.request.AcccssTokenRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.FindPasswordRequestDto;
@@ -59,18 +64,48 @@ public class UserController {
             @ApiResponse(code = 423, message = "잠금된 계정"),
     })
     @PostMapping("/users/login")
-    public ResponseResult login(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request ,HttpServletResponse response) throws FailLoginException, NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
+    public ResponseResult login(@Valid @RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) throws FailLoginException, NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
         log.info("UserController_login -> 로그인 시도");
-        LoginResponseDto loginResponseDto = userService.login(loginRequestDto, request , response);
+        LoginResponseDto loginResponseDto = userService.login(loginRequestDto , response);
         return new SingleResponseResult<LoginResponseDto>(loginResponseDto);
     }
 	
-	@GetMapping("/users/logout")
-	public ResponseResult logout(HttpServletRequest request , HttpServletResponse response) {
+	@ApiOperation(value = "로그아웃" , notes = "사용자가 로그아웃 시도합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "로그아웃 성공" ),
+            @ApiResponse(code = 400, message = "로그아웃 실패"),
+    })
+	@GetMapping("/users/logout/{loginId}")
+	public ResponseResult logout(@PathVariable String loginId) {
 		log.info("UserController_logout -> 로그아웃 시도");
-		userService.logout(request , response);
+		userService.logout(loginId);
 		return ResponseResult.successResponse;
 	}
+	
+	@ApiOperation(value = "로그인 유저 정보 반환", notes = "로그인 유저 정보를 담은 Token을 반환한다.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "회원 인증 성공"),
+            @ApiResponse(code = 408, message = "존재하지 않은 계정"),
+            @ApiResponse(code = 425, message = "RefreshToken 만료"),
+    })
+    @GetMapping("/users/info/{loginId}")
+    public ResponseResult getLoginUserInfo(@PathVariable String loginId , HttpServletRequest request) {
+        log.info("UserController_getLoginUserInfo -> 로그인유지 중인지 확인!");
+        LoginResponseDto loginResponseDto = userService.isLoginUser(loginId,request);
+    	return new SingleResponseResult<LoginResponseDto>(loginResponseDto);
+    }
+	
+	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 200, message = "재발급 성공"),
+            @ApiResponse(code = 400, message = "재발급 실패"),
+    })
+	@GetMapping("/users/refresh/{loginId}")
+	public ResponseResult getNewAccessToken(@PathVariable String loginId, HttpServletRequest request)throws Exception {
+		log.info("UserController_getNewAccessToken -> Access Token 재발급");
+		return new SingleResponseResult<String>(userService.getNewAcccessToken(loginId,request));
+	}
+	
 	
 	@ApiOperation(value = "사용자 회원가입" , notes = "사용자가 회원가입을 합니다.")
     @ApiResponses(value = {

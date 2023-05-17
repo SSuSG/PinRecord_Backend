@@ -33,6 +33,13 @@ public class ExceptionController {
         log.info("Error Message : {}",e.getMessage());
         return ResponseResult.exceptionResponse(ExceptionCode.EXIST_LOGINID_EXCEPTION);
     }
+    
+    @ExceptionHandler(ExpiredRefreshTokenException.class)
+    public ResponseResult ExpiredRefreshTokenException(ExpiredRefreshTokenException e) {
+        log.info("Error : {}",e.getClass());
+        log.info("Error Message : {}",e.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.EXPIRED_REFRESH_TOKEN_EXCEPTION);
+    }
 
     @ExceptionHandler(FailLoginException.class)
     public ResponseResult SignInFailedException(FailLoginException e) {

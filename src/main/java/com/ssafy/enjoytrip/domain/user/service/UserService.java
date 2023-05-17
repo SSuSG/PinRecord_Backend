@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.mail.MailException;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.enjoytrip.domain.user.dto.request.AcccssTokenRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
@@ -22,10 +23,10 @@ import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
 
 public interface UserService {
-	LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletRequest request , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException;
+	LoginResponseDto login(LoginRequestDto loginRequestDto,HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException;
 	Boolean isLock(User loginUser) throws NoSuchAlgorithmException;
-	void setSession(LoginResponseDto loginResponseDto  ,HttpServletRequest request , HttpServletResponse response);
-	void logout(HttpServletRequest request , HttpServletResponse response);
+//	void setSession(LoginResponseDto loginResponseDto  ,HttpServletRequest request , HttpServletResponse response);
+	void logout(String loginId);
 	int createUserAccount(CreateUserAccountRequestDto createUserAccountRequestDto) throws MailException, IllegalArgumentException, MessagingException, NoSuchAlgorithmException;
 	boolean isEmailDuplicate(String email);
 	boolean isLoginIdDuplicate(String loginId);
@@ -39,4 +40,7 @@ public interface UserService {
 	int updateProfileImage(UpdateProfileImageRequestDto changeProfileImageRequestDto);
 	UserResponseDto getUserByUserId(int userId);
 	String getUserProfileImage(int userId);
+	void setToken(User loginUser , HttpServletResponse response);
+	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request);
+	String getNewAcccessToken(String loginId, HttpServletRequest request);
 }
