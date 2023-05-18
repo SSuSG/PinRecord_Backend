@@ -26,7 +26,7 @@ public class JwtService{
 	public static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
 	private static final String SALT = "ssafySecret";
-	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
+	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 30; // 분단위
 	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
 
 	public <T> String createAccessToken(String key, T data) {

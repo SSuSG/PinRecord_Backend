@@ -10,4 +10,5 @@ import com.ssafy.enjoytrip.domain.travel.entity.Tag;
 public interface TagRepository {
 	int insertTag(Tag tag);
 	List<String> findTagByPinId(int pinId);
+	List<Integer> findPinByTag(List<String> tagList);
 }

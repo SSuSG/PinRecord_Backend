@@ -241,7 +241,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public int updatePassword(UpdatePasswordRequestDto updatePasswordRequestDto) throws NoSuchAlgorithmException {
 		log.info("UserServiceImpl_updatePassword");
-		User loginUser = findUserByLoginIdOrEmail(updatePasswordRequestDto.getLoginid(), true);
+		User loginUser = findUserByLoginIdOrEmail(updatePasswordRequestDto.getLoginId(), true);
 		if(loginUser == null) throw new NotExistAccountException();
 		if(!CheckForm.checkPassword(updatePasswordRequestDto.getNewPassword()))
 			throw new InValidPasswordException();

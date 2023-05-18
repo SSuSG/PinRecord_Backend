@@ -14,7 +14,7 @@ public class UpdatePasswordRequestDto {
 
 	@NotBlank
 	@ApiModelProperty(value = "사용자 로그인 ID")
-    private String loginid;
+    private String loginId;
 
     @NotBlank
     @ApiModelProperty(value = "사용자의 새로운 비밀번호")

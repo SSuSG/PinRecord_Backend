@@ -46,9 +46,12 @@ public class UserInfo {
 	private String followingCnt;
 	
 	public UserResponseDto toUserResponseDto() throws IOException  {
-		InputStream imageStream = new FileInputStream(profileImage);
-		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
-		imageStream.close();
+		byte[] imageByteArray = null;
+		if(profileImage != null && profileImage.length() > 0) {
+			InputStream imageStream = new FileInputStream(profileImage);
+			imageByteArray = IOUtils.toByteArray(imageStream);
+			imageStream.close();
+		}
 		
 		return UserResponseDto.builder()
 				.userId(userId)

@@ -121,6 +121,7 @@ public class TravelController {
 	@GetMapping("/travels/tags")
     public ResponseResult searchTravelByTag(@RequestParam List<String> tagList) throws IOException  {
         log.info("TravelController_searchTravelByTag -> 여행 후기 장소 기반 검색");
+        log.info("태그 리스트 : {}",tagList);
         return new ListResponseResult<>(travelService.searchTravelByTag(tagList));
     }
     

@@ -22,4 +22,16 @@
 			pin_id = #{pinId}
 	</select>
 	
+	<select id="findPinByTag" resultType="int">
+		SELECT
+			pin_id
+		FROM
+			TAG
+		WHERE
+			tag_name IN
+			<foreach item="name" collection="tagList" open="(" separator="," close=")">
+				#{name}
+			</foreach>
+	</select>
+	
 </mapper>

@@ -127,7 +127,6 @@
 		    travel_is_deleted = 0
 		ORDER BY
 			travel_created_date 
-		LIMIT 8	
 	</select>
 	
 	<select id="searchTravelByLocation" resultMap="travelDetail">
@@ -153,7 +152,6 @@
 			</if>
 		ORDER BY
 			travel_created_date
-		LIMIT 8	
 	</select>
 	
 	<update id="deleteTravel">

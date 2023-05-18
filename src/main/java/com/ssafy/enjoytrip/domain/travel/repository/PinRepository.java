@@ -12,5 +12,5 @@ import com.ssafy.enjoytrip.domain.travel.entity.Pin;
 public interface PinRepository {
 	int insertPin(Pin pin);
 	TravelPinResponseDto findPinByTravelId(int travelId);
-	List<TravelPinResponseDto> searchTravelByTag(List<String> tagList);
+	int findTravelIdByPinId(int pinId);
 }

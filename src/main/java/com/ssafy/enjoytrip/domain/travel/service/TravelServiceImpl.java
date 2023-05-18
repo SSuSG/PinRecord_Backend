@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.travel.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -61,6 +62,7 @@ public class TravelServiceImpl implements TravelService{
 				tagRepository.insertTag(Tag.builder().pinId(pinId).name(tag).build());
 			
 			for (WriteTravelImageRequestDto writeTravelImageRequestDto : writeTravelPinRequestDto.getImageList()) {
+				if(writeTravelImageRequestDto.getImage() == null) continue;
 				String path = imageService.storeFile(writeTravelImageRequestDto.getImage());
 				Image image = writeTravelImageRequestDto.toImageEntity(pinId,path);
 				imageRepository.insertImage(image);
@@ -106,6 +108,18 @@ public class TravelServiceImpl implements TravelService{
 		
 	}
 
+
+	@Override
+	public List<TravelResponseDto> searchTravelByLocation(String state, String city) throws IOException {
+		log.info("TravelServiceImpl_searchTravel");
+		List<TravelResponseDto> travelList = travelRepository.searchTravelByLocation(state, city);
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
+	}
+	
 	@Override
 	public List<TravelResponseDto> getTravelListForHomeView() throws IOException{
 		log.info("TravelServiceImpl_getTravelListForHomeView");
@@ -118,15 +132,31 @@ public class TravelServiceImpl implements TravelService{
 	}
 
 	@Override
-	public List<TravelResponseDto> searchTravelByLocation(String state, String city) throws IOException {
-		log.info("TravelServiceImpl_searchTravel");
-		List<TravelResponseDto> travelList = travelRepository.searchTravelByLocation(state, city);
+	public List<TravelResponseDto> searchTravelByTag(List<String> tagList) throws IOException {
+		log.info("TravelServiceImpl_searchTravelByTag");
+		List<TravelResponseDto> travelList = new ArrayList<TravelResponseDto>();
+		
+		List<Integer> pinList = tagRepository.findPinByTag(tagList);
+		pinList = pinList.stream().distinct().collect(Collectors.toList());
+		
+		List<Integer> travelIdList = new ArrayList<Integer>();
+		for (int pinId : pinList) {
+			travelIdList.add(pinRepository.findTravelIdByPinId(pinId));
+		}
+		
+		travelIdList = travelIdList.stream().distinct().collect(Collectors.toList());
+		for (int travelId : travelIdList) {
+			travelList.add(travelRepository.getTravelByTravelId(travelId));
+		}
+
 		for (TravelResponseDto travel : travelList) {
 			travel.imageListToBase64();
 			travel.hash();
 		}
+		
 		return travelList;
 	}
+
 
 	@Override
 	public int deleteTravel(int travelId) {
@@ -135,12 +165,5 @@ public class TravelServiceImpl implements TravelService{
 
 		return travelRepository.deleteTravel(travelId);
 	}
-
-	@Override
-	public List<TravelPinResponseDto> searchTravelByTag(List<String> tagList) {
-		log.info("TravelServiceImpl_searchTravelByTag");
-		return pinRepository.searchTravelByTag(tagList);
-	}
-
-
+	
 }

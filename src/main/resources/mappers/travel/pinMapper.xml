@@ -63,18 +63,14 @@
 		    p.pin_category_group_name as pin_category_group_name,
 		    p.pin_content as pin_content,
 		    p.pin_x as pin_x,
-		    p.pin_y as pin_y,
-		    i.image_id as image_id,
-		    i.image_path as image_path
+		    p.pin_y as pin_y
 		FROM
-			PIN p,
-			IMAGE i
+			PIN p
 		WHERE
-			p.pin_id = i.pin_id AND
 			p.travel_id = #{travelId}
 	</select>
 	
-	<select id="searchTravelByTag" resultMap="travelPin">
+	<select id="searchTravelForHomeView" resultMap="travelPin">
 		SELECT
 			p.travel_id as travel_id,
 			p.pin_id as pin_id,
@@ -88,21 +84,21 @@
 		    p.pin_category_group_name as pin_category_group_name,
 		    p.pin_content as pin_content,
 		    p.pin_x as pin_x,
-		    p.pin_y as pin_y,
-		    i.image_id as image_id,
-		    i.image_path as image_path,
-		    t.tag_id as tag_id,
-		    t.tag_name as name
+		    p.pin_y as pin_y
 		FROM
-			PIN p,
-			IMAGE i,
-			Tag t
+			Travel l,
+			PIN p
 		WHERE
-			p.pin_id = i.pin_id AND
-			p.pin_id = t.pin_id AND
-			t.tag_name IN
-			<foreach item="name" collection="tagList" open="(" separator="," close=")">
-				#{name}
-			</foreach>
+			l.travel_id = p.travel_id AND
+			l.travel_is_deleted = 0
+	</select>
+	
+	<select id="findTravelIdByPinId" resultType="int">
+		SELECT
+			travel_id
+		FROM
+			PIN
+		WHERE
+			pin_id = #{pinId}
 	</select>
 </mapper>
