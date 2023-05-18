@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.travel.service;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelRequestDto;
@@ -9,11 +10,11 @@ import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
 
 public interface TravelService {
 	void writeTravelReview(WriteTravelRequestDto writeTravelRequestDto) throws Exception;
-	TravelResponseDto getTravelByTravelId(int travelId);
-	List<TravelResponseDto> getTravelListByUserId(int userId);
-	List<TravelResponseDto> getZzimTravelListByUserId(int userId);
-	List<TravelResponseDto> getTravelListForHomeView();
-	List<TravelResponseDto> searchTravelByLocation(String state, String city);
-	List<TravelPinResponseDto> searchTravelByTag(List<String> tagList);
+	TravelResponseDto getTravelByTravelId(int travelId) throws IOException;
+	List<TravelResponseDto> getTravelListByUserId(int userId) throws IOException;
+	List<TravelResponseDto> getZzimTravelListByUserId(int userId) throws IOException;
+	List<TravelResponseDto> getTravelListForHomeView() throws IOException;
+	List<TravelResponseDto> searchTravelByLocation(String state, String city) throws IOException;
+	List<TravelPinResponseDto> searchTravelByTag(List<String> tagList) throws IOException;
 	int deleteTravel(int travelId);
 }

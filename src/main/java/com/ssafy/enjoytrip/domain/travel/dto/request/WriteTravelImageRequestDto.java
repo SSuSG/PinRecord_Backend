@@ -2,6 +2,8 @@ package com.ssafy.enjoytrip.domain.travel.dto.request;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.enjoytrip.domain.travel.entity.Image;
 
 import io.swagger.annotations.ApiModel;
@@ -22,12 +24,12 @@ public class WriteTravelImageRequestDto {
 	
 	@NotBlank
 	@ApiModelProperty(value = "사진을 base64로 인코딩한 문자열")
-    private String encodedBase64;
+    private MultipartFile image;
 	
-	public Image toImageEntity(int pinId) {
+	public Image toImageEntity(int pinId , String path) {
 		return Image.builder()
 				.pinId(pinId)
-				.encodedBase64(encodedBase64)
+				.path(path)
 				.build();
 	}
 }

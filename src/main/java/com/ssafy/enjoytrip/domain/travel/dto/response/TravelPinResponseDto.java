@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.travel.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 import com.ssafy.enjoytrip.domain.comment.dto.response.TravelCommentResponseDto;
 
@@ -12,12 +13,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @ApiModel(value = "(TravelPinResponseDto) 여행후기 핀 DTO" , description = "여행후기에 PIN,이미지 정보를 지님")
 public class TravelPinResponseDto {
 	
@@ -65,4 +68,17 @@ public class TravelPinResponseDto {
 	
 	@ApiModelProperty(value = "장소에 대한 태그들")
     private List<String> tagList;
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TravelPinResponseDto myObject = (TravelPinResponseDto) o;
+        return Objects.equals(pinId, myObject.pinId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pinId);
+    }
 }

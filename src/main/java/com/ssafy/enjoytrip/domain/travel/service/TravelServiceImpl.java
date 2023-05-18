@@ -1,13 +1,17 @@
 package com.ssafy.enjoytrip.domain.travel.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelImageRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelPinRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelRequestDto;
+import com.ssafy.enjoytrip.domain.travel.dto.response.TravelImageResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelPinResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
 import com.ssafy.enjoytrip.domain.travel.entity.Image;
@@ -20,6 +24,8 @@ import com.ssafy.enjoytrip.domain.travel.repository.MentionRepository;
 import com.ssafy.enjoytrip.domain.travel.repository.PinRepository;
 import com.ssafy.enjoytrip.domain.travel.repository.TagRepository;
 import com.ssafy.enjoytrip.domain.travel.repository.TravelRepository;
+import com.ssafy.enjoytrip.global.util.ImageService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +39,7 @@ public class TravelServiceImpl implements TravelService{
 	private final ImageRepository imageRepository;
 	private final TagRepository tagRepository;
 	private final MentionRepository mentionRepository; 
+	private final ImageService imageService;
 
 	@Override
 	@Transactional
@@ -54,8 +61,8 @@ public class TravelServiceImpl implements TravelService{
 				tagRepository.insertTag(Tag.builder().pinId(pinId).name(tag).build());
 			
 			for (WriteTravelImageRequestDto writeTravelImageRequestDto : writeTravelPinRequestDto.getImageList()) {
-				Image image = writeTravelImageRequestDto.toImageEntity(pinId);
-				log.info("인코딩 이미지 : {}",image.getEncodedBase64());
+				String path = imageService.storeFile(writeTravelImageRequestDto.getImage());
+				Image image = writeTravelImageRequestDto.toImageEntity(pinId,path);
 				imageRepository.insertImage(image);
 			}
 		}
@@ -68,33 +75,57 @@ public class TravelServiceImpl implements TravelService{
 	}
 
 	@Override
-	public TravelResponseDto getTravelByTravelId(int travelId) {
+	public TravelResponseDto getTravelByTravelId(int travelId) throws IOException {
 		log.info("TravelServiceImpl_getTravelListByTravelId");
-		return travelRepository.getTravelByTravelId(travelId);
+		TravelResponseDto travel = travelRepository.getTravelByTravelId(travelId);
+		travel.imageListToBase64();
+		return travel;
 	}
 
 	@Override
-	public List<TravelResponseDto> getTravelListByUserId(int userId) {
+	public List<TravelResponseDto> getTravelListByUserId(int userId) throws IOException{
 		log.info("TravelServiceImpl_getTravelListByUserId");
-		return travelRepository.getTravelListByUserId(userId);
+		List<TravelResponseDto> travelList = travelRepository.getTravelListByUserId(userId);
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		
+		return travelList;
 	}
 
 	@Override
-	public List<TravelResponseDto> getZzimTravelListByUserId(int userId) {
+	public List<TravelResponseDto> getZzimTravelListByUserId(int userId) throws IOException{
 		log.info("TravelServiceImpl_getZzimTravelListByUserId");
-		return travelRepository.getZzimTravelListByUserId(userId);
+		List<TravelResponseDto> travelList = travelRepository.getZzimTravelListByUserId(userId);
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
+		
 	}
 
 	@Override
-	public List<TravelResponseDto> getTravelListForHomeView() {
+	public List<TravelResponseDto> getTravelListForHomeView() throws IOException{
 		log.info("TravelServiceImpl_getTravelListForHomeView");
-		return travelRepository.getTravelListForHomeView();
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeView();
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
 	}
 
 	@Override
-	public List<TravelResponseDto> searchTravelByLocation(String state, String city) {
+	public List<TravelResponseDto> searchTravelByLocation(String state, String city) throws IOException {
 		log.info("TravelServiceImpl_searchTravel");
-		return travelRepository.searchTravelByLocation(state, city);
+		List<TravelResponseDto> travelList = travelRepository.searchTravelByLocation(state, city);
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
 	}
 
 	@Override

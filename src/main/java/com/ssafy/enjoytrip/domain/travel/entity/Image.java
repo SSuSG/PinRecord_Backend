@@ -16,5 +16,5 @@ import lombok.Setter;
 public class Image {
 	private int imageId;
 	private int pinId;
-	private String encodedBase64;
+	private String path;
 }

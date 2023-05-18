@@ -49,13 +49,13 @@ public class UserInfo {
 		InputStream imageStream = new FileInputStream(profileImage);
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();
-		System.out.println(imageByteArray);
 		
 		return UserResponseDto.builder()
 				.userId(userId)
 				.name(name)
 				.email(email)
 				.nickname(nickname)
+//				.profileImage(profileImage)
 				.urlProfileImage(imageByteArray)
 				.followerCnt(followerCnt)
 				.followingCnt(followingCnt)

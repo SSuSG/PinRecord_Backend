@@ -1,7 +1,9 @@
 package com.ssafy.enjoytrip.domain.travel.dto.response;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ssafy.enjoytrip.domain.comment.dto.response.TravelCommentResponseDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
@@ -13,12 +15,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @ApiModel(value = "(TravelDetailResponseDto) 여행후기 정보 DTO" , description = "여행후기에 관한 정보,PIN,이미지,댓글 정보등이 담김")
 public class TravelResponseDto {
 	
@@ -60,4 +64,16 @@ public class TravelResponseDto {
 	
 	@ApiModelProperty(value = "여행후기의 댓글 정보")
 	private List<TravelCommentResponseDto> commentList;
+	
+	public void imageListToBase64() throws IOException {
+		for (TravelPinResponseDto pin : pinList) {
+			for(TravelImageResponseDto image : pin.getImageList()) {
+				image.imageToBase64();
+			}
+		}
+	}
+
+	public void hash() {
+		this.pinList = pinList.stream().distinct().collect(Collectors.toList());
+	}
 }

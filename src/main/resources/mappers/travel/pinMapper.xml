@@ -65,7 +65,7 @@
 		    p.pin_x as pin_x,
 		    p.pin_y as pin_y,
 		    i.image_id as image_id,
-		    i.image_encoded_base64 as image_encoded_base64
+		    i.image_path as image_path
 		FROM
 			PIN p,
 			IMAGE i
@@ -90,7 +90,7 @@
 		    p.pin_x as pin_x,
 		    p.pin_y as pin_y,
 		    i.image_id as image_id,
-		    i.image_encoded_base64 as image_encoded_base64,
+		    i.image_path as image_path,
 		    t.tag_id as tag_id,
 		    t.tag_name as name
 		FROM

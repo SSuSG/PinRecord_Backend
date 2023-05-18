@@ -5,25 +5,25 @@
 		INSERT
 		INTO IMAGE(
 				pin_id,
-				image_encoded_base64
+				image_path
 				)
 		VALUES (
 				#{pinId},
-				#{encodedBase64}
+				#{path}
 				)
 	</insert>
 	
 	<resultMap type="com.ssafy.enjoytrip.domain.travel.dto.response.TravelImageResponseDto" id="pinIamge">
 		<id property="imageId" column="image_id"/>
 		<result property="pinId" column="pin_id"/>
-		<result property="encodedBase64" column="image_encoded_base64"/>
+		<result property="path" column="image_path"/>
 	</resultMap>
 	
 	<select id="findIamgeByPinId" resultMap="pinIamge">
 		SELECT
 			pin_id,
 			image_id,
-		    image_encoded_base64
+		    image_path
 		FROM
 			IMAGE
 		WHERE

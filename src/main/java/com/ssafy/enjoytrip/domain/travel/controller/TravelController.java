@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip.domain.travel.controller;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class TravelController {
     })
 	@ApiImplicitParam(name = "travelId" , value = "여행후기ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
 	@GetMapping("/travels/{travelId}")
-    public ResponseResult getTravelListByTravelId(@PathVariable int travelId)  {
+    public ResponseResult getTravelListByTravelId(@PathVariable int travelId) throws IOException  {
         log.info("TravelController_getTravel -> 여행후기 상세조회");
         return new SingleResponseResult<>(travelService.getTravelByTravelId(travelId));
     }
@@ -67,7 +68,7 @@ public class TravelController {
     })
 	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
     @GetMapping("/travels/users/{userId}")
-    public ResponseResult getTravelListByUserId(@PathVariable int userId)  {
+    public ResponseResult getTravelListByUserId(@PathVariable int userId) throws IOException  {
         log.info("TravelController_getTravelListByUserId -> 유저의 여행후기 목록 조회");
         return new ListResponseResult<>(travelService.getTravelListByUserId(userId));
     }
@@ -79,7 +80,7 @@ public class TravelController {
     })
 	@ApiImplicitParam(name = "userId" , value = "유저ID(PK)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
 	@GetMapping("/travels/{userId}/zzims")
-    public ResponseResult getZzimTravelListByUserId(@PathVariable int userId)  {
+    public ResponseResult getZzimTravelListByUserId(@PathVariable int userId) throws IOException  {
         log.info("TravelController_getZzimTravelListByUserId -> 유저의 여행후기 목록 조회");
         return new ListResponseResult<>(travelService.getZzimTravelListByUserId(userId));
     }
@@ -90,7 +91,7 @@ public class TravelController {
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
 	@GetMapping("/travels")
-    public ResponseResult getTravelListForHomeView()  {
+    public ResponseResult getTravelListForHomeView() throws IOException  {
         log.info("TravelController_getTravelListForHomeView -> 홈 화면에서의 여행 목록 조회");
         return new ListResponseResult<>(travelService.getTravelListForHomeView());
     }
@@ -105,7 +106,7 @@ public class TravelController {
 		@ApiImplicitParam(name = "city" , value = "시/군", required = false , paramType = "query" ,dataTypeClass = String.class)
 	})
 	@GetMapping("/travels/location")
-    public ResponseResult searchTravelByLocation(@RequestParam String state , @RequestParam(required = false , defaultValue = "") String city)  {
+    public ResponseResult searchTravelByLocation(@RequestParam String state , @RequestParam(required = false , defaultValue = "") String city) throws IOException  {
         log.info("TravelController_searchTravelByLocation -> 여행 후기 장소 기반 검색");
         return new ListResponseResult<>(travelService.searchTravelByLocation(state,city));
     }
@@ -118,7 +119,7 @@ public class TravelController {
     })
 	@ApiImplicitParam(name = "tagList" , value = "태그", required = true , paramType = "query" ,dataType = "List<String>")
 	@GetMapping("/travels/tags")
-    public ResponseResult searchTravelByTag(@RequestParam List<String> tagList)  {
+    public ResponseResult searchTravelByTag(@RequestParam List<String> tagList) throws IOException  {
         log.info("TravelController_searchTravelByTag -> 여행 후기 장소 기반 검색");
         return new ListResponseResult<>(travelService.searchTravelByTag(tagList));
     }
