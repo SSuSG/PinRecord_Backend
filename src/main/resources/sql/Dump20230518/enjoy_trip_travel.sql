@@ -37,7 +37,7 @@ CREATE TABLE `travel` (
   PRIMARY KEY (`travel_id`),
   KEY `fk_travel_to_user_user_id_idx` (`user_id`),
   CONSTRAINT `fk_travel_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `travel` (
 
 LOCK TABLES `travel` WRITE;
 /*!40000 ALTER TABLE `travel` DISABLE KEYS */;
-INSERT INTO `travel` VALUES (27,7,'테스트','2023-05-02 07:42:57','2023-05-02 07:42:57',15000,'2023-05-02 16:45:29','강릉','강원도','강릉',0),(28,7,'test2','2023-05-04 00:18:10','2023-05-04 00:18:10',12222,'2023-05-04 09:19:08','속초','강원도','속초',0);
+INSERT INTO `travel` VALUES (27,7,'테스트','2023-05-02 07:42:57','2023-05-02 07:42:57',15000,'2023-05-02 16:45:29','강릉','강원도','강릉',1),(28,7,'test2','2023-05-04 00:18:10','2023-05-04 00:18:10',12222,'2023-05-04 09:19:08','속초','강원도','속초',1),(32,7,'서울대입구맛집탐방!!!!','2023-05-16 02:25:44','2023-05-16 02:25:44',50000,'2023-05-16 15:23:37','서울대입구맛집탐방','서울특별시','관악구',0),(35,7,'강남역 맛집 탐방~~~~~~~','2023-05-18 07:34:16','2023-05-18 07:34:16',60000,'2023-05-18 16:47:54','강남역 맛집탐방~~!!','서울특별시','강남구',0);
 /*!40000 ALTER TABLE `travel` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-12 17:31:39
+-- Dump completed on 2023-05-18 17:43:21

@@ -27,13 +27,14 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`user` (
   `user_name` VARCHAR(45) NOT NULL,
   `user_email` VARCHAR(45) NOT NULL,
   `user_salt` VARCHAR(45) NOT NULL,
-  `user_profile_image` LONGBLOB NULL DEFAULT NULL,
+  `user_profile_image` VARCHAR(200) NULL DEFAULT NULL,
   `user_is_auth` TINYINT NOT NULL,
   `user_lock_key` VARCHAR(45) NULL DEFAULT NULL,
   `user_mismatch_cnt` INT NULL DEFAULT NULL,
   `user_nickname` VARCHAR(45) NOT NULL,
   `user_auth_key` VARCHAR(45) NULL DEFAULT NULL,
   `user_is_lock` TINYINT NULL DEFAULT NULL,
+  `user_refresh_token` VARCHAR(200) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 8
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`travel` (
     FOREIGN KEY (`user_id`)
     REFERENCES `enjoy_trip`.`user` (`user_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 29
+AUTO_INCREMENT = 36
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -126,8 +127,8 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`pin` (
   `pin_phone` VARCHAR(45) NULL DEFAULT NULL,
   `pin_category_group_code` VARCHAR(45) NULL DEFAULT NULL,
   `pin_category_group_name` VARCHAR(100) NULL DEFAULT NULL,
-  `pin_x` DECIMAL(10,0) NOT NULL,
-  `pin_y` DECIMAL(10,0) NOT NULL,
+  `pin_x` DOUBLE NOT NULL,
+  `pin_y` DOUBLE NOT NULL,
   `travel_id` INT NULL DEFAULT NULL,
   `pin_content` VARCHAR(500) NULL DEFAULT NULL,
   PRIMARY KEY (`pin_id`),
@@ -136,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`pin` (
     FOREIGN KEY (`travel_id`)
     REFERENCES `enjoy_trip`.`travel` (`travel_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 26
+AUTO_INCREMENT = 34
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -147,14 +148,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `enjoy_trip`.`image` (
   `image_id` INT NOT NULL AUTO_INCREMENT,
   `pin_id` INT NULL DEFAULT NULL,
-  `image_encoded_base64` BLOB NOT NULL,
+  `image_path` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`image_id`),
   INDEX `fk_image_to_pin_pin_id_idx` (`pin_id` ASC) VISIBLE,
   CONSTRAINT `fk_image_to_pin_pin_id`
     FOREIGN KEY (`pin_id`)
     REFERENCES `enjoy_trip`.`pin` (`pin_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -236,13 +237,13 @@ CREATE TABLE IF NOT EXISTS `enjoy_trip`.`tag` (
   `tag_id` INT NOT NULL AUTO_INCREMENT,
   `tag_name` VARCHAR(45) NOT NULL,
   `pin_id` INT NULL DEFAULT NULL,
-  `tagcol` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`tag_id`),
   INDEX `fk_tag_to_pin_pin_id_idx` (`pin_id` ASC) VISIBLE,
   CONSTRAINT `fk_tag_to_pin_pin_id`
     FOREIGN KEY (`pin_id`)
     REFERENCES `enjoy_trip`.`pin` (`pin_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 27
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

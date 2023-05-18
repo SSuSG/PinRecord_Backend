@@ -16,33 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `zzim`
+-- Table structure for table `route`
 --
 
-DROP TABLE IF EXISTS `zzim`;
+DROP TABLE IF EXISTS `route`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `zzim` (
-  `zzim_id` int NOT NULL AUTO_INCREMENT,
-  `travel_id` int DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  `zzim_is_zzim` tinyint DEFAULT NULL,
-  PRIMARY KEY (`zzim_id`),
-  KEY `fk_zzim_to_record_record_id_idx` (`travel_id`),
-  KEY `fk_zzim_to_user_user_id_idx` (`user_id`),
-  CONSTRAINT `fk_zzim_to_travel_travel_id` FOREIGN KEY (`travel_id`) REFERENCES `travel` (`travel_id`),
-  CONSTRAINT `fk_zzim_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `route` (
+  `route_id` int NOT NULL AUTO_INCREMENT,
+  `plan_id` int DEFAULT NULL,
+  `route_place_name` varchar(100) NOT NULL,
+  `route_place_url` varchar(100) NOT NULL,
+  `route_categor_name` varchar(100) NOT NULL,
+  `route_address_name` varchar(100) NOT NULL,
+  `route_road_address_name` varchar(100) DEFAULT NULL,
+  `route_phone` varchar(45) DEFAULT NULL,
+  `route_category_group_code` varchar(45) DEFAULT NULL,
+  `route_category_group_name` varchar(100) DEFAULT NULL,
+  `route_x` decimal(10,0) NOT NULL,
+  `route_y` decimal(10,0) NOT NULL,
+  `route_order` int NOT NULL,
+  PRIMARY KEY (`route_id`),
+  KEY `fk_route_to_plan_plan_id_idx` (`plan_id`),
+  CONSTRAINT `fk_route_to_plan_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `plan` (`plan_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `zzim`
+-- Dumping data for table `route`
 --
 
-LOCK TABLES `zzim` WRITE;
-/*!40000 ALTER TABLE `zzim` DISABLE KEYS */;
-INSERT INTO `zzim` VALUES (3,27,1,1),(4,27,2,1),(5,27,3,1),(6,28,1,1);
-/*!40000 ALTER TABLE `zzim` ENABLE KEYS */;
+LOCK TABLES `route` WRITE;
+/*!40000 ALTER TABLE `route` DISABLE KEYS */;
+/*!40000 ALTER TABLE `route` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-12 17:31:39
+-- Dump completed on 2023-05-18 17:43:22

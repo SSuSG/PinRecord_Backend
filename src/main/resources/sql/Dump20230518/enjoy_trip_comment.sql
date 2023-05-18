@@ -16,33 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `mention`
+-- Table structure for table `comment`
 --
 
-DROP TABLE IF EXISTS `mention`;
+DROP TABLE IF EXISTS `comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mention` (
-  `mention_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
+CREATE TABLE `comment` (
+  `comment_id` int NOT NULL AUTO_INCREMENT,
   `travel_id` int DEFAULT NULL,
-  `mention_created_date` datetime NOT NULL,
-  `metnion_is_read` tinyint NOT NULL,
-  PRIMARY KEY (`mention_id`),
-  KEY `fk_mention_to_user_user_id_idx` (`user_id`),
-  KEY `fk_mention_to_travel_travel_id_idx` (`travel_id`),
-  CONSTRAINT `fk_mention_to_travel_travel_id` FOREIGN KEY (`travel_id`) REFERENCES `travel` (`travel_id`),
-  CONSTRAINT `fk_mention_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `comment_created_date` datetime NOT NULL,
+  `comment_content` varchar(200) NOT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `fk_comment_to_record_record_id_idx` (`travel_id`),
+  KEY `fk_comment_to_user_user_id_idx` (`user_id`),
+  CONSTRAINT `fk_comment_to_travel_travel_id` FOREIGN KEY (`travel_id`) REFERENCES `travel` (`travel_id`),
+  CONSTRAINT `fk_comment_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mention`
+-- Dumping data for table `comment`
 --
 
-LOCK TABLES `mention` WRITE;
-/*!40000 ALTER TABLE `mention` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mention` ENABLE KEYS */;
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO `comment` VALUES (2,27,'2023-05-03 15:15:28','test1',1),(3,27,'2023-05-03 15:15:32','test2',1),(4,27,'2023-05-03 15:15:35','test3',1);
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-12 17:31:39
+-- Dump completed on 2023-05-18 17:43:22
