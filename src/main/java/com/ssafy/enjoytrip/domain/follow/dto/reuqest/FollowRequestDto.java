@@ -18,9 +18,9 @@ public class FollowRequestDto {
 
 	@NotNull(message = "userIdFrom 은 필수값 입니다.")
 	@ApiModelProperty(value = "팔로우 건 사람")
-    private Integer userIdFrom;
+    private int userIdFrom;
 
     @NotBlank
     @ApiModelProperty(value = "팔로우 받는 사람")
-    private Integer userIdTo;
+    private int userIdTo;
 }

@@ -51,18 +51,19 @@
 
 	<select id="findUserByEmail" resultType="User">
 		SELECT 
-				user_id 		  as userId,
-				user_login_id 	  as loginId,
-				user_password 	  as password,
-				user_name		  as name,
-				user_email		  as email,
-				user_salt		  as salt,
-				user_nickname	  as nickname,
-				user_mismatch_cnt as mismatchCnt,
-				user_is_auth	  as isAuth,
-				user_auth_key	  as authKey,
-				user_is_lock	  as isLock,
-				user_lock_key	  as lockKey
+				user_id 		  	as userId,
+				user_login_id 	  	as loginId,
+				user_password 	  	as password,
+				user_name		  	as name,
+				user_email		  	as email,
+				user_salt		  	as salt,
+				user_nickname	  	as nickname,
+				user_mismatch_cnt 	as mismatchCnt,
+				user_is_auth	  	as isAuth,
+				user_auth_key	  	as authKey,
+				user_is_lock	  	as isLock,
+				user_lock_key	  	as lockKey,
+				user_profile_image 	as imagePath
 		FROM 
 			USER
 		WHERE 
@@ -71,18 +72,19 @@
 	
 	<select id="findUserByLoginId" resultType="com.ssafy.enjoytrip.domain.user.entity.User">
 		SELECT 
-				user_id 		  as userId,
-				user_login_id 	  as loginId,
-				user_password 	  as password,
-				user_name		  as name,
-				user_email		  as email,
-				user_salt		  as salt,
-				user_nickname	  as nickname,
-				user_mismatch_cnt as mismatchCnt,
-				user_is_auth	  as isAuth,
-				user_auth_key	  as authKey,
-				user_is_lock	  as isLock,
-				user_lock_key	  as lockKey
+				user_id 		  	as userId,
+				user_login_id 	  	as loginId,
+				user_password 	  	as password,
+				user_name		  	as name,
+				user_email		  	as email,
+				user_salt		  	as salt,
+				user_nickname	  	as nickname,
+				user_mismatch_cnt 	as mismatchCnt,
+				user_is_auth	  	as isAuth,
+				user_auth_key	  	as authKey,
+				user_is_lock	  	as isLock,
+				user_lock_key	  	as lockKey,
+				user_profile_image 	as imagePath 
 		FROM 
 			USER
 		WHERE 

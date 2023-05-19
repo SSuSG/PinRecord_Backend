@@ -65,7 +65,7 @@ public class UserController {
             @ApiResponse(code = 423, message = "잠금된 계정"),
     })
     @PostMapping("/users/login")
-    public ResponseResult login(@Valid @RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) throws FailLoginException, NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
+    public ResponseResult login(@Valid @RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) throws FailLoginException, NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException, IOException {
         log.info("UserController_login -> 로그인 시도");
         LoginResponseDto loginResponseDto = userService.login(loginRequestDto , response);
         return new SingleResponseResult<LoginResponseDto>(loginResponseDto);
@@ -90,7 +90,7 @@ public class UserController {
             @ApiResponse(code = 425, message = "RefreshToken 만료"),
     })
     @GetMapping("/users/info/{loginId}")
-    public ResponseResult getLoginUserInfo(@PathVariable String loginId , HttpServletRequest request) {
+    public ResponseResult getLoginUserInfo(@PathVariable String loginId , HttpServletRequest request) throws IOException {
         log.info("UserController_getLoginUserInfo -> 로그인유지 중인지 확인!");
         LoginResponseDto loginResponseDto = userService.isLoginUser(loginId,request);
     	return new SingleResponseResult<LoginResponseDto>(loginResponseDto);

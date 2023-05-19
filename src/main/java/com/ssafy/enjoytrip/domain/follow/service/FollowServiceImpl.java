@@ -1,5 +1,7 @@
 package com.ssafy.enjoytrip.domain.follow.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +11,11 @@ import com.ssafy.enjoytrip.domain.follow.dto.response.FollowListResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowerResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.response.FollowingResponseDto;
 import com.ssafy.enjoytrip.domain.follow.dto.reuqest.FollowRequestDto;
+import com.ssafy.enjoytrip.domain.follow.entity.Follower;
+import com.ssafy.enjoytrip.domain.follow.entity.Following;
 import com.ssafy.enjoytrip.domain.follow.repository.FollowRepository;
+import com.ssafy.enjoytrip.global.exception.ExistFollowException;
+import com.ssafy.enjoytrip.global.exception.NotExistFollowException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +27,6 @@ public class FollowServiceImpl implements FollowService{
 
 	private final FollowRepository followRepository;
 
-	@Override
-	public FollowListResponseDto findUserFollowListByUserId(int userId) {
-		log.info("FollowServiceImpl_findUserFollowListByUserId");
-		
-		List<FollowerResponseDto> followerList = followRepository.findFollowerByUserId(userId);
-		List<FollowingResponseDto> followingList = followRepository.findFollowingByUserId(userId);
-		
-		return FollowListResponseDto.builder().followerList(followerList).followingList(followingList).build();
-	}
 
 	@Override
 	@Transactional
@@ -37,19 +34,45 @@ public class FollowServiceImpl implements FollowService{
 		log.info("FollowServiceImpl_follow");
 		
 		if(followRepository.isExistsFollow(followRequestDto))
-			return followRepository.cancelFollow(followRequestDto);
+			throw new ExistFollowException();
 		return followRepository.follow(followRequestDto);
 	}
+	
+	@Override
+	public int cancelFollow(FollowRequestDto followRequestDto) {
+		
+		if(!followRepository.isExistsFollow(followRequestDto))
+			throw new NotExistFollowException();
+		
+		return followRepository.cancelFollow(followRequestDto);
+	}
+	
 
 	@Override
-	public List<FollowerResponseDto> findFollowerByUserId(int userId) {
+	public List<FollowerResponseDto> findFollowerByUserId(int userId) throws IOException {
 		log.info("FollowServiceImpl_findFollowerByUserId");
-		return followRepository.findFollowerByUserId(userId);
+		List<FollowerResponseDto> followerResponseDtoList = new ArrayList<FollowerResponseDto>();
+		List<Follower> followerList = followRepository.findFollowerByUserId(userId);
+		
+		for (Follower follower : followerList) {
+			followerResponseDtoList.add(follower.toDto());
+		}
+		
+		return followerResponseDtoList;
 	}
 
 	@Override
-	public List<FollowingResponseDto> findFollowingByUserId(int userId) {
+	public List<FollowingResponseDto> findFollowingByUserId(int userId) throws IOException {
 		log.info("FollowServiceImpl_findFollowingByUserId");
-		return followRepository.findFollowingByUserId(userId);
+		
+		List<FollowingResponseDto> followingResponseDtoList = new ArrayList<FollowingResponseDto>();
+		List<Following> followingList =  followRepository.findFollowingByUserId(userId);
+		
+		for (Following following : followingList) {
+			followingResponseDtoList.add(following.toDto());
+		}
+		
+		return followingResponseDtoList;
 	}
+
 }

@@ -23,7 +23,7 @@ import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
 
 public interface UserService {
-	LoginResponseDto login(LoginRequestDto loginRequestDto,HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException;
+	LoginResponseDto login(LoginRequestDto loginRequestDto,HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException, IOException;
 	Boolean isLock(User loginUser) throws NoSuchAlgorithmException;
 //	void setSession(LoginResponseDto loginResponseDto  ,HttpServletRequest request , HttpServletResponse response);
 	void logout(String loginId);
@@ -41,6 +41,6 @@ public interface UserService {
 	UserResponseDto getUserByUserId(int userId) throws IOException;
 	String getUserProfileImage(int userId);
 	void setToken(User loginUser , HttpServletResponse response);
-	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request);
+	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request) throws IOException;
 	String getNewAcccessToken(String loginId, HttpServletRequest request);
 }

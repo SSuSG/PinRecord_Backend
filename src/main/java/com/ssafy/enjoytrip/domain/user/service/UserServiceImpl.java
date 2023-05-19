@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
 	private final JwtService jwtService;
 	
 	@Override
-	public LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException {
+	public LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException, IOException {
 		log.info("UserServiceImpl_login");
 		User loginUser = findUserByLoginIdOrEmail(loginRequestDto.getLoginId(), true);
 		if(loginUser == null) throw new NotExistAccountException();
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public LoginResponseDto isLoginUser(String loginId , HttpServletRequest request) {
+	public LoginResponseDto isLoginUser(String loginId , HttpServletRequest request) throws IOException {
 		log.info("UserServiceImpl_isLoginUser");
 		if(jwtService.checkToken(request.getHeader("access-token"))){
 			User loginUser = findUserByLoginIdOrEmail(loginId, true);

@@ -17,6 +17,8 @@ public enum ExceptionCode {
     NOT_EXIST_LOGINID_EXCEPTION(408,"존재하지 않는 아이디입니다."),
     EXIST_LOGINID_EXCEPTION(409,"이미 존재하는 아이디 입니다."),
     EXIST_EMAIL_EXCEPTION(410,"이미 존재하는 이메일 입니다."),
+    EXIST_FOLLOW_EXCEPTION(411,"이미 팔로우 관계 입니다."),
+    NOT_EXIST_FOLLOW_EXCEPTION(412,"팔로우 관계가 존재하지 않습니다."),
     FAIL_LOGIN_EXCEPTION(413,"아이디 또는 비밀번호가 일치하지 않습니다."),
     FAIL_READ_USER_EXCEPTION(414,"조회할 수 있는 유저가 존재하지 않습니다."),
     FAIL_SEND_EMAIL_EXCEPTION(415,"이메일 전송에 에러가 발생했습니다."),

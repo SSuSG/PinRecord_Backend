@@ -21,4 +21,9 @@ public class LoginResponseDto {
 	@ApiModelProperty(value = "로그인유저 닉네임")
 	private String nickname;
 	
+	@ApiModelProperty(value = "로그인유저 이름")
+	private String name;
+	
+	@ApiModelProperty(value = "로그인유저 프로필이미지")
+	private byte[] image;
 }

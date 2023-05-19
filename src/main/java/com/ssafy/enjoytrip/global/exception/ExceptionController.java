@@ -34,6 +34,20 @@ public class ExceptionController {
         return ResponseResult.exceptionResponse(ExceptionCode.EXIST_LOGINID_EXCEPTION);
     }
     
+    @ExceptionHandler(ExistFollowException.class)
+    public ResponseResult ExistFollowException(ExistFollowException e) {
+        log.info("Error : {}",e.getClass());
+        log.info("Error Message : {}",e.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.EXIST_FOLLOW_EXCEPTION);
+    }
+    
+    @ExceptionHandler(NotExistFollowException.class)
+    public ResponseResult NotExistFollowException(NotExistFollowException e) {
+        log.info("Error : {}",e.getClass());
+        log.info("Error Message : {}",e.getMessage());
+        return ResponseResult.exceptionResponse(ExceptionCode.NOT_EXIST_FOLLOW_EXCEPTION);
+    }
+    
     @ExceptionHandler(ExpiredRefreshTokenException.class)
     public ResponseResult ExpiredRefreshTokenException(ExpiredRefreshTokenException e) {
         log.info("Error : {}",e.getClass());
