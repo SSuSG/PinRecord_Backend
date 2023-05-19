@@ -16,32 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `plan`
+-- Table structure for table `route`
 --
 
-DROP TABLE IF EXISTS `plan`;
+DROP TABLE IF EXISTS `route`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `plan` (
-  `plan_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `plan_title` varchar(45) NOT NULL,
-  `plan_start_date` datetime NOT NULL,
-  `plan_end_date` datetime NOT NULL,
-  `plan_created_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`plan_id`),
-  KEY `fk_plan_to_user_user_id_idx` (`user_id`),
-  CONSTRAINT `fk_plan_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+CREATE TABLE `route` (
+  `route_id` int NOT NULL AUTO_INCREMENT,
+  `plan_id` int DEFAULT NULL,
+  `route_place_name` varchar(100) NOT NULL,
+  `route_place_url` varchar(100) NOT NULL,
+  `route_categor_name` varchar(100) NOT NULL,
+  `route_address_name` varchar(100) NOT NULL,
+  `route_road_address_name` varchar(100) DEFAULT NULL,
+  `route_phone` varchar(45) DEFAULT NULL,
+  `route_category_group_code` varchar(45) DEFAULT NULL,
+  `route_category_group_name` varchar(100) DEFAULT NULL,
+  `route_x` decimal(10,0) NOT NULL,
+  `route_y` decimal(10,0) NOT NULL,
+  `route_order` int NOT NULL,
+  PRIMARY KEY (`route_id`),
+  KEY `fk_route_to_plan_plan_id_idx` (`plan_id`),
+  CONSTRAINT `fk_route_to_plan_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `plan` (`plan_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `plan`
+-- Dumping data for table `route`
 --
 
-LOCK TABLES `plan` WRITE;
-/*!40000 ALTER TABLE `plan` DISABLE KEYS */;
-/*!40000 ALTER TABLE `plan` ENABLE KEYS */;
+LOCK TABLES `route` WRITE;
+/*!40000 ALTER TABLE `route` DISABLE KEYS */;
+/*!40000 ALTER TABLE `route` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-18 17:43:21
+-- Dump completed on 2023-05-19 13:01:43

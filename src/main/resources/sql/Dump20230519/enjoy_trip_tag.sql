@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `image`
+-- Table structure for table `tag`
 --
 
-DROP TABLE IF EXISTS `image`;
+DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `image` (
-  `image_id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tag` (
+  `tag_id` int NOT NULL AUTO_INCREMENT,
+  `tag_name` varchar(45) NOT NULL,
   `pin_id` int DEFAULT NULL,
-  `image_path` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`image_id`),
-  KEY `fk_image_to_pin_pin_id_idx` (`pin_id`),
-  CONSTRAINT `fk_image_to_pin_pin_id` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`pin_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`tag_id`),
+  KEY `fk_tag_to_pin_pin_id_idx` (`pin_id`),
+  CONSTRAINT `fk_tag_to_pin_pin_id` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`pin_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `image`
+-- Dumping data for table `tag`
 --
 
-LOCK TABLES `image` WRITE;
-/*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (2,23,'c:\\SSAFY\\upload\\a0cfcdd6-afb0-4e58-af67-5f3eb898e2af.jpg'),(3,24,'c:\\SSAFY\\upload\\a0cfcdd6-afb0-4e58-af67-5f3eb898e2af.jpg'),(4,24,'c:\\SSAFY\\upload\\a0cfcdd6-afb0-4e58-af67-5f3eb898e2af.jpg'),(5,25,'c:\\SSAFY\\upload\\a0cfcdd6-afb0-4e58-af67-5f3eb898e2af.jpg'),(8,28,'c:\\SSAFY\\upload\\SE-1C0CA927-BEE9-466C-AD01-DE988B792573.jpg'),(9,29,'c:\\SSAFY\\upload\\a0cfcdd6-afb0-4e58-af67-5f3eb898e2af.jpg'),(10,28,'c:\\SSAFY\\upload\\SE-5180159A-36FA-4495-8D81-91D920B0AFF9.jpg'),(11,32,'c:\\SSAFY\\upload\\2022-08-27.jpg'),(12,32,'c:\\SSAFY\\upload\\2023-04-25.jpg'),(13,32,'c:\\SSAFY\\upload\\20221112_143236.jpg'),(15,33,'c:\\SSAFY\\upload\\2022-02-06.jpg'),(16,33,'c:\\SSAFY\\upload\\2023-02-01.jpg'),(17,33,'c:\\SSAFY\\upload\\2022-12-19.jpg');
-/*!40000 ALTER TABLE `image` ENABLE KEYS */;
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES (3,'서울대입구역',28),(4,'덮밥',28),(5,'서울대입구역',29),(6,'고굽사',29),(7,'고깃집',29),(18,'일식',32),(19,'스테이크',32),(20,'덮밥',32),(21,'맛집',32),(22,'강남역',32),(23,'고기',33),(24,'강남역',33),(25,'맛집',33),(26,'김치찌개',33);
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-18 17:43:21
+-- Dump completed on 2023-05-19 13:01:44

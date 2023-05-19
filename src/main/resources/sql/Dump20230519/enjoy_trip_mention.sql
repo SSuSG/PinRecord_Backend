@@ -16,30 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tag`
+-- Table structure for table `mention`
 --
 
-DROP TABLE IF EXISTS `tag`;
+DROP TABLE IF EXISTS `mention`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tag` (
-  `tag_id` int NOT NULL AUTO_INCREMENT,
-  `tag_name` varchar(45) NOT NULL,
-  `pin_id` int DEFAULT NULL,
-  PRIMARY KEY (`tag_id`),
-  KEY `fk_tag_to_pin_pin_id_idx` (`pin_id`),
-  CONSTRAINT `fk_tag_to_pin_pin_id` FOREIGN KEY (`pin_id`) REFERENCES `pin` (`pin_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `mention` (
+  `mention_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `travel_id` int DEFAULT NULL,
+  `mention_created_date` datetime NOT NULL,
+  `metnion_is_read` tinyint NOT NULL,
+  PRIMARY KEY (`mention_id`),
+  KEY `fk_mention_to_user_user_id_idx` (`user_id`),
+  KEY `fk_mention_to_travel_travel_id_idx` (`travel_id`),
+  CONSTRAINT `fk_mention_to_travel_travel_id` FOREIGN KEY (`travel_id`) REFERENCES `travel` (`travel_id`),
+  CONSTRAINT `fk_mention_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tag`
+-- Dumping data for table `mention`
 --
 
-LOCK TABLES `tag` WRITE;
-/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (3,'서울대입구역',28),(4,'덮밥',28),(5,'서울대입구역',29),(6,'고굽사',29),(7,'고깃집',29),(18,'일식',32),(19,'스테이크',32),(20,'덮밥',32),(21,'맛집',32),(22,'강남역',32),(23,'고기',33),(24,'강남역',33),(25,'맛집',33),(26,'김치찌개',33);
-/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+LOCK TABLES `mention` WRITE;
+/*!40000 ALTER TABLE `mention` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mention` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-18 17:43:22
+-- Dump completed on 2023-05-19 13:01:44

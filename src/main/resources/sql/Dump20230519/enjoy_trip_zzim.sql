@@ -16,32 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `follow`
+-- Table structure for table `zzim`
 --
 
-DROP TABLE IF EXISTS `follow`;
+DROP TABLE IF EXISTS `zzim`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `follow` (
-  `follow_id` int NOT NULL AUTO_INCREMENT,
-  `user_id_to` int DEFAULT NULL,
-  `user_id_from` int DEFAULT NULL,
-  PRIMARY KEY (`follow_id`),
-  KEY `fk_to_to_user_user_id_idx` (`user_id_to`),
-  KEY `fk_from_to_user_user_id` (`user_id_from`),
-  CONSTRAINT `fk_from_to_user_user_id` FOREIGN KEY (`user_id_from`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `fk_to_to_user_user_id` FOREIGN KEY (`user_id_to`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `zzim` (
+  `zzim_id` int NOT NULL AUTO_INCREMENT,
+  `travel_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `zzim_is_zzim` tinyint DEFAULT NULL,
+  PRIMARY KEY (`zzim_id`),
+  KEY `fk_zzim_to_record_record_id_idx` (`travel_id`),
+  KEY `fk_zzim_to_user_user_id_idx` (`user_id`),
+  CONSTRAINT `fk_zzim_to_travel_travel_id` FOREIGN KEY (`travel_id`) REFERENCES `travel` (`travel_id`),
+  CONSTRAINT `fk_zzim_to_user_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `follow`
+-- Dumping data for table `zzim`
 --
 
-LOCK TABLES `follow` WRITE;
-/*!40000 ALTER TABLE `follow` DISABLE KEYS */;
-INSERT INTO `follow` VALUES (1,2,7),(2,3,7),(3,4,7),(4,5,7),(5,7,2);
-/*!40000 ALTER TABLE `follow` ENABLE KEYS */;
+LOCK TABLES `zzim` WRITE;
+/*!40000 ALTER TABLE `zzim` DISABLE KEYS */;
+INSERT INTO `zzim` VALUES (3,27,1,1),(4,27,2,1),(5,27,3,1),(6,28,1,1);
+/*!40000 ALTER TABLE `zzim` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-18 17:43:21
+-- Dump completed on 2023-05-19 13:01:43
