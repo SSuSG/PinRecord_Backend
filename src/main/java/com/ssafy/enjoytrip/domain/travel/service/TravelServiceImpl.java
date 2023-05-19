@@ -63,8 +63,9 @@ public class TravelServiceImpl implements TravelService{
 			
 			for (WriteTravelImageRequestDto writeTravelImageRequestDto : writeTravelPinRequestDto.getImageList()) {
 				if(writeTravelImageRequestDto.getImage() == null) continue;
-				String path = imageService.storeFile(writeTravelImageRequestDto.getImage());
+				String path = imageService.storeFileForBase64(writeTravelImageRequestDto);
 				Image image = writeTravelImageRequestDto.toImageEntity(pinId,path);
+				System.out.println(image);
 				imageRepository.insertImage(image);
 			}
 		}

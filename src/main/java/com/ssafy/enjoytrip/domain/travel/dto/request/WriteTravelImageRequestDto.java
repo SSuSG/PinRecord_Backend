@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -23,8 +24,8 @@ public class WriteTravelImageRequestDto {
     private String uploadName;
 	
 	@NotBlank
-	@ApiModelProperty(value = "사진을 base64로 인코딩한 문자열")
-    private MultipartFile image;
+	@ApiModelProperty(value = "핀 장소에 대한 이미지")
+    private String image;
 	
 	public Image toImageEntity(int pinId , String path) {
 		return Image.builder()

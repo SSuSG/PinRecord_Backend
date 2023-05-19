@@ -126,7 +126,7 @@
 		WHERE
 		    travel_is_deleted = 0
 		ORDER BY
-			travel_created_date 
+			travel_created_date
 	</select>
 	
 	<select id="searchTravelByLocation" resultMap="travelDetail">
