@@ -47,7 +47,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'test','1234','대한','q','0','',0,NULL,NULL,'DH',NULL,NULL,NULL),(2,'test2','1234','민국','q','1','c:\\SSAFY\\upload\\472f5d90-975f-4fc7-bd0c-9ed80d75415c.jpg',1,NULL,NULL,'MinGgg',NULL,NULL,NULL),(3,'test3','1234','석가','q','1',NULL,1,NULL,NULL,'SukGGG',NULL,NULL,NULL),(4,'test4','1234','부처','q','1',NULL,1,NULL,NULL,'Money',NULL,NULL,NULL),(5,'test5','1234','철수','q','1','',1,NULL,NULL,'Chulsss',NULL,NULL,NULL),(7,'psg980331','wwCDEUw+4jCjZ7DZo/gtHeSFo/N1FivDgZhK9CXFkJc=','박시균','psg980331@naver.com','LPleQ9fa/nEleSUo1ppG1BrvPG8mHnkl1wci9Xa65n0=','c:\\SSAFY\\upload\\ad61d465-b123-41d3-872f-2a0c555a5834.jpg',1,'980f3U4NyY',0,'시균팍','tZS27o3J7Q',0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNjg0NDY3NDgyLCJleHAiOjE2ODU2NzcwODIsImxvZ2luSWQiOiJwc2c5ODAzMzEifQ._PnvGlElolMXLsEQCWYGLWec7VEYKZwa5YXp8OyC1c8'),(8,'danny7074','RscUCVfl6ig/rSozRtT41Pad0QedkXsB3/c83ryEhbU=','이석준','playdanny@naver.com','8jQFKFERwyHA6ISQIHO5mF5Bcyh8lOLmW7BOlgvLN7A=',NULL,1,NULL,0,'석준','e7jUGS7g8U',0,NULL);
+INSERT INTO `user` VALUES (1,'test','1234','대한','q','0','',0,NULL,NULL,'DH',NULL,NULL,NULL),(2,'test2','1234','민국','q','1','c:\\SSAFY\\upload\\472f5d90-975f-4fc7-bd0c-9ed80d75415c.jpg',1,NULL,NULL,'MinGgg',NULL,NULL,NULL),(3,'test3','1234','석가','q','1',NULL,1,NULL,NULL,'SukGGG',NULL,NULL,NULL),(4,'test4','1234','부처','q','1',NULL,1,NULL,NULL,'Money',NULL,NULL,NULL),(5,'test5','1234','철수','q','1','',1,NULL,NULL,'Chulsss',NULL,NULL,NULL),(7,'psg980331','r+3TZifANc/E2vQjIgcd2P3Qf5zR01l4h4Zrc/J8s6c=','박시균','psg980331@naver.com','mblaI913/ehL6zAY5ofmHid1GGEuVOguzkyRL6uViRg=','c:\\SSAFY\\upload\\429129e2-1e52-415c-a651-b69a20067c2e.jpg',1,'R0xN88F0i4',0,'시균팍','tZS27o3J7Q',0,'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoLXRva2VuIiwiaWF0IjoxNjg0NDgxNzg5LCJleHAiOjE2ODU2OTEzODksImxvZ2luSWQiOiJwc2c5ODAzMzEifQ.RcfXJfXgBBVoOfgtc0JOlwrgyU79R6ECttDQxIVzHms'),(8,'danny7074','RscUCVfl6ig/rSozRtT41Pad0QedkXsB3/c83ryEhbU=','이석준','playdanny@naver.com','8jQFKFERwyHA6ISQIHO5mF5Bcyh8lOLmW7BOlgvLN7A=',NULL,1,NULL,0,'석준','e7jUGS7g8U',0,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-19 13:01:43
+-- Dump completed on 2023-05-19 17:39:49
