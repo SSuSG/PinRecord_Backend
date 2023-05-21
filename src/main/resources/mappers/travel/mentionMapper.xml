@@ -4,15 +4,30 @@
 	<insert id="insertMention">
 		INSERT
 		INTO MENTION(
-					
+					user_id,
+					travel_id,
+					mention_created_date
 					)
 		VALUES		(
-					
+					#{userId},
+					#{travelId},
+					#{createdDate}
 					)
 	</insert>
 	
-	<select id="findMentionByUserId" resultType="com.ssafy.enjoytrip.domain.travel.entity.Mention">
-		
+	<select id="findMentionByUserId" resultType="com.ssafy.enjoytrip.domain.travel.dto.response.MentionResponseDto">
+		SELECT
+			m.mention_id 			as mentionId,
+			m.user_id 				as userId,
+			m.travel_id				as travelId,
+			t.travel_title			as title,
+			m.mention_created_date	as createdDate
+		FROM
+			MENTION m,
+			Travel t
+		WHERE
+			m.user_id = #{userId} AND
+			m.travel_id = t.travel_id	 
 	</select>
 	
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelImageRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelPinRequestDto;
 import com.ssafy.enjoytrip.domain.travel.dto.request.WriteTravelRequestDto;
+import com.ssafy.enjoytrip.domain.travel.dto.response.MentionResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelImageResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelPinResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
@@ -70,8 +71,8 @@ public class TravelServiceImpl implements TravelService{
 			}
 		}
 		// TODO : 멘션리스트 저장하기!!
-//		for (int userId : writeTravelRequestDto.getMentionList())
-//			mentionRepository.insertMention(Mention.builder().userId(userId).travelId(travelId).createdDate(LocalDateTime.now()).build());
+		for (int userId : writeTravelRequestDto.getMentionList())
+			mentionRepository.insertMention(Mention.builder().userId(userId).travelId(travelId).createdDate(LocalDateTime.now()).build());
 		
 		// TODO : 멘션리스트 저장후 알림정보 생성해서 웹 소켓을통해 메시지를 전송한다. (SimpMessagingTemplate 사용) 이를 vue에서 받고 ui를 업데이트 시킨다!!
 		
@@ -165,6 +166,12 @@ public class TravelServiceImpl implements TravelService{
 		// TODO : 로그인유저가 여행의 작성자인지 확인
 
 		return travelRepository.deleteTravel(travelId);
+	}
+
+	@Override
+	public List<MentionResponseDto> getMentionListByUserId(int userId) {
+		log.info("TravelServiceImpl_getMentionListByUserId");
+		return mentionRepository.findMentionByUserId(userId);
 	}
 	
 }

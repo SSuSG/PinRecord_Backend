@@ -140,4 +140,17 @@ public class TravelController {
         return ResponseResult.failResponse;
     }
 	
+	@ApiOperation(value = "여행 멘션 리스트 조회" , notes = "사용자가 언급된 여행후기들")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "여행후기 검색 성공" , response = TravelResponseDto.class),
+            @ApiResponse(code = 400, message = "여행후기 검색 실패"),
+    })
+	@GetMapping("/mentions/{userId}")
+    public ResponseResult getMentionListByUserId(@RequestParam int userId ) throws IOException  {
+        log.info("TravelController_getMentionListByUserId -> 사용자가 언급된 여행후기들");
+        return new ListResponseResult<>(travelService.getMentionListByUserId(userId));
+    }
+	
+	
+	
 }

@@ -18,4 +18,5 @@ public class Mention {
 	private int userId;
 	private int travelId;
 	private LocalDateTime createdDate;
+	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.enjoytrip.domain.travel.dto.response.MentionResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelPinResponseDto;
 import com.ssafy.enjoytrip.domain.travel.dto.response.TravelResponseDto;
 import com.ssafy.enjoytrip.domain.travel.entity.Image;

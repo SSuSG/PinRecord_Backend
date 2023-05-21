@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.enjoytrip.domain.comment.repository.CommentRepository">
-	<insert id="writeComment">
+	<insert id="writeComment" useGeneratedKeys="true" keyColumn="comment_id"  keyProperty="commentId">
 		INSERT
 		INTO COMMENT
 				(
@@ -22,9 +22,18 @@
 		DELETE
 		FROM COMMENT
 		WHERE
-			comment_id = #{commentId} AND
-			user_id = #{userId}
+			comment_id = #{commentId}
 	</delete>
+	
+	<update id="updateComment">
+		UPDATE
+			COMMENT
+		SET
+			comment_content = #{content}
+		WHERE
+			comment_id = #{commentId}
+		
+	</update>
 
 	<resultMap type="com.ssafy.enjoytrip.domain.comment.dto.response.TravelCommentResponseDto" id="travelComment">
 		<id property="commentId" column="comment_id"/>
@@ -32,19 +41,42 @@
 		<result property="travelId" column="travel_id"/>
 		<result property="content" column="comment_content"/>
 		<result property="createdDate" column="comment_created_date"/>
-	</resultMap>	
+		<result property="imagePath" column="user_profile_image"/>
+		<result property="nickname" column="user_nickname"/>
+	</resultMap>
+	
+	<select id="findCommentByCommentId" resultMap="travelComment">
+		SELECT
+			c.user_id,
+			c.travel_id,
+			c.comment_id,
+			c.comment_content,
+		    c.comment_created_date,
+		    u.user_profile_image,
+		    u.user_nickname
+		FROM
+			COMMENT c,
+			USER u
+		WHERE
+			c.commentId = #{commentId} AND
+			c.user_id = u.user_id
+	</select>
 	
 	<select id="findCommentByTravelId" resultMap="travelComment">
 		SELECT
-			user_id,
-			travel_id,
-			comment_id,
-			comment_content,
-		    comment_created_date
+			c.user_id,
+			c.travel_id,
+			c.comment_id,
+			c.comment_content,
+		    c.comment_created_date,
+		    u.user_profile_image,
+		    u.user_nickname
 		FROM
-			COMMENT
+			COMMENT c,
+			USER u
 		WHERE
-			travel_id = #{travelId}
+			c.travel_id = #{travelId} AND
+			c.user_id = u.user_id
 		ORDER BY
 			comment_created_date
 	</select>

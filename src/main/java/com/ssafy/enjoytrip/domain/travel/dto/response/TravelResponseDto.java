@@ -71,6 +71,9 @@ public class TravelResponseDto {
 				image.imageToBase64();
 			}
 		}
+		for(TravelCommentResponseDto comment : commentList) {
+			comment.imageToBase64();
+		}
 	}
 
 	public void hash() {

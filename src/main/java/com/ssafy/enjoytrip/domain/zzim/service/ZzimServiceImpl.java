@@ -26,4 +26,10 @@ public class ZzimServiceImpl implements ZzimService{
 			return zzimRepository.cancelZzim(zzim);
 		return zzimRepository.doZzim(zzim);
 	}
+
+	@Override
+	public boolean isZzim(ZzimRequestDto zzimRequestDto) {
+		log.info("ZzimServiceImpl_isZzim");
+		return zzimRepository.isExistsZzim(zzimRequestDto.toZzimEntity());
+	}
 }
