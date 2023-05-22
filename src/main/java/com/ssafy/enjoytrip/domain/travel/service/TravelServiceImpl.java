@@ -146,11 +146,15 @@ public class TravelServiceImpl implements TravelService{
 			travelIdList.add(pinRepository.findTravelIdByPinId(pinId));
 		}
 		
-		travelIdList = travelIdList.stream().distinct().collect(Collectors.toList());
-		for (int travelId : travelIdList) {
-			travelList.add(travelRepository.getTravelByTravelId(travelId));
-		}
 
+		travelIdList = travelIdList.stream().distinct().collect(Collectors.toList());
+		
+		for (int travelId : travelIdList) {
+			TravelResponseDto travel = travelRepository.getTravelByTravelId(travelId);
+			if(travel == null) continue;
+			travelList.add(travel);
+		}
+		System.out.println(travelList.size());
 		for (TravelResponseDto travel : travelList) {
 			travel.imageListToBase64();
 			travel.hash();
