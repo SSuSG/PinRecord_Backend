@@ -49,7 +49,8 @@ public class ZzimController {
     @PostMapping("/zzims/zzim")
     public ResponseResult IsZzim(@Valid @RequestBody ZzimRequestDto zzimRequestDto) throws Exception {
         log.info("ZzimController_IsZzim -> 사용자가 여행후기에 대해 찜을 한지 안한지 확인");
-        zzimService.doZzim(zzimRequestDto);
-        return ResponseResult.successResponse;
+        if(zzimService.isZzim(zzimRequestDto)) 
+        	return ResponseResult.successResponse;
+        return ResponseResult.failResponse;
     }
 }
