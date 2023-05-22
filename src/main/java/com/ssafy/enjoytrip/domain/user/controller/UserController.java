@@ -125,7 +125,7 @@ public class UserController {
         return ResponseResult.failResponse;
     }
 	
-	@ApiOperation(value = "이메일 인증" , notes = "사용자가 회원가입후 첫 로그인시 인증을 합니다.")
+	@ApiOperation(value = "사용자 첫 로그인 인증" , notes = "사용자가 회원가입후 첫 로그인시 인증을 합니다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "인증 성공"),
             @ApiResponse(code = 400, message = "인증 실패"),

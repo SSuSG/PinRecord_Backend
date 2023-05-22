@@ -190,11 +190,11 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public int authAccount(AuthAccountRequestDto authAccountRequestDto) {
 		log.info("UserServiceImpl_authAccount -> 회원가입후 첫 로그인시 계정인증");
-		User authUser = findUserByLoginIdOrEmail(authAccountRequestDto.getEmail(), false);
+		User authUser = findUserByLoginIdOrEmail(authAccountRequestDto.getLoginId(), true);
 		if(authUser == null) throw new NotExistAccountException();
 		
 		if(authAccountRequestDto.getAuthKey().equals(authUser.getAuthKey()))
-			return userRepository.updateAuthStatus(authAccountRequestDto.getEmail());
+			return userRepository.updateAuthStatus(authAccountRequestDto.getLoginId());
 		return -1;
 	}
 

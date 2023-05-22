@@ -67,9 +67,7 @@ public class TravelResponseDto {
 	
 	public void imageListToBase64() throws IOException {
 		for (TravelPinResponseDto pin : pinList) {
-			System.out.println(pin);
 			for(TravelImageResponseDto image : pin.getImageList()) {
-				System.out.println(image);
 				image.imageToBase64();
 			}
 		}

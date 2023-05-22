@@ -20,7 +20,7 @@ public interface UserRepository {
 	int addMismatchCnt(String loginId);
 	int initMismatchCnt(String loginId);
 	int unlockAccount(User user);
-	int updateAuthStatus(String email);
+	int updateAuthStatus(String loginId);
 	int updatePassword(User user);
 	int updateLockStatus(Map<String, String> map);
 	int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto);

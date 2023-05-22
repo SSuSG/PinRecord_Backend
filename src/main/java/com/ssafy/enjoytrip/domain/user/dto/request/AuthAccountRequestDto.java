@@ -16,8 +16,8 @@ import lombok.Setter;
 public class AuthAccountRequestDto {
 
 	@Email
-	@ApiModelProperty(value = "사용자 이메일")
-    private String email;
+	@ApiModelProperty(value = "사용자 로그인 아이디")
+    private String loginId;
 
     @NotBlank
     @ApiModelProperty(value = "계정인증을 위한 인증번호")

@@ -145,7 +145,6 @@ public class TravelServiceImpl implements TravelService{
 		for (int pinId : pinList) {
 			travelIdList.add(pinRepository.findTravelIdByPinId(pinId));
 		}
-		
 
 		travelIdList = travelIdList.stream().distinct().collect(Collectors.toList());
 		
