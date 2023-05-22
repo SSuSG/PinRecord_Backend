@@ -32,6 +32,9 @@ public class MentionResponseDto {
 	@ApiModelProperty(value = "여행 제목")
     private String title;
 	
+	@ApiModelProperty(value = "멘션한 사람 닉네임")
+    private String nickname;
+	
 	@ApiModelProperty(value = "멘션된 시간")
 	private LocalDateTime createdDate;
 	

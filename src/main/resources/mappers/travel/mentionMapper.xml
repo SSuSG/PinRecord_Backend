@@ -21,13 +21,16 @@
 			m.user_id 				as userId,
 			m.travel_id				as travelId,
 			t.travel_title			as title,
-			m.mention_created_date	as createdDate
+			m.mention_created_date	as createdDate,
+			u.user_nickname			as nickname
 		FROM
 			MENTION m,
-			Travel t
+			Travel t,
+			USER u
 		WHERE
 			m.user_id = #{userId} AND
-			m.travel_id = t.travel_id	 
+			m.travel_id = t.travel_id AND
+			u.user_id = m.user_id 
 	</select>
 	
 </mapper>

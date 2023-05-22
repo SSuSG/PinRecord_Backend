@@ -146,7 +146,7 @@ public class TravelController {
             @ApiResponse(code = 400, message = "여행후기 검색 실패"),
     })
 	@GetMapping("/mentions/{userId}")
-    public ResponseResult getMentionListByUserId(@RequestParam int userId ) throws IOException  {
+    public ResponseResult getMentionListByUserId(@PathVariable int userId ) throws IOException  {
         log.info("TravelController_getMentionListByUserId -> 사용자가 언급된 여행후기들");
         return new ListResponseResult<>(travelService.getMentionListByUserId(userId));
     }
