@@ -1,5 +1,8 @@
 package com.ssafy.enjoytrip.domain.comment.service;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.enjoytrip.domain.comment.dto.request.UpdateCommentRequestDto;
@@ -19,11 +22,9 @@ public class CommentServiceImpl implements CommentService {
 	private final CommentRepository commentRepository;
 	
 	@Override
-	public TravelCommentResponseDto writeComment(WriteCommentRequestDto writeCommentRequestDto) {
+	public int writeComment(WriteCommentRequestDto writeCommentRequestDto) {
 		log.info("CommentServiceImpl_writeComment");
-		Comment comment = writeCommentRequestDto.toCommentEntity();
-		commentRepository.writeComment(comment);
-		return commentRepository.findCommentByCommentId(comment.getCommentId());
+		return commentRepository.writeComment(writeCommentRequestDto.toCommentEntity());
 	}
 
 	@Override
@@ -38,6 +39,16 @@ public class CommentServiceImpl implements CommentService {
 	public int updateComment(UpdateCommentRequestDto updateCommentRequestDto) {
 		log.info("CommentServiceImpl_updateComment");
 		return commentRepository.updateComment(updateCommentRequestDto.toCommentEntity());
+	}
+
+	@Override
+	public List<TravelCommentResponseDto> getCommentListByTravelId(int travelId) throws IOException {
+		log.info("CommentServiceImpl_getCommentListByTravelId");
+		List<TravelCommentResponseDto> commentList = commentRepository.getCommentListByTravelId(travelId);
+		for (TravelCommentResponseDto travelCommentResponseDto : commentList) {
+			travelCommentResponseDto.imageToBase64();
+		}
+		return commentList;
 	}
 
 }

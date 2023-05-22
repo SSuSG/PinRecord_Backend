@@ -1,5 +1,7 @@
 package com.ssafy.enjoytrip.domain.comment.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoytrip.domain.comment.dto.request.UpdateCommentRequestDto;
@@ -13,4 +15,5 @@ public interface CommentRepository {
 	int updateComment(Comment comment);
 	TravelCommentResponseDto findCommentByTravelId(int travelId);
 	TravelCommentResponseDto findCommentByCommentId(int commentId);
+	List<TravelCommentResponseDto> getCommentListByTravelId(int travelId);
 }

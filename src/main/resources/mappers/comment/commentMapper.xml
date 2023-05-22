@@ -80,4 +80,24 @@
 		ORDER BY
 			comment_created_date
 	</select>
+	
+	<select id="getCommentListByTravelId" resultMap="travelComment">
+		SELECT
+			c.user_id,
+			c.travel_id,
+			c.comment_id,
+			c.comment_content,
+		    c.comment_created_date,
+		    u.user_profile_image,
+		    u.user_nickname
+		FROM
+			COMMENT c,
+			USER u
+		WHERE
+			c.travel_id = #{travelId} AND
+			c.user_id = u.user_id
+		ORDER BY
+			comment_created_date
+	</select>
+	
 </mapper>
