@@ -46,7 +46,7 @@ public class ZzimController {
             @ApiResponse(code = 200, message = "조회 성공"),
             @ApiResponse(code = 400, message = "조회 실패"),
     })
-    @PostMapping("/zzims")
+    @PostMapping("/zzims/zzim")
     public ResponseResult IsZzim(@Valid @RequestBody ZzimRequestDto zzimRequestDto) throws Exception {
         log.info("ZzimController_IsZzim -> 사용자가 여행후기에 대해 찜을 한지 안한지 확인");
         zzimService.doZzim(zzimRequestDto);
