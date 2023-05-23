@@ -13,4 +13,5 @@ public interface FollowService {
 	List<FollowingResponseDto> findFollowingByUserId(int userId) throws IOException;
 	int follow(FollowRequestDto followRequestDto);
 	int cancelFollow(FollowRequestDto followRequestDto);
+	boolean isFollow(FollowRequestDto followRequestDto);
 }

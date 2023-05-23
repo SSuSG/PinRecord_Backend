@@ -75,4 +75,10 @@ public class FollowServiceImpl implements FollowService{
 		return followingResponseDtoList;
 	}
 
+	@Override
+	public boolean isFollow(FollowRequestDto followRequestDto) {
+		log.info("FollowServiceImpl_isFollow");
+		return followRepository.isExistsFollow(followRequestDto);
+	}
+
 }

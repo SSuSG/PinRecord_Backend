@@ -104,7 +104,7 @@
 			ZZIM z
 		WHERE
 			z.user_id = #{userId} AND
-		    t.user_id = #{userId} AND
+			z.travel_id = t.travel_id AND
 		    travel_is_deleted = 0
 	</select>
 	

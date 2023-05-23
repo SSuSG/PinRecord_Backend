@@ -64,7 +64,7 @@ public class FollowController {
         return new ListResponseResult<FollowerResponseDto>(followService.findFollowerByUserId(userId));
     }
 	
-	@ApiOperation(value = "팔로우 하기" , notes = "followee_id유저가 follower_id 유저를 팔로우한다.")
+	@ApiOperation(value = "팔로우 하기" , notes = "userIdFrom유저가 userIdTo 유저를 팔로우한다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "팔로우 성공"),
             @ApiResponse(code = 411, message = "팔로우 관계가 이미 존재"),
@@ -77,7 +77,7 @@ public class FollowController {
     	return ResponseResult.successResponse;
     }
 	
-	@ApiOperation(value = "팔로우 취소" , notes = "followee_id유저가 follower_id 유저를 팔로우 취소 한다.")
+	@ApiOperation(value = "팔로우 취소" , notes = "userIdFrom유저가 userIdTo 유저를 팔로우 취소 한다.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "팔로우 취소 성공"),
             @ApiResponse(code = 412, message = "팔로우 관계가 존재하지 않음"),
@@ -88,6 +88,19 @@ public class FollowController {
         log.info("AccountController_cancelFollow -> 팔로우 취소 하기");
         followService.cancelFollow(followRequestDto);
     	return ResponseResult.successResponse;
+    }
+	
+	@ApiOperation(value = "팔로우 관계 존재 확인" , notes = "userIdFrom유저가 userIdTo를 팔로우 하고 있는지 확인")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "팔로우 관계 존재"),
+            @ApiResponse(code = 400, message = "팔로우 관계 없음"),
+    })
+    @PostMapping("/follows/follow")
+    public ResponseResult isFollow(@RequestBody FollowRequestDto followRequestDto) {
+        log.info("AccountController_isFollow -> 팔로우 한 관계인지 확인");
+        if(followService.isFollow(followRequestDto))
+        	return ResponseResult.successResponse;
+        return ResponseResult.failResponse;
     }
 	
 }
