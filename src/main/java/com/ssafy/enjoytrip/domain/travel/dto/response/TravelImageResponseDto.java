@@ -42,6 +42,8 @@ public class TravelImageResponseDto {
     private byte[] image;
 	
 	public void imageToBase64() throws IOException {
+		if(path.length() < 5 )return;
+		
 		InputStream imageStream = new FileInputStream(path);
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();

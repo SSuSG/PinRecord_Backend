@@ -72,6 +72,7 @@ public class TravelResponseDto {
 			}
 		}
 		for(TravelCommentResponseDto comment : commentList) {
+			System.out.println("1");
 			comment.imageToBase64();
 		}
 	}

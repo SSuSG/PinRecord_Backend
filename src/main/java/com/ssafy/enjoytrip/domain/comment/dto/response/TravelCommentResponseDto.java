@@ -58,6 +58,7 @@ public class TravelCommentResponseDto {
 	}
 
 	public void imageToBase64() throws IOException {
+		if(imagePath == null || imagePath.length() < 5) return;
 		InputStream imageStream = new FileInputStream(imagePath);
 		byte[] imageByteArray = IOUtils.toByteArray(imageStream);
 		imageStream.close();

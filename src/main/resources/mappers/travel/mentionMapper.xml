@@ -30,7 +30,7 @@
 		WHERE
 			m.user_id = #{userId} AND
 			m.travel_id = t.travel_id AND
-			u.user_id = m.user_id 
+			u.user_id = t.user_id 
 	</select>
 	
 </mapper>
