@@ -157,7 +157,7 @@ public class TravelController {
 //            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
 //            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
 //    })
-//	@GetMapping("/travels/zzims/{pageNum}")
+//	@GetMapping("/travels/zzims")
 //    public ResponseResult getTravelListForHomeViewOrderByZzim() throws IOException  {
 //        log.info("TravelController_getTravelListForHomeViewOrderByZzim -> 홈 화면에서의 여행 목록 조회(찜순)");
 //        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByZzim());
@@ -168,7 +168,7 @@ public class TravelController {
 //            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
 //            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
 //    })
-//	@GetMapping("/travels/comments/{pageNum}")
+//	@GetMapping("/travels/comments")
 //    public ResponseResult getTravelListForHomeViewOrderByCommentCnt() throws IOException  {
 //        log.info("TravelController_getTravelListForHomeViewOrderByCommentCnt-> 홈 화면에서의 여행 목록 조회(댓글순)");
 //        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByCommentCnt());
