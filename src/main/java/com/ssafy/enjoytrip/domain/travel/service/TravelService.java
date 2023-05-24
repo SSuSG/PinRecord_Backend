@@ -15,6 +15,8 @@ public interface TravelService {
 	List<TravelResponseDto> getTravelListByUserId(int userId) throws IOException;
 	List<TravelResponseDto> getZzimTravelListByUserId(int userId) throws IOException;
 	List<TravelResponseDto> getTravelListForHomeView() throws IOException;
+	List<TravelResponseDto> getTravelListForHomeViewOrderByZzim() throws IOException;
+	List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt() throws IOException;
 	List<TravelResponseDto> searchTravelByLocation(String state, String city) throws IOException;
 	List<TravelResponseDto> searchTravelByTag(List<String> tagList) throws IOException;
 	int deleteTravel(int travelId);

@@ -121,17 +121,6 @@ public class TravelServiceImpl implements TravelService{
 		}
 		return travelList;
 	}
-	
-	@Override
-	public List<TravelResponseDto> getTravelListForHomeView() throws IOException{
-		log.info("TravelServiceImpl_getTravelListForHomeView");
-		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeView();
-		for (TravelResponseDto travel : travelList) {
-			travel.imageListToBase64();
-			travel.hash();
-		}
-		return travelList;
-	}
 
 	@Override
 	public List<TravelResponseDto> searchTravelByTag(List<String> tagList) throws IOException {
@@ -175,6 +164,41 @@ public class TravelServiceImpl implements TravelService{
 	public List<MentionResponseDto> getMentionListByUserId(int userId) {
 		log.info("TravelServiceImpl_getMentionListByUserId");
 		return mentionRepository.findMentionByUserId(userId);
+	}
+	
+	@Override
+	public List<TravelResponseDto> getTravelListForHomeView() throws IOException{
+		log.info("TravelServiceImpl_getTravelListForHomeView");
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeView();
+		for (TravelResponseDto travel : travelList) {
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
+	}
+
+	@Override
+	public List<TravelResponseDto> getTravelListForHomeViewOrderByZzim() throws IOException {
+		log.info("TravelServiceImpl_getTravelListForHomeViewOrderByZzim");
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByZzim();
+		for (TravelResponseDto travel : travelList) {
+			System.out.println(travel.getTitle() + " " + travel.getZzimCnt());
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
+	}
+
+	@Override
+	public List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt() throws IOException {
+		log.info("TravelServiceImpl_getTravelListForHomeViewOrderByCommentCnt");
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByCommentCnt();
+		for (TravelResponseDto travel : travelList) {
+			System.out.println(travel.getTitle() + " " + travel.getCommentList().size());
+			travel.imageListToBase64();
+			travel.hash();
+		}
+		return travelList;
 	}
 	
 }

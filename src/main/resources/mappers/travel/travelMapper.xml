@@ -126,7 +126,48 @@
 		WHERE
 		    travel_is_deleted = 0
 		ORDER BY
-			travel_created_date
+			travel_created_date DESC
+	</select>
+	
+	<select id="getTravelListForHomeViewOrderByZzim" resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = travel.user_id) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) as zzim_cnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL
+		WHERE
+		    travel_is_deleted = 0
+		ORDER BY
+			(select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) DESC
+	</select>
+	<select id="getTravelListForHomeViewOrderByCommentCnt" resultMap="travelDetail">
+		SELECT
+			travel_id,
+		    user_id,
+		    (select user_nickname from user where user_id = travel.user_id) as user_nickname,
+		    (select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) as zzim_cnt,
+		    travel_title,
+		    travel_content,
+		    travel_cost,
+		    travel_state,
+		    travel_city,
+		    travel_start_date,
+		    travel_end_date
+		FROM 
+			TRAVEL
+		WHERE
+		    travel_is_deleted = 0
+		ORDER BY
+			(select count(*) from comment where travel_id = travel.travel_id) DESC
 	</select>
 	
 	<select id="searchTravelByLocation" resultMap="travelDetail">

@@ -84,17 +84,7 @@ public class TravelController {
         log.info("TravelController_getZzimTravelListByUserId -> 유저의 여행후기 목록 조회");
         return new ListResponseResult<>(travelService.getZzimTravelListByUserId(userId));
     }
-	
-	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트" , notes = "홈 화면에 보여줄 여행후기 목록 정보들")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
-            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
-    })
-	@GetMapping("/travels")
-    public ResponseResult getTravelListForHomeView() throws IOException  {
-        log.info("TravelController_getTravelListForHomeView -> 홈 화면에서의 여행 목록 조회");
-        return new ListResponseResult<>(travelService.getTravelListForHomeView());
-    }
+
 	
 	@ApiOperation(value = "여행 후기 검색" , notes = "여행후기를 장소기반으로 검색")
     @ApiResponses(value = {
@@ -151,6 +141,37 @@ public class TravelController {
         return new ListResponseResult<>(travelService.getMentionListByUserId(userId));
     }
 	
+	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (시간순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(시간순)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+    })
+	@GetMapping("/travels")
+    public ResponseResult getTravelListForHomeView() throws IOException  {
+        log.info("TravelController_getTravelListForHomeView -> 홈 화면에서의 여행 목록 조회");
+        return new ListResponseResult<>(travelService.getTravelListForHomeView());
+    }
 	
+	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (찜순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(찜순)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+    })
+	@GetMapping("/travels/zzims")
+    public ResponseResult getTravelListForHomeViewOrderByZzim() throws IOException  {
+        log.info("TravelController_getTravelListForHomeViewOrderByZzim -> 홈 화면에서의 여행 목록 조회(찜순)");
+        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByZzim());
+    }
+	
+	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (댓글순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(댓글순)")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+    })
+	@GetMapping("/travels/comments")
+    public ResponseResult getTravelListForHomeViewOrderByCommentCnt() throws IOException  {
+        log.info("TravelController_getTravelListForHomeViewOrderByCommentCnt-> 홈 화면에서의 여행 목록 조회(댓글순)");
+        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByCommentCnt());
+    }
 	
 }

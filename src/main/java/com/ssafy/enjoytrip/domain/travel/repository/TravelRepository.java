@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.travel.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +19,8 @@ public interface TravelRepository {
 	List<TravelResponseDto> getTravelListByUserId(int userId);
 	List<TravelResponseDto> getZzimTravelListByUserId(int userId);
 	List<TravelResponseDto> getTravelListForHomeView();
+	List<TravelResponseDto> getTravelListForHomeViewOrderByZzim();
+	List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt();
 	List<TravelResponseDto> searchTravelByLocation(String state , String city);
 	int deleteTravel(int travelId);
 }
