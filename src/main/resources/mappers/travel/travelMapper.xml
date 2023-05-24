@@ -128,7 +128,7 @@
 		ORDER BY
 			travel_created_date DESC
 		LIMIT
-			#{pageNum} , 4
+			#{pageNum} , 12
 	</select>
 	
 	<select id="getTravelListForHomeViewOrderByZzim" resultMap="travelDetail">
@@ -151,7 +151,7 @@
 		ORDER BY
 			(select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) DESC
 		LIMIT
-			#{pageNum} , 4
+			#{pageNum} , 12
 	</select>
 	<select id="getTravelListForHomeViewOrderByCommentCnt" resultMap="travelDetail">
 		SELECT
@@ -173,7 +173,7 @@
 		ORDER BY
 			(select count(*) from comment where travel_id = travel.travel_id) DESC
 		LIMIT
-			#{pageNum} , 4
+			#{pageNum} , 12
 	</select>
 	
 	
