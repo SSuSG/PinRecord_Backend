@@ -2,8 +2,10 @@ package com.ssafy.enjoytrip.domain.user.service;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -28,6 +30,7 @@ import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
+import com.ssafy.enjoytrip.domain.user.entity.UserInfo;
 import com.ssafy.enjoytrip.domain.user.entity.UserProfileImage;
 import com.ssafy.enjoytrip.domain.user.repository.UserRepository;
 import com.ssafy.enjoytrip.global.exception.ExceptionCode;
@@ -300,6 +303,17 @@ public class UserServiceImpl implements UserService{
 	public String getUserProfileImage(int userId) {
 		log.info("UserServiceImpl_getUserProfileImage");
 		return "file:" + imageService.getFullPath(userRepository.getUserProfileImage(userId));
+	}
+
+	@Override
+	public List<UserResponseDto> getUserListByNickname(String nickname) throws IOException {
+		List<UserInfo> list = userRepository.getUserListByNickname(nickname);
+		List<UserResponseDto> userList = new ArrayList<UserResponseDto>();
+		for (UserInfo user : list) {
+			userList.add(user.toUserResponseDto());
+		}
+		
+		return userList;
 	}
 
 }

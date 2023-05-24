@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.domain.user.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -29,4 +30,5 @@ public interface UserRepository {
 	String getUserProfileImage(int userId);
 	int saveRefreshToken(Map<String, String> map);
 	int deleRefreshToken(Map<String, String> map);
+	List<UserInfo> getUserListByNickname(String nickname);
 }

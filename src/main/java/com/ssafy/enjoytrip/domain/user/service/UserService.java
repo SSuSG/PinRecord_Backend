@@ -2,6 +2,7 @@ package com.ssafy.enjoytrip.domain.user.service;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,4 +44,5 @@ public interface UserService {
 	void setToken(User loginUser , HttpServletResponse response);
 	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request) throws IOException;
 	String getNewAcccessToken(String loginId, HttpServletRequest request);
+	List<UserResponseDto> getUserListByNickname(String nickname) throws IOException;
 }

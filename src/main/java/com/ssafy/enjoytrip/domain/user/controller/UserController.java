@@ -37,6 +37,7 @@ import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
 import com.ssafy.enjoytrip.domain.user.service.UserService;
 import com.ssafy.enjoytrip.global.exception.FailLoginException;
+import com.ssafy.enjoytrip.global.response.ListResponseResult;
 import com.ssafy.enjoytrip.global.response.ResponseResult;
 import com.ssafy.enjoytrip.global.response.SingleResponseResult;
 import com.ssafy.enjoytrip.global.util.CheckForm;
@@ -269,5 +270,19 @@ public class UserController {
         log.info("UserController_getUserByUserId -> 유저 정보 반환");
     	return new SingleResponseResult<>(userService.getUserByUserId(userId));
     }
+	
+	@ApiOperation(value = "유저 닉네임 검색" , notes = "검색어를 포함하는 닉네임을 가진 유저 리스트 반환")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "유저 정보 반환 성공"),
+            @ApiResponse(code = 400, message = "유저 정보 반환 실패"),
+    })
+	@ApiImplicitParam(name = "nickname" , value = "유저닉네임", required = true , paramType = "path" ,dataTypeClass = String.class)
+    @GetMapping("/users/search/{nickname}")
+    public ResponseResult getUserListByNickname(@PathVariable String nickname) throws IOException {
+        log.info("UserController_getUserListByNickname -> 검색어를 포함하는 닉네임을 가진 유저 리스트 반환");
+    	return new ListResponseResult<>(userService.getUserListByNickname(nickname));
+    }
+	
+	
 	
 }
