@@ -127,6 +127,8 @@
 		    travel_is_deleted = 0
 		ORDER BY
 			travel_created_date DESC
+		LIMIT
+			#{ 4 * pageNum} , 4
 	</select>
 	
 	<select id="getTravelListForHomeViewOrderByZzim" resultMap="travelDetail">
@@ -148,6 +150,8 @@
 		    travel_is_deleted = 0
 		ORDER BY
 			(select COUNT(*) from zzim where travel_id = travel.travel_id and zzim_is_zzim = 1) DESC
+		LIMIT
+			#{ 4 * pageNum} , 4
 	</select>
 	<select id="getTravelListForHomeViewOrderByCommentCnt" resultMap="travelDetail">
 		SELECT
@@ -168,7 +172,11 @@
 		    travel_is_deleted = 0
 		ORDER BY
 			(select count(*) from comment where travel_id = travel.travel_id) DESC
+		LIMIT
+			#{ 4 * pageNum} , 4
 	</select>
+	
+	
 	
 	<select id="searchTravelByLocation" resultMap="travelDetail">
 		SELECT

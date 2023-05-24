@@ -18,9 +18,12 @@ public interface TravelRepository {
 	TravelResponseDto getTravelByTravelId(int travelId);
 	List<TravelResponseDto> getTravelListByUserId(int userId);
 	List<TravelResponseDto> getZzimTravelListByUserId(int userId);
-	List<TravelResponseDto> getTravelListForHomeView();
-	List<TravelResponseDto> getTravelListForHomeViewOrderByZzim();
-	List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt();
 	List<TravelResponseDto> searchTravelByLocation(String state , String city);
 	int deleteTravel(int travelId);
+//	List<TravelResponseDto> getTravelListForHomeView();
+//	List<TravelResponseDto> getTravelListForHomeViewOrderByZzim();
+//	List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt();
+	List<TravelResponseDto> getTravelListForHomeView(int pageNum);
+	List<TravelResponseDto> getTravelListForHomeViewOrderByZzim(int pageNum);
+	List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt(int pageNum);
 }

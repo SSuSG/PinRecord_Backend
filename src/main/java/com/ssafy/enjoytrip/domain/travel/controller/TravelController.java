@@ -141,15 +141,49 @@ public class TravelController {
         return new ListResponseResult<>(travelService.getMentionListByUserId(userId));
     }
 	
+//	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (시간순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(시간순)")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+//            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+//    })
+//	@GetMapping("/travels")
+//    public ResponseResult getTravelListForHomeView() throws IOException  {
+//        log.info("TravelController_getTravelListForHomeView -> 홈 화면에서의 여행 목록 조회");
+//        return new ListResponseResult<>(travelService.getTravelListForHomeView());
+//    }
+//	
+//	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (찜순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(찜순)")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+//            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+//    })
+//	@GetMapping("/travels/zzims/{pageNum}")
+//    public ResponseResult getTravelListForHomeViewOrderByZzim() throws IOException  {
+//        log.info("TravelController_getTravelListForHomeViewOrderByZzim -> 홈 화면에서의 여행 목록 조회(찜순)");
+//        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByZzim());
+//    }
+//	
+//	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (댓글순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(댓글순)")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
+//            @ApiResponse(code = 400, message = "여행후기 조회 실패"),
+//    })
+//	@GetMapping("/travels/comments/{pageNum}")
+//    public ResponseResult getTravelListForHomeViewOrderByCommentCnt() throws IOException  {
+//        log.info("TravelController_getTravelListForHomeViewOrderByCommentCnt-> 홈 화면에서의 여행 목록 조회(댓글순)");
+//        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByCommentCnt());
+//    }
+	
 	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (시간순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(시간순)")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@GetMapping("/travels")
-    public ResponseResult getTravelListForHomeView() throws IOException  {
+	@ApiImplicitParam(name = "pageNum" , value = "페이지NUM)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
+	@GetMapping("/travels/home/{pageNum}")
+    public ResponseResult getTravelListForHomeView(@PathVariable int pageNum) throws IOException  {
         log.info("TravelController_getTravelListForHomeView -> 홈 화면에서의 여행 목록 조회");
-        return new ListResponseResult<>(travelService.getTravelListForHomeView());
+        return new ListResponseResult<>(travelService.getTravelListForHomeView(pageNum));
     }
 	
 	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (찜순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(찜순)")
@@ -157,10 +191,11 @@ public class TravelController {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@GetMapping("/travels/zzims")
-    public ResponseResult getTravelListForHomeViewOrderByZzim() throws IOException  {
+	@ApiImplicitParam(name = "pageNum" , value = "페이지NUM)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
+	@GetMapping("/travels/zzims/{pageNum}")
+    public ResponseResult getTravelListForHomeViewOrderByZzim(@PathVariable int pageNum) throws IOException  {
         log.info("TravelController_getTravelListForHomeViewOrderByZzim -> 홈 화면에서의 여행 목록 조회(찜순)");
-        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByZzim());
+        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByZzim(pageNum));
     }
 	
 	@ApiOperation(value = "홈 화면에 보여줄 여행후기 리스트 (댓글순)" , notes = "홈 화면에 보여줄 여행후기 목록 정보들(댓글순)")
@@ -168,10 +203,11 @@ public class TravelController {
             @ApiResponse(code = 200, message = "여행후기 조회 성공" , response = TravelResponseDto.class),
             @ApiResponse(code = 400, message = "여행후기 조회 실패"),
     })
-	@GetMapping("/travels/comments")
-    public ResponseResult getTravelListForHomeViewOrderByCommentCnt() throws IOException  {
+	@ApiImplicitParam(name = "pageNum" , value = "페이지NUM)", required = true , paramType = "path" ,dataTypeClass = Integer.class)
+	@GetMapping("/travels/comments/{pageNum}")
+    public ResponseResult getTravelListForHomeViewOrderByCommentCnt(@PathVariable int pageNum) throws IOException  {
         log.info("TravelController_getTravelListForHomeViewOrderByCommentCnt-> 홈 화면에서의 여행 목록 조회(댓글순)");
-        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByCommentCnt());
+        return new ListResponseResult<>(travelService.getTravelListForHomeViewOrderByCommentCnt(pageNum));
     }
 	
 }
