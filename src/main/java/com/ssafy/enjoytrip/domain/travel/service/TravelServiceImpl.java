@@ -204,7 +204,7 @@ public class TravelServiceImpl implements TravelService{
 	@Override
 	public List<TravelResponseDto> getTravelListForHomeView(int pageNum) throws IOException{
 		log.info("TravelServiceImpl_getTravelListForHomeView");
-		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeView(12*pageNum);
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeView(9*pageNum);
 		for (TravelResponseDto travel : travelList) {
 			travel.imageListToBase64();
 			travel.hash();
@@ -215,7 +215,7 @@ public class TravelServiceImpl implements TravelService{
 	@Override
 	public List<TravelResponseDto> getTravelListForHomeViewOrderByZzim(int pageNum) throws IOException {
 		log.info("TravelServiceImpl_getTravelListForHomeViewOrderByZzim");
-		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByZzim(12*pageNum);
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByZzim(9*pageNum);
 		for (TravelResponseDto travel : travelList) {
 			travel.imageListToBase64();
 			travel.hash();
@@ -226,7 +226,7 @@ public class TravelServiceImpl implements TravelService{
 	@Override
 	public List<TravelResponseDto> getTravelListForHomeViewOrderByCommentCnt(int pageNum) throws IOException {
 		log.info("TravelServiceImpl_getTravelListForHomeViewOrderByCommentCnt");
-		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByCommentCnt(12*pageNum);
+		List<TravelResponseDto> travelList = travelRepository.getTravelListForHomeViewOrderByCommentCnt(9*pageNum);
 		for (TravelResponseDto travel : travelList) {
 			travel.imageListToBase64();
 			travel.hash();

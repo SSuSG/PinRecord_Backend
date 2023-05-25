@@ -195,10 +195,8 @@
 			TRAVEL
 		WHERE
 			travel_state = #{state}  AND
-		    travel_is_deleted = 0
-			<if test='city != null and city != "" '>
-				AND travel_city = #{city}  
-			</if>
+		    travel_is_deleted = 0 AND
+		    travel_city = #{city} 
 		ORDER BY
 			travel_created_date
 	</select>
