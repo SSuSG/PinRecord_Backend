@@ -90,7 +90,7 @@
 		SELECT
 			t.travel_id as travel_id,
 		    t.user_id as user_id,
-		    (select user_nickname from user where user_id = #{userId}) as user_nickname,
+		    (select user_nickname from user where user_id = t.user_id) as user_nickname,
 		    (select COUNT(*) from zzim where travel_id = t.travel_id and zzim_is_zzim = 1) as zzim_cnt,
 		    t.travel_title as travel_title,
 		    t.travel_content as travel_content,
