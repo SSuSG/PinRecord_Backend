@@ -1,55 +1,32 @@
 package com.ssafy.enjoytrip.domain.user.service;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.mail.MailException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ssafy.enjoytrip.domain.user.dto.request.AcccssTokenRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.FindPasswordRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.LoginRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UnlockAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
+import com.ssafy.enjoytrip.domain.user.dto.request.*;
 import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
 import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
 import com.ssafy.enjoytrip.domain.user.entity.User;
 import com.ssafy.enjoytrip.domain.user.entity.UserInfo;
 import com.ssafy.enjoytrip.domain.user.entity.UserProfileImage;
+import com.ssafy.enjoytrip.domain.user.repository.RefreshTokenRepository;
 import com.ssafy.enjoytrip.domain.user.repository.UserRepository;
-import com.ssafy.enjoytrip.global.exception.ExceptionCode;
-import com.ssafy.enjoytrip.global.exception.ExistEmailException;
-import com.ssafy.enjoytrip.global.exception.ExistLoginIdException;
-import com.ssafy.enjoytrip.global.exception.FailLoginException;
-import com.ssafy.enjoytrip.global.exception.InValidEmailException;
-import com.ssafy.enjoytrip.global.exception.InValidPasswordException;
-import com.ssafy.enjoytrip.global.exception.LockAccountException;
-import com.ssafy.enjoytrip.global.exception.NoAuthException;
-import com.ssafy.enjoytrip.global.exception.NotExistAccountException;
-import com.ssafy.enjoytrip.global.util.CheckForm;
-import com.ssafy.enjoytrip.global.util.ImageService;
-import com.ssafy.enjoytrip.global.util.JwtService;
-import com.ssafy.enjoytrip.global.util.MailService;
-import com.ssafy.enjoytrip.global.util.PasswordHash;
-
+import com.ssafy.enjoytrip.global.exception.*;
+import com.ssafy.enjoytrip.global.security.JwtTokenProvider;
+import com.ssafy.enjoytrip.global.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -62,7 +39,8 @@ public class UserServiceImpl implements UserService{
 	private final CheckForm CheckForm;
 	private final MailService mailService;
 	private final ImageService imageService;
-	private final JwtService jwtService;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final RefreshTokenRepository refreshTokenRepository;
 	
 	@Override
 	public LoginResponseDto login(LoginRequestDto loginRequestDto , HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException, IOException {
@@ -109,21 +87,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void setToken(User loginUser , HttpServletResponse response) {
 		log.info("로그인 성공 , 토큰 저장");
-		String accessToken = jwtService.createAccessToken("loginId", loginUser.getLoginId());// key, data
-		String refreshToken = jwtService.createRefreshToken("loginId", loginUser.getLoginId());// key, data
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("loginId", loginUser.getLoginId());
-		map.put("token", refreshToken);
-		response.setHeader("access-token", accessToken);
-		response.setHeader("refresh-token", refreshToken);
-		
-		userRepository.saveRefreshToken(map);
+		String accessToken = jwtTokenProvider.createAccessToken(loginUser.getLoginId());
+		String refreshToken = jwtTokenProvider.createRefreshToken(loginUser.getLoginId());
+		jwtTokenProvider.setHeaderAccessToken(response,accessToken);
+		refreshTokenRepository.saveRefreshToken(loginUser.getLoginId(), refreshToken);
 	}
 	
 	@Override
 	public LoginResponseDto isLoginUser(String loginId , HttpServletRequest request) throws IOException {
 		log.info("UserServiceImpl_isLoginUser");
-		if(jwtService.checkToken(request.getHeader("access-token"))){
+		if(jwtTokenProvider.validateToken(request.getHeader("X-AUTH-TOKEN"))){
 			User loginUser = findUserByLoginIdOrEmail(loginId, true);
 			return loginUser.toLoginResponseDto();
 		}
@@ -132,20 +105,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void logout(String loginId) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("loginId", loginId);
-		map.put("token", "");
-		userRepository.deleRefreshToken(map);
-	}
-	
-
-	@Override
-	public String getNewAcccessToken(String loginId, HttpServletRequest request) {
-		System.out.println(loginId);
-		log.info("UserServiceImpl_getNewAcccessToken");
-		String token = request.getHeader("refresh-token");
-		jwtService.checkToken(token);
-		return jwtService.createAccessToken("loginId", loginId);
+		refreshTokenRepository.deleteRefreshToken(loginId);
 	}
 	
 
@@ -287,11 +247,6 @@ public class UserServiceImpl implements UserService{
 		return userRepository.updateProfileImage(new UserProfileImage(userId,fullPath));
 	}
 	
-//	@Override
-//	public int updateProfileImage(UpdateProfileImageRequestDto updateProfileImageRequestDto) {
-//		log.info("UserServiceImpl_updateProfileImage");
-//		return userRepository.updateProfileImage(updateProfileImageRequestDto);
-//	}
 
 	@Override
 	public UserResponseDto getUserByUserId(int userId) throws IOException {

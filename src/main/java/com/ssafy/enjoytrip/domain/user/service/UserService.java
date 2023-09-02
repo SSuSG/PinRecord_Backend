@@ -1,27 +1,18 @@
 package com.ssafy.enjoytrip.domain.user.service;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import com.ssafy.enjoytrip.domain.user.dto.request.*;
+import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
+import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
+import com.ssafy.enjoytrip.domain.user.entity.User;
+import org.springframework.mail.MailException;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.mail.MailException;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.ssafy.enjoytrip.domain.user.dto.request.AcccssTokenRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.AuthAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UpdateProfileImageRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.CreateUserAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.FindPasswordRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.LoginRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UnlockAccountRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.request.UpdatePasswordRequestDto;
-import com.ssafy.enjoytrip.domain.user.dto.response.LoginResponseDto;
-import com.ssafy.enjoytrip.domain.user.dto.response.UserResponseDto;
-import com.ssafy.enjoytrip.domain.user.entity.User;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public interface UserService {
 	LoginResponseDto login(LoginRequestDto loginRequestDto,HttpServletResponse response) throws NoSuchAlgorithmException, MailException, IllegalArgumentException, MessagingException, IOException;
@@ -43,6 +34,5 @@ public interface UserService {
 	String getUserProfileImage(int userId);
 	void setToken(User loginUser , HttpServletResponse response);
 	LoginResponseDto isLoginUser(String loginId, HttpServletRequest request) throws IOException;
-	String getNewAcccessToken(String loginId, HttpServletRequest request);
 	List<UserResponseDto> getUserListByNickname(String nickname) throws IOException;
 }
